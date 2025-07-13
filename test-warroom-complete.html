@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Completo WarRoom</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #00a884;
+            text-align: center;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        button {
+            background: #00a884;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #008f72;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Teste Completo do WarRoom</h1>
+        
+        <div class="test-section">
+            <div class="test-title">1. Verificação de Servidores</div>
+            <div id="server-status">
+                <div class="status pending">⏳ Verificando...</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">2. Verificação de Componentes</div>
+            <div id="component-status">
+                <div class="status pending">⏳ Verificando...</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">3. Teste de WebSocket</div>
+            <div id="websocket-status">
+                <div class="status pending">⏳ Não testado</div>
+            </div>
+            <button onclick="testWebSocket()">Testar WebSocket</button>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">4. Teste de Agentes AI</div>
+            <div id="ai-status">
+                <div class="status pending">⏳ Não testado</div>
+            </div>
+            <button onclick="testAI()">Testar Agente AI</button>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">5. Abrir WarRoom</div>
+            <button onclick="openWarRoom()">Abrir em Nova Aba</button>
+            <button onclick="openWarRoomIframe()">Abrir Aqui Embaixo</button>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">Log de Testes</div>
+            <div id="test-log" class="log"></div>
+        </div>
+        
+        <iframe id="warroom-iframe" style="display:none;"></iframe>
+    </div>
+    
+    <script>
+        const log = (message) => {
+            const logDiv = document.getElementById('test-log');
+            const time = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${time}] ${message}<br>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        };
+        
+        // 1. Verificar Servidores
+        async function checkServers() {
+            const serverStatus = document.getElementById('server-status');
+            serverStatus.innerHTML = '';
+            
+            try {
+                // Frontend
+                const frontendResponse = await fetch('http://localhost:5173/');
+                if (frontendResponse.ok) {
+                    serverStatus.innerHTML += '<div class="status success">✅ Frontend: http://localhost:5173/</div>';
+                    log('Frontend OK');
+                } else {
+                    serverStatus.innerHTML += '<div class="status error">❌ Frontend não está respondendo</div>';
+                    log('Frontend ERROR');
+                }
+                
+                // Backend
+                const backendResponse = await fetch('http://localhost:3005/api/health');
+                const backendData = await backendResponse.json();
+                if (backendData.status === 'ok') {
+                    serverStatus.innerHTML += '<div class="status success">✅ Backend: http://localhost:3005/</div>';
+                    log('Backend OK');
+                } else {
+                    serverStatus.innerHTML += '<div class="status error">❌ Backend não está respondendo</div>';
+                    log('Backend ERROR');
+                }
+                
+            } catch (error) {
+                serverStatus.innerHTML = '<div class="status error">❌ Erro: ' + error.message + '</div>';
+                log('Server check error: ' + error.message);
+            }
+        }
+        
+        // 2. Verificar Componentes
+        async function checkComponents() {
+            const componentStatus = document.getElementById('component-status');
+            componentStatus.innerHTML = '<div class="status pending">⏳ Carregando página...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:5173/warroom');
+                const html = await response.text();
+                
+                componentStatus.innerHTML = '';
+                
+                // Verificar componentes essenciais
+                const components = [
+                    { name: 'WarRoom Container', check: html.includes('warroom') || html.includes('War Room') },
+                    { name: 'React App', check: html.includes('root') },
+                    { name: 'Vite Scripts', check: html.includes('vite') }
+                ];
+                
+                components.forEach(comp => {
+                    if (comp.check) {
+                        componentStatus.innerHTML += `<div class="status success">✅ ${comp.name}</div>`;
+                        log(`${comp.name} OK`);
+                    } else {
+                        componentStatus.innerHTML += `<div class="status error">❌ ${comp.name}</div>`;
+                        log(`${comp.name} NOT FOUND`);
+                    }
+                });
+                
+            } catch (error) {
+                componentStatus.innerHTML = '<div class="status error">❌ Erro ao verificar componentes</div>';
+                log('Component check error: ' + error.message);
+            }
+        }
+        
+        // 3. Testar WebSocket
+        function testWebSocket() {
+            const wsStatus = document.getElementById('websocket-status');
+            wsStatus.innerHTML = '<div class="status pending">⏳ Conectando...</div>';
+            
+            try {
+                const ws = new WebSocket('ws://localhost:3005/warroom-ws');
+                
+                ws.onopen = () => {
+                    wsStatus.innerHTML = '<div class="status success">✅ WebSocket conectado!</div>';
+                    log('WebSocket connected');
+                    
+                    // Enviar mensagem de teste
+                    ws.send(JSON.stringify({
+                        type: 'test',
+                        message: 'Teste de conexão'
+                    }));
+                };
+                
+                ws.onmessage = (event) => {
+                    log('WebSocket message: ' + event.data);
+                };
+                
+                ws.onerror = (error) => {
+                    wsStatus.innerHTML = '<div class="status error">❌ Erro no WebSocket</div>';
+                    log('WebSocket error');
+                };
+                
+                ws.onclose = () => {
+                    log('WebSocket closed');
+                };
+                
+                // Fechar após 5 segundos
+                setTimeout(() => ws.close(), 5000);
+                
+            } catch (error) {
+                wsStatus.innerHTML = '<div class="status error">❌ Erro: ' + error.message + '</div>';
+                log('WebSocket error: ' + error.message);
+            }
+        }
+        
+        // 4. Testar AI
+        async function testAI() {
+            const aiStatus = document.getElementById('ai-status');
+            aiStatus.innerHTML = '<div class="status pending">⏳ Enviando requisição...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:3005/api/warroom/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        agent: { name: 'Test Agent', role: 'Tester' },
+                        task: 'Diga apenas "Olá, teste funcionando!"',
+                        language: 'pt-BR'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    aiStatus.innerHTML = '<div class="status success">✅ AI respondeu: ' + (data.response || 'OK') + '</div>';
+                    log('AI test OK');
+                } else {
+                    aiStatus.innerHTML = '<div class="status error">❌ AI não respondeu corretamente</div>';
+                    log('AI test failed');
+                }
+                
+            } catch (error) {
+                aiStatus.innerHTML = '<div class="status error">❌ Erro: ' + error.message + '</div>';
+                log('AI test error: ' + error.message);
+            }
+        }
+        
+        // 5. Abrir WarRoom
+        function openWarRoom() {
+            const timestamp = new Date().getTime();
+            window.open(`http://localhost:5173/warroom?v=${timestamp}`, '_blank');
+            log('Opened WarRoom in new tab');
+        }
+        
+        function openWarRoomIframe() {
+            const iframe = document.getElementById('warroom-iframe');
+            const timestamp = new Date().getTime();
+            iframe.src = `http://localhost:5173/warroom?v=${timestamp}`;
+            iframe.style.display = 'block';
+            log('Opened WarRoom in iframe');
+        }
+        
+        // Executar testes ao carregar
+        window.onload = async () => {
+            log('Starting tests...');
+            await checkServers();
+            await checkComponents();
+            log('Initial tests completed');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+/* WarRoom Liqi Theme - Paleta de Cores Moderna e Vibrante */
+
+:root {
+  /* Cores Base Liqi */
+  --liqi-bg-primary: #0D1117;        /* Azul-marinho profundo (fundo principal) */
+  --liqi-bg-secondary: #1F242A;      /* Azul-acinzentado escuro (painéis) */
+  --liqi-bg-tertiary: #1E2235;       /* Azul arroxeado escuro (cabeçalhos) */
+  --liqi-bg-header: #01010A;         /* Azul muito escuro (barra superior) */
+  
+  /* Cores Principais */
+  --liqi-purple: #9C27B0;            /* Roxo vibrante */
+  --liqi-blue: #005CEB;              /* Azul ciano (cor marca) */
+  
+  /* Cores de Destaque */
+  --liqi-orange: #FF9800;            /* Laranja intenso (ações) */
+  --liqi-yellow: #FDD835;            /* Amarelo vibrante (status/ícones) */
+  
+  /* Cores de Texto */
+  --liqi-text-primary: #FFFFFF;      /* Texto principal */
+  --liqi-text-secondary: #B8BFC6;    /* Texto secundário */
+  --liqi-text-dark: #000000;         /* Texto sobre fundos claros */
+  
+  /* Gradientes Liqi */
+  --liqi-gradient-purple-blue: linear-gradient(135deg, #9C27B0 0%, #005CEB 100%);
+  --liqi-gradient-orange-yellow: linear-gradient(135deg, #FF9800 0%, #FDD835 100%);
+  --liqi-gradient-dark: linear-gradient(180deg, #0D1117 0%, #1F242A 100%);
+}
+
+/* Container Principal */
+.warroom-whatsapp {
+  background: var(--liqi-bg-primary);
+  color: var(--liqi-text-primary);
+}
+
+/* Sidebar */
+.warroom-sidebar,
+.sidebar {
+  background: var(--liqi-bg-secondary);
+  border-right: 1px solid rgba(0, 92, 235, 0.2);
+}
+
+.sidebar-header {
+  background: var(--liqi-bg-tertiary);
+  border-bottom: 1px solid rgba(0, 92, 235, 0.2);
+}
+
+.sidebar-header h2 {
+  color: var(--liqi-text-primary);
+  text-shadow: 0 0 20px rgba(0, 92, 235, 0.5);
+}
+
+/* Status Workflow */
+.workflow-status {
+  background: var(--liqi-blue);
+  color: var(--liqi-text-primary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  box-shadow: 0 0 20px rgba(0, 92, 235, 0.5);
+}
+
+/* Botões de Ação Principal */
+.btn-primary,
+.new-analysis-button,
+button[type="submit"],
+.send-button {
+  background: var(--liqi-orange);
+  color: var(--liqi-text-primary);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.btn-primary:hover,
+.new-analysis-button:hover,
+button[type="submit"]:hover,
+.send-button:hover {
+  background: #FF6F00;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.5);
+}
+
+/* Status Indicators */
+.status-active,
+.status-connected,
+.online-indicator {
+  background: var(--liqi-yellow);
+  color: var(--liqi-text-dark);
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+/* Chat Items */
+.chat-item {
+  background: transparent;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.chat-item:hover {
+  background: rgba(156, 39, 176, 0.1);
+  border-left-color: var(--liqi-purple);
+}
+
+.chat-item.active {
+  background: rgba(0, 92, 235, 0.15);
+  border-left-color: var(--liqi-blue);
+}
+
+/* Chat Avatars com Gradientes */
+.chat-avatar {
+  background: var(--liqi-gradient-purple-blue);
+  box-shadow: 0 0 15px rgba(156, 39, 176, 0.3);
+  transition: all 0.3s ease;
+}
+
+.chat-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(156, 39, 176, 0.5);
+}
+
+/* Special Chat Avatars */
+.chat-item[data-chat-type="ultrathink"] .chat-avatar {
+  background: var(--liqi-gradient-purple-blue);
+}
+
+.chat-item[data-chat-type="builder"] .chat-avatar {
+  background: var(--liqi-gradient-orange-yellow);
+}
+
+/* Área de Chat */
+.chat-area {
+  background: var(--liqi-bg-primary);
+}
+
+.chat-header {
+  background: var(--liqi-bg-header);
+  border-bottom: 1px solid rgba(0, 92, 235, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Mensagens */
+.message-bubble {
+  background: var(--liqi-bg-tertiary);
+  border: 1px solid rgba(156, 39, 176, 0.2);
+  color: var(--liqi-text-primary);
+}
+
+.message-bubble.user-message {
+  background: var(--liqi-blue);
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 92, 235, 0.3);
+}
+
+.message-bubble.agent-message {
+  background: rgba(156, 39, 176, 0.15);
+  border: 1px solid rgba(156, 39, 176, 0.3);
+}
+
+/* Input Area */
+.input-area {
+  background: var(--liqi-bg-secondary);
+  border-top: 1px solid rgba(0, 92, 235, 0.2);
+}
+
+.input-area input {
+  background: var(--liqi-bg-tertiary);
+  border: 1px solid rgba(0, 92, 235, 0.3);
+  color: var(--liqi-text-primary);
+}
+
+.input-area input:focus {
+  border-color: var(--liqi-blue);
+  box-shadow: 0 0 10px rgba(0, 92, 235, 0.3);
+  outline: none;
+}
+
+/* Network Map */
+.network-map {
+  background: var(--liqi-bg-primary);
+  border: 1px solid rgba(0, 92, 235, 0.2);
+}
+
+/* Nodes da Rede Neural */
+.network-node {
+  fill: var(--liqi-purple);
+  stroke: var(--liqi-blue);
+  filter: drop-shadow(0 0 10px rgba(156, 39, 176, 0.5));
+}
+
+.network-node.active {
+  fill: var(--liqi-orange);
+  stroke: var(--liqi-yellow);
+  filter: drop-shadow(0 0 15px rgba(255, 152, 0, 0.7));
+}
+
+/* Icons */
+.icon-tool {
+  color: var(--liqi-yellow);
+  filter: drop-shadow(0 0 5px rgba(253, 216, 53, 0.5));
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  background: var(--liqi-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--liqi-purple);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--liqi-blue);
+}
+
+/* Tooltips */
+.tooltip {
+  background: var(--liqi-bg-header);
+  color: var(--liqi-text-primary);
+  border: 1px solid var(--liqi-blue);
+  box-shadow: 0 4px 15px rgba(0, 92, 235, 0.3);
+}
+
+/* Progress Bars */
+.progress-bar {
+  background: var(--liqi-bg-tertiary);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  background: var(--liqi-gradient-purple-blue);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Badges */
+.badge {
+  background: var(--liqi-purple);
+  color: var(--liqi-text-primary);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.badge.warning {
+  background: var(--liqi-orange);
+}
+
+.badge.success {
+  background: var(--liqi-yellow);
+  color: var(--liqi-text-dark);
+}
+
+/* Animations */
+@keyframes pulse-liqi {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 92, 235, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 92, 235, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 92, 235, 0);
+  }
+}
+
+@keyframes glow-liqi {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(156, 39, 176, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(156, 39, 176, 0.8));
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(156, 39, 176, 0.5));
+  }
+}
+
+.pulse-animation {
+  animation: pulse-liqi 2s infinite;
+}
+
+.glow-animation {
+  animation: glow-liqi 2s ease-in-out infinite;
+}
+
+/* Special Effects */
+.ultrathink-glow {
+  position: relative;
+}
+
+.ultrathink-glow::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--liqi-gradient-purple-blue);
+  border-radius: inherit;
+  filter: blur(10px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .warroom-sidebar {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .chat-area {
+    display: none;
+  }
+  
+  .chat-area.mobile-active {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
+}

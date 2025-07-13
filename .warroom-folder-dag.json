@@ -1,0 +1,858 @@
+{
+  "nodes": [
+    {
+      "id": "root",
+      "label": "Project Root",
+      "type": "folder",
+      "data": {
+        "totalFiles": 50,
+        "totalSize": 373571
+      }
+    },
+    {
+      "id": "vite.config.js",
+      "label": "vite.config.js",
+      "type": "file",
+      "data": {
+        "size": 306,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "start-unified.sh",
+      "label": "start-unified.sh",
+      "type": "file",
+      "data": {
+        "size": 816,
+        "language": "bash"
+      }
+    },
+    {
+      "id": "package.json",
+      "label": "package.json",
+      "type": "file",
+      "data": {
+        "size": 875,
+        "language": "json"
+      }
+    },
+    {
+      "id": "package-lock.json",
+      "label": "package-lock.json",
+      "type": "file",
+      "data": {
+        "size": 125323,
+        "language": "json"
+      }
+    },
+    {
+      "id": "index.html",
+      "label": "index.html",
+      "type": "file",
+      "data": {
+        "size": 367,
+        "language": "html"
+      }
+    },
+    {
+      "id": "frontend.log",
+      "label": "frontend.log",
+      "type": "file",
+      "data": {
+        "size": 1662,
+        "language": "unknown"
+      }
+    },
+    {
+      "id": "example-code.js",
+      "label": "example-code.js",
+      "type": "file",
+      "data": {
+        "size": 1275,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "demo-upload.html",
+      "label": "demo-upload.html",
+      "type": "file",
+      "data": {
+        "size": 5414,
+        "language": "html"
+      }
+    },
+    {
+      "id": "backend.log",
+      "label": "backend.log",
+      "type": "file",
+      "data": {
+        "size": 40,
+        "language": "unknown"
+      }
+    },
+    {
+      "id": "WARROOM_INTEGRATION.md",
+      "label": "WARROOM_INTEGRATION.md",
+      "type": "file",
+      "data": {
+        "size": 5018,
+        "language": "markdown"
+      }
+    },
+    {
+      "id": "README.md",
+      "label": "README.md",
+      "type": "file",
+      "data": {
+        "size": 2918,
+        "language": "markdown"
+      }
+    },
+    {
+      "id": ".warroom-folder-dag.json",
+      "label": ".warroom-folder-dag.json",
+      "type": "file",
+      "data": {
+        "size": 5848,
+        "language": "json"
+      }
+    },
+    {
+      "id": ".gitignore",
+      "label": ".gitignore",
+      "type": "file",
+      "data": {
+        "size": 309,
+        "language": "unknown"
+      }
+    },
+    {
+      "id": ".env",
+      "label": ".env",
+      "type": "file",
+      "data": {
+        "size": 30,
+        "language": "unknown"
+      }
+    },
+    {
+      "id": "src",
+      "label": "src",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "src/main.jsx",
+      "label": "main.jsx",
+      "type": "file",
+      "data": {
+        "size": 241,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/App.jsx",
+      "label": "App.jsx",
+      "type": "file",
+      "data": {
+        "size": 577,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli",
+      "label": "warroom-cli",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "warroom-cli/package.json",
+      "label": "package.json",
+      "type": "file",
+      "data": {
+        "size": 640,
+        "language": "json"
+      }
+    },
+    {
+      "id": "warroom-cli/package-lock.json",
+      "label": "package-lock.json",
+      "type": "file",
+      "data": {
+        "size": 58564,
+        "language": "json"
+      }
+    },
+    {
+      "id": "warroom-cli/install.sh",
+      "label": "install.sh",
+      "type": "file",
+      "data": {
+        "size": 1695,
+        "language": "bash"
+      }
+    },
+    {
+      "id": "warroom-cli/README.md",
+      "label": "README.md",
+      "type": "file",
+      "data": {
+        "size": 4338,
+        "language": "markdown"
+      }
+    },
+    {
+      "id": "server",
+      "label": "server",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "server/index.js",
+      "label": "index.js",
+      "type": "file",
+      "data": {
+        "size": 1306,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/styles",
+      "label": "styles",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "src/styles/index.css",
+      "label": "index.css",
+      "type": "file",
+      "data": {
+        "size": 1632,
+        "language": "css"
+      }
+    },
+    {
+      "id": "src/styles/App.css",
+      "label": "App.css",
+      "type": "file",
+      "data": {
+        "size": 101,
+        "language": "css"
+      }
+    },
+    {
+      "id": "warroom-cli/src",
+      "label": "src",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "warroom-cli/src/index.js",
+      "label": "index.js",
+      "type": "file",
+      "data": {
+        "size": 2789,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/services",
+      "label": "services",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "src/services/uploadService.js",
+      "label": "uploadService.js",
+      "type": "file",
+      "data": {
+        "size": 1310,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/services/codeAnalyzer.js",
+      "label": "codeAnalyzer.js",
+      "type": "file",
+      "data": {
+        "size": 25473,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "server/routes",
+      "label": "routes",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "server/routes/warroom.js",
+      "label": "warroom.js",
+      "type": "file",
+      "data": {
+        "size": 5502,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "server/routes/upload.js",
+      "label": "upload.js",
+      "type": "file",
+      "data": {
+        "size": 5332,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "server/routes/tasks.js",
+      "label": "tasks.js",
+      "type": "file",
+      "data": {
+        "size": 2225,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "server/routes/dag.js",
+      "label": "dag.js",
+      "type": "file",
+      "data": {
+        "size": 1602,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/components",
+      "label": "components",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "src/components/warroom",
+      "label": "warroom",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "src/components/warroom/WarRoom.jsx",
+      "label": "WarRoom.jsx",
+      "type": "file",
+      "data": {
+        "size": 9970,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/components/warroom/WarRoom.css",
+      "label": "WarRoom.css",
+      "type": "file",
+      "data": {
+        "size": 6510,
+        "language": "css"
+      }
+    },
+    {
+      "id": "src/components/dag",
+      "label": "dag",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "src/components/dag/FileUpload.jsx",
+      "label": "FileUpload.jsx",
+      "type": "file",
+      "data": {
+        "size": 13793,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/components/dag/FileUpload.css",
+      "label": "FileUpload.css",
+      "type": "file",
+      "data": {
+        "size": 6622,
+        "language": "css"
+      }
+    },
+    {
+      "id": "src/components/dag/DAG_INSTRUCTIONS.md",
+      "label": "DAG_INSTRUCTIONS.md",
+      "type": "file",
+      "data": {
+        "size": 1889,
+        "language": "markdown"
+      }
+    },
+    {
+      "id": "src/components/dag/DAGView.jsx",
+      "label": "DAGView.jsx",
+      "type": "file",
+      "data": {
+        "size": 14955,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/components/dag/DAGView.css",
+      "label": "DAGView.css",
+      "type": "file",
+      "data": {
+        "size": 5554,
+        "language": "css"
+      }
+    },
+    {
+      "id": "src/components/common",
+      "label": "common",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "src/components/common/Layout.jsx",
+      "label": "Layout.jsx",
+      "type": "file",
+      "data": {
+        "size": 726,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "src/components/common/Layout.css",
+      "label": "Layout.css",
+      "type": "file",
+      "data": {
+        "size": 1036,
+        "language": "css"
+      }
+    },
+    {
+      "id": "warroom-cli/src/utils",
+      "label": "utils",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "warroom-cli/src/utils/websocket.js",
+      "label": "websocket.js",
+      "type": "file",
+      "data": {
+        "size": 1263,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/utils/session.js",
+      "label": "session.js",
+      "type": "file",
+      "data": {
+        "size": 3372,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/utils/dagGenerator.js",
+      "label": "dagGenerator.js",
+      "type": "file",
+      "data": {
+        "size": 5027,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/utils/codeAnalyzer.js",
+      "label": "codeAnalyzer.js",
+      "type": "file",
+      "data": {
+        "size": 4045,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/utils/agents.js",
+      "label": "agents.js",
+      "type": "file",
+      "data": {
+        "size": 4802,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/commands",
+      "label": "commands",
+      "type": "folder",
+      "data": {}
+    },
+    {
+      "id": "warroom-cli/src/commands/start.js",
+      "label": "start.js",
+      "type": "file",
+      "data": {
+        "size": 4764,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/commands/folder.js",
+      "label": "folder.js",
+      "type": "file",
+      "data": {
+        "size": 8889,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/commands/dag.js",
+      "label": "dag.js",
+      "type": "file",
+      "data": {
+        "size": 4566,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/commands/connect.js",
+      "label": "connect.js",
+      "type": "file",
+      "data": {
+        "size": 4573,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/commands/analyze.js",
+      "label": "analyze.js",
+      "type": "file",
+      "data": {
+        "size": 6015,
+        "language": "javascript"
+      }
+    },
+    {
+      "id": "warroom-cli/src/commands/agents.js",
+      "label": "agents.js",
+      "type": "file",
+      "data": {
+        "size": 1672,
+        "language": "javascript"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "root",
+      "target": "vite.config.js",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "start-unified.sh",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "package.json",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "package-lock.json",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "index.html",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "frontend.log",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "example-code.js",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "demo-upload.html",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "backend.log",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "WARROOM_INTEGRATION.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "README.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": ".warroom-folder-dag.json",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": ".gitignore",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": ".env",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "src",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/main.jsx",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/App.jsx",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "warroom-cli",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli",
+      "target": "warroom-cli/package.json",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli",
+      "target": "warroom-cli/package-lock.json",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli",
+      "target": "warroom-cli/install.sh",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli",
+      "target": "warroom-cli/README.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "server",
+      "type": "contains"
+    },
+    {
+      "source": "server",
+      "target": "server/index.js",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/styles",
+      "type": "contains"
+    },
+    {
+      "source": "src/styles",
+      "target": "src/styles/index.css",
+      "type": "contains"
+    },
+    {
+      "source": "src/styles",
+      "target": "src/styles/App.css",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli",
+      "target": "warroom-cli/src",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src",
+      "target": "warroom-cli/src/index.js",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/services",
+      "type": "contains"
+    },
+    {
+      "source": "src/services",
+      "target": "src/services/uploadService.js",
+      "type": "contains"
+    },
+    {
+      "source": "src/services",
+      "target": "src/services/codeAnalyzer.js",
+      "type": "contains"
+    },
+    {
+      "source": "server",
+      "target": "server/routes",
+      "type": "contains"
+    },
+    {
+      "source": "server/routes",
+      "target": "server/routes/warroom.js",
+      "type": "contains"
+    },
+    {
+      "source": "server/routes",
+      "target": "server/routes/upload.js",
+      "type": "contains"
+    },
+    {
+      "source": "server/routes",
+      "target": "server/routes/tasks.js",
+      "type": "contains"
+    },
+    {
+      "source": "server/routes",
+      "target": "server/routes/dag.js",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/components",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/warroom",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/warroom",
+      "target": "src/components/warroom/WarRoom.jsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/warroom",
+      "target": "src/components/warroom/WarRoom.css",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/dag",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/dag",
+      "target": "src/components/dag/FileUpload.jsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/dag",
+      "target": "src/components/dag/FileUpload.css",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/dag",
+      "target": "src/components/dag/DAG_INSTRUCTIONS.md",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/dag",
+      "target": "src/components/dag/DAGView.jsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/dag",
+      "target": "src/components/dag/DAGView.css",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/common",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/common",
+      "target": "src/components/common/Layout.jsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/common",
+      "target": "src/components/common/Layout.css",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src",
+      "target": "warroom-cli/src/utils",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/utils",
+      "target": "warroom-cli/src/utils/websocket.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/utils",
+      "target": "warroom-cli/src/utils/session.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/utils",
+      "target": "warroom-cli/src/utils/dagGenerator.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/utils",
+      "target": "warroom-cli/src/utils/codeAnalyzer.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/utils",
+      "target": "warroom-cli/src/utils/agents.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src",
+      "target": "warroom-cli/src/commands",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/commands",
+      "target": "warroom-cli/src/commands/start.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/commands",
+      "target": "warroom-cli/src/commands/folder.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/commands",
+      "target": "warroom-cli/src/commands/dag.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/commands",
+      "target": "warroom-cli/src/commands/connect.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/commands",
+      "target": "warroom-cli/src/commands/analyze.js",
+      "type": "contains"
+    },
+    {
+      "source": "warroom-cli/src/commands",
+      "target": "warroom-cli/src/commands/agents.js",
+      "type": "contains"
+    }
+  ]
+}

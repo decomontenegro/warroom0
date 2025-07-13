@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abrir WarRoom - Múltiplas Opções</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #0b141a;
+            color: #e9edef;
+        }
+        
+        .container {
+            text-align: center;
+            background: #202c33;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 600px;
+        }
+        
+        h1 {
+            color: #00a884;
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            margin: 30px 0;
+        }
+        
+        .option-group {
+            background: #111b21;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .option-group h3 {
+            color: #00a884;
+            margin-top: 0;
+        }
+        
+        button {
+            background: #00a884;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        button:hover {
+            background: #008f72;
+            transform: scale(1.02);
+        }
+        
+        .url-display {
+            background: #0b141a;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .info {
+            background: #005c4b;
+        }
+        
+        .error {
+            background: #831313;
+        }
+        
+        .warning {
+            background: #664400;
+        }
+        
+        .instructions {
+            text-align: left;
+            background: #111b21;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .instructions h4 {
+            color: #00a884;
+            margin-top: 0;
+        }
+        
+        .instructions li {
+            margin: 10px 0;
+        }
+        
+        code {
+            background: #0b141a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Abrir WarRoom WhatsApp</h1>
+        
+        <div id="status-message"></div>
+        
+        <div class="options">
+            <div class="option-group">
+                <h3>Opção 1: Localhost</h3>
+                <div class="url-display">http://localhost:5173/warroom</div>
+                <button onclick="openURL('http://localhost:5173/warroom')">
+                    Abrir com Localhost
+                </button>
+            </div>
+            
+            <div class="option-group">
+                <h3>Opção 2: 127.0.0.1</h3>
+                <div class="url-display">http://127.0.0.1:5173/warroom</div>
+                <button onclick="openURL('http://127.0.0.1:5173/warroom')">
+                    Abrir com 127.0.0.1
+                </button>
+            </div>
+            
+            <div class="option-group">
+                <h3>Opção 3: IP Local</h3>
+                <div class="url-display">http://192.168.1.85:5173/warroom</div>
+                <button onclick="openURL('http://192.168.1.85:5173/warroom')">
+                    Abrir com IP Local
+                </button>
+            </div>
+            
+            <div class="option-group">
+                <h3>Opção 4: 0.0.0.0</h3>
+                <div class="url-display">http://0.0.0.0:5173/warroom</div>
+                <button onclick="openURL('http://0.0.0.0:5173/warroom')">
+                    Abrir com 0.0.0.0
+                </button>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h4>💡 Se nenhuma opção funcionar:</h4>
+            <ol>
+                <li>Abra o terminal</li>
+                <li>Execute: <code>cd /Users/andremontenegro/teste\ cursor\ gemini\ e\ claude/organic-code-studio-unified</code></li>
+                <li>Execute: <code>npm run dev</code></li>
+                <li>Aguarde a mensagem "ready in..."</li>
+                <li>Copie a URL que aparecer (Local ou Network)</li>
+                <li>Cole no navegador e adicione <code>/warroom</code> no final</li>
+            </ol>
+            
+            <h4>🔧 Alternativa:</h4>
+            <p>Edite o arquivo <code>vite.config.js</code> e adicione:</p>
+            <code>
+                server: {<br>
+                &nbsp;&nbsp;host: '0.0.0.0',<br>
+                &nbsp;&nbsp;port: 5173<br>
+                }
+            </code>
+        </div>
+    </div>
+    
+    <script>
+        function openURL(url) {
+            const statusDiv = document.getElementById('status-message');
+            statusDiv.className = 'status info';
+            statusDiv.innerHTML = `🔄 Abrindo: ${url}...`;
+            
+            // Adicionar timestamp para evitar cache
+            const timestamp = new Date().getTime();
+            const finalURL = url + '?v=' + timestamp;
+            
+            // Abrir em nova aba
+            window.open(finalURL, '_blank');
+            
+            // Verificar se está acessível
+            setTimeout(() => {
+                fetch(url.replace('/warroom', '/'))
+                    .then(response => {
+                        if (response.ok) {
+                            statusDiv.className = 'status info';
+                            statusDiv.innerHTML = '✅ URL aberta em nova aba!';
+                        } else {
+                            throw new Error('Servidor não respondeu');
+                        }
+                    })
+                    .catch(error => {
+                        statusDiv.className = 'status warning';
+                        statusDiv.innerHTML = '⚠️ Se não abriu, tente outra opção ou verifique se o servidor está rodando.';
+                    });
+            }, 1000);
+        }
+        
+        // Verificar qual URL funciona ao carregar
+        window.onload = async function() {
+            const urls = [
+                'http://localhost:5173',
+                'http://127.0.0.1:5173',
+                'http://192.168.1.85:5173',
+                'http://0.0.0.0:5173'
+            ];
+            
+            for (const url of urls) {
+                try {
+                    const response = await fetch(url, { 
+                        method: 'HEAD',
+                        mode: 'no-cors' 
+                    });
+                    console.log(`✓ ${url} pode estar acessível`);
+                } catch (error) {
+                    console.log(`✗ ${url} não acessível`);
+                }
+            }
+        };
+    </script>
+</body>
+</html>

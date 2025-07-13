@@ -1,0 +1,258 @@
+/* WarRoom Scroll Fix e Layout Adjustments */
+
+/* Reset e fixes globais */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Previne scroll duplo */
+}
+
+/* Container principal */
+.warroom-whatsapp {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+}
+
+/* Sidebar com scroll */
+.sidebar,
+.warroom-sidebar {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #9C27B0 #1F242A;
+}
+
+/* Lista de chats scrollável */
+.chat-list {
+  height: calc(100vh - 150px); /* Ajusta altura considerando header */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 20px;
+}
+
+/* Área de chat */
+.chat-area {
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Container de mensagens com scroll */
+.messages-container {
+  flex: 1;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  padding: 20px;
+  padding-bottom: 80px; /* Espaço para input */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* Smooth scroll no iOS */
+  height: 100%;
+  min-height: 0; /* Important for flexbox scroll */
+}
+
+/* Input area fixa no bottom */
+.chat-input-area {
+  position: sticky;
+  bottom: 0;
+  background: var(--liqi-bg-secondary, #1F242A);
+  border-top: 1px solid rgba(0, 92, 235, 0.2);
+  padding: 16px;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+/* Customização da scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F242A;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9C27B0;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #005CEB;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9C27B0 #1F242A;
+}
+
+/* Remover janelas de debug e elementos desnecessários */
+.debug-panel,
+.debug-window,
+.debug-info,
+[class*="debug"],
+[id*="debug"] {
+  display: none !important;
+}
+
+/* Ajustar janelas flutuantes */
+.floating-window,
+.modal-window,
+.popup-window {
+  position: fixed;
+  z-index: 1000;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Network map container ajustado */
+.network-map-container {
+  position: relative;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.network-map-container.expanded {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vh;
+  max-height: 80vh;
+  z-index: 2000;
+}
+
+/* Metrics panel ajustado */
+.metrics-panel {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Agent progress ajustado */
+.agent-progress-container {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Remover elementos que causam overflow horizontal */
+.chat-item,
+.message,
+.message-bubble {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Prevenir que imagens e elementos quebrem o layout */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ajustar modais e overlays */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  z-index: 9999;
+}
+
+.modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 20px auto;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+  .warroom-sidebar {
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+  }
+  
+  .chat-area {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .messages-container {
+    padding-bottom: 100px;
+  }
+}
+
+/* Fixes específicos para elementos problemáticos */
+.ultrathink-panel {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.prompt-builder-panel {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* Garantir que tooltips não quebrem scroll */
+.tooltip,
+.node-tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+/* Ajustar z-index de elementos importantes */
+.sidebar-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--liqi-bg-tertiary, #1E2235);
+}
+
+.chat-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--liqi-bg-header, #01010A);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevenir scroll horizontal */
+.warroom-whatsapp,
+.sidebar,
+.chat-area,
+.messages-container {
+  overflow-x: hidden !important;
+}
+
+/* Fix para elementos que possam estar causando problemas */
+.section-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+/* Garantir que nada vaze do container */
+.warroom-whatsapp * {
+  max-width: 100%;
+}

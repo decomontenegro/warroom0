@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test WarRoom Access</title>
+</head>
+<body>
+    <h1>Testing WarRoom Access</h1>
+    
+    <h2>Direct Links:</h2>
+    <ul>
+        <li><a href="http://localhost:5173/warroom" target="_blank">http://localhost:5173/warroom</a></li>
+        <li><a href="http://127.0.0.1:5173/warroom" target="_blank">http://127.0.0.1:5173/warroom</a></li>
+        <li><a href="http://[::1]:5173/warroom" target="_blank">http://[::1]:5173/warroom</a></li>
+        <li><a href="http://0.0.0.0:5173/warroom" target="_blank">http://0.0.0.0:5173/warroom</a></li>
+    </ul>
+    
+    <h2>Server Status:</h2>
+    <div id="status"></div>
+    
+    <script>
+        // Test connection
+        fetch('http://localhost:5173/')
+            .then(response => {
+                document.getElementById('status').innerHTML = '✅ Server is running on port 5173';
+            })
+            .catch(error => {
+                document.getElementById('status').innerHTML = '❌ Cannot connect to server: ' + error;
+            });
+    </script>
+</body>
+</html>

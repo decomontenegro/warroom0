@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# War Room CLI Launcher
+
+echo "🚀 Iniciando War Room CLI..."
+
+# Verificar se o node está instalado
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js não encontrado. Por favor, instale o Node.js primeiro."
+    exit 1
+fi
+
+# Navegar para o diretório do projeto
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
+
+# Verificar se as dependências estão instaladas
+if [ ! -d "node_modules" ]; then
+    echo "📦 Instalando dependências..."
+    npm install
+fi
+
+# Executar o CLI
+node warroom-cli.js

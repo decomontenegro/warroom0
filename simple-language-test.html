@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Language Test</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px;">
+    <h1>UltraThink Language Test</h1>
+    
+    <div style="margin: 20px 0; padding: 20px; border: 1px solid #ccc;">
+        <h2>Set Language and Open WarRoom</h2>
+        <p>Current saved language: <strong id="currentLang">checking...</strong></p>
+        
+        <button onclick="setLang('pt-BR')" style="padding: 10px; margin: 5px;">🇧🇷 Portuguese</button>
+        <button onclick="setLang('en-US')" style="padding: 10px; margin: 5px;">🇺🇸 English</button>
+        <button onclick="setLang('es-ES')" style="padding: 10px; margin: 5px;">🇪🇸 Spanish</button>
+        
+        <br><br>
+        <button onclick="openWarRoom()" style="padding: 15px; background: #007bff; color: white; border: none; cursor: pointer;">
+            Open WarRoom in New Tab
+        </button>
+    </div>
+    
+    <div style="margin: 20px 0; padding: 20px; border: 1px solid #ccc;">
+        <h2>Instructions</h2>
+        <ol>
+            <li>Click one of the language buttons above</li>
+            <li>Click "Open WarRoom in New Tab"</li>
+            <li>In WarRoom, click on "🚀 UltraThink Workflow"</li>
+            <li>Type: <code>help me build a DeFi trading platform</code></li>
+            <li>Check if agent responses are in the selected language</li>
+        </ol>
+    </div>
+    
+    <div style="margin: 20px 0; padding: 20px; background: #f0f0f0;">
+        <h3>Status Log</h3>
+        <div id="log" style="font-family: monospace; white-space: pre-wrap;"></div>
+    </div>
+    
+    <script>
+        function log(msg) {
+            document.getElementById('log').textContent += new Date().toTimeString().split(' ')[0] + ' - ' + msg + '\n';
+        }
+        
+        function checkLanguage() {
+            const lang = localStorage.getItem('warroom-language') || 'pt-BR';
+            document.getElementById('currentLang').textContent = lang;
+            log('Current language: ' + lang);
+        }
+        
+        function setLang(lang) {
+            localStorage.setItem('warroom-language', lang);
+            log('Language set to: ' + lang);
+            checkLanguage();
+        }
+        
+        function openWarRoom() {
+            log('Opening WarRoom...');
+            window.open('http://localhost:5173/warroom', '_blank');
+        }
+        
+        // Check on load
+        checkLanguage();
+    </script>
+</body>
+</html>

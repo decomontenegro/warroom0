@@ -1,0 +1,293 @@
+/* Agent Network Map - Liqi Theme */
+
+.network-map-container {
+  background: #0D1117; /* Fundo azul-marinho profundo */
+  border: 1px solid rgba(0, 92, 235, 0.2);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.network-map-header {
+  background: #01010A; /* Azul muito escuro */
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 92, 235, 0.2);
+}
+
+.network-map-title {
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: 0 0 10px rgba(0, 92, 235, 0.5);
+}
+
+.network-map-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.network-map-controls button {
+  background: #1F242A;
+  color: #FDD835; /* Amarelo para ícones */
+  border: 1px solid rgba(253, 216, 53, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.network-map-controls button:hover {
+  background: #FF9800; /* Laranja no hover */
+  color: #FFFFFF;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+}
+
+/* SVG Styles */
+.network-svg {
+  background: #0D1117;
+}
+
+/* Nodes */
+.network-node {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.network-node circle {
+  fill: #9C27B0; /* Roxo padrão */
+  stroke: #005CEB; /* Azul contorno */
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px rgba(156, 39, 176, 0.5));
+}
+
+.network-node.active circle {
+  fill: #FF9800; /* Laranja para nós ativos */
+  stroke: #FDD835; /* Amarelo contorno */
+  stroke-width: 3;
+  filter: drop-shadow(0 0 20px rgba(255, 152, 0, 0.8));
+  animation: pulse-node 2s infinite;
+}
+
+.network-node.connected circle {
+  fill: #005CEB; /* Azul para conectados */
+  stroke: #FDD835;
+  filter: drop-shadow(0 0 15px rgba(0, 92, 235, 0.6));
+}
+
+/* Node Labels */
+.network-node text {
+  fill: #FFFFFF;
+  font-size: 11px;
+  font-weight: 500;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+/* Connections */
+.network-link {
+  stroke: rgba(156, 39, 176, 0.3); /* Roxo transparente */
+  stroke-width: 1;
+  transition: all 0.3s ease;
+}
+
+.network-link.active {
+  stroke: #FDD835; /* Amarelo para conexões ativas */
+  stroke-width: 3;
+  filter: drop-shadow(0 0 10px rgba(253, 216, 53, 0.8));
+  animation: flow 2s linear infinite;
+}
+
+/* Central Node (UltraThink) */
+.central-node circle {
+  fill: url(#liqi-gradient-purple-blue);
+  stroke: #FDD835;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 30px rgba(156, 39, 176, 0.8));
+}
+
+/* Gradients */
+defs linearGradient#liqi-gradient-purple-blue stop:first-child {
+  stop-color: #9C27B0;
+}
+
+defs linearGradient#liqi-gradient-purple-blue stop:last-child {
+  stop-color: #005CEB;
+}
+
+/* Animations */
+@keyframes pulse-node {
+  0% {
+    r: 20;
+    opacity: 1;
+  }
+  50% {
+    r: 25;
+    opacity: 0.8;
+  }
+  100% {
+    r: 20;
+    opacity: 1;
+  }
+}
+
+@keyframes flow {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+  100% {
+    stroke-dasharray: 100 0;
+  }
+}
+
+/* Tooltips */
+.node-tooltip {
+  background: #01010A;
+  color: #FFFFFF;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #005CEB;
+  box-shadow: 0 4px 15px rgba(0, 92, 235, 0.4);
+  font-size: 12px;
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.node-tooltip strong {
+  color: #FDD835;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.tooltip-role {
+  color: #B8BFC6;
+  font-size: 11px;
+}
+
+/* Phase Indicator */
+.phase-indicator {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: linear-gradient(135deg, #9C27B0 0%, #005CEB 100%);
+  color: #FFFFFF;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(156, 39, 176, 0.5);
+}
+
+/* Layout Selector */
+.layout-selector {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 4px;
+  background: rgba(31, 36, 42, 0.9);
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 92, 235, 0.2);
+}
+
+.layout-selector button {
+  background: transparent;
+  color: #FDD835;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.2s ease;
+}
+
+.layout-selector button.active {
+  background: #005CEB;
+  color: #FFFFFF;
+  border-color: #FDD835;
+}
+
+.layout-selector button:hover:not(.active) {
+  background: rgba(0, 92, 235, 0.2);
+  border-color: rgba(253, 216, 53, 0.5);
+}
+
+/* Expanded Mode */
+.network-map-container.expanded {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vh;
+  z-index: 1000;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+}
+
+.network-map-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  backdrop-filter: blur(5px);
+}
+
+/* Mini Controls */
+.mini-controls {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(31, 36, 42, 0.8);
+  border-top: 1px solid rgba(253, 216, 53, 0.2);
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-layout-select {
+  background: rgba(13, 17, 23, 0.8);
+  color: #FDD835;
+  border: 1px solid rgba(253, 216, 53, 0.3);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mini-layout-select:hover {
+  background: rgba(255, 152, 0, 0.2);
+  border-color: #FF9800;
+}
+
+.mini-layout-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(253, 216, 53, 0.5);
+}
+
+.mini-dynamic-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: #FDD835;
+  font-size: 16px;
+}
+
+.mini-dynamic-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.mini-dynamic-toggle:hover {
+  color: #FF9800;
+}

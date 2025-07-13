@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test WarRoom Access</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .status { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #4caf50; color: white; }
+        .error { background: #f44336; color: white; }
+        iframe { width: 100%; height: 600px; border: 1px solid #ddd; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>WarRoom WhatsApp Test</h1>
+    
+    <div id="status"></div>
+    
+    <button onclick="openWarRoom()">Abrir WarRoom no iFrame</button>
+    <button onclick="openWarRoomNewTab()">Abrir WarRoom em Nova Aba</button>
+    
+    <iframe id="warroom-frame" style="display:none;"></iframe>
+    
+    <script>
+        const statusDiv = document.getElementById('status');
+        
+        // Testar conexão
+        async function testConnection() {
+            try {
+                // Testar frontend
+                const frontendResponse = await fetch('http://localhost:5173/');
+                if (frontendResponse.ok) {
+                    statusDiv.innerHTML += '<div class="status success">✓ Frontend rodando em http://localhost:5173/</div>';
+                } else {
+                    statusDiv.innerHTML += '<div class="status error">✗ Frontend não está respondendo</div>';
+                }
+                
+                // Testar backend
+                const backendResponse = await fetch('http://localhost:3005/api/health');
+                const backendData = await backendResponse.json();
+                if (backendData.status === 'ok') {
+                    statusDiv.innerHTML += '<div class="status success">✓ Backend rodando em http://localhost:3005/</div>';
+                } else {
+                    statusDiv.innerHTML += '<div class="status error">✗ Backend não está respondendo</div>';
+                }
+                
+            } catch (error) {
+                statusDiv.innerHTML += '<div class="status error">✗ Erro: ' + error.message + '</div>';
+            }
+        }
+        
+        function openWarRoom() {
+            const iframe = document.getElementById('warroom-frame');
+            iframe.src = 'http://localhost:5173/warroom';
+            iframe.style.display = 'block';
+        }
+        
+        function openWarRoomNewTab() {
+            window.open('http://localhost:5173/warroom', '_blank');
+        }
+        
+        // Testar ao carregar
+        testConnection();
+    </script>
+</body>
+</html>

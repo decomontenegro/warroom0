@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limpar Cache e Abrir WarRoom</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #0b141a;
+            color: #e9edef;
+        }
+        
+        .container {
+            text-align: center;
+            background: #202c33;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 600px;
+        }
+        
+        h1 {
+            color: #00a884;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .features {
+            text-align: left;
+            margin: 30px 0;
+            background: #111b21;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .features h3 {
+            color: #00a884;
+            margin-bottom: 15px;
+        }
+        
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .features li {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00a884;
+            font-weight: bold;
+        }
+        
+        button {
+            background: #00a884;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #008f72;
+            transform: scale(1.05);
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .success {
+            background: #005c4b;
+            color: #e9edef;
+        }
+        
+        .error {
+            background: #831313;
+            color: #e9edef;
+        }
+        
+        .info {
+            background: #182229;
+            color: #8696a0;
+            font-size: 14px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        code {
+            background: #111b21;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 WarRoom WhatsApp</h1>
+        
+        <p style="font-size: 18px;">Sistema completo com todos os recursos!</p>
+        
+        <div class="features">
+            <h3>✨ Recursos Disponíveis:</h3>
+            <ul>
+                <li><strong>100+ Especialistas AI</strong> em diferentes áreas</li>
+                <li><strong>UltraThink Workflow</strong> com análise avançada</li>
+                <li><strong>Prompt Builder</strong> para criar prompts complexos</li>
+                <li><strong>Chat Individual</strong> com cada especialista</li>
+                <li><strong>Resumo Inteligente</strong> das conversas</li>
+                <li><strong>Mapa de Rede</strong> dos agentes</li>
+                <li><strong>Multi-idioma</strong> (PT, EN, ES)</li>
+                <li><strong>Interface WhatsApp</strong> completa</li>
+            </ul>
+        </div>
+        
+        <button onclick="abrirWarRoomCompleto()">
+            Abrir WarRoom Completo
+        </button>
+        
+        <div id="status"></div>
+        
+        <div class="info">
+            <strong>Dica:</strong> Use <code>Ctrl+Shift+R</code> (Windows) ou <code>Cmd+Shift+R</code> (Mac) 
+            para forçar recarga sem cache se necessário.
+        </div>
+    </div>
+    
+    <script>
+        function abrirWarRoomCompleto() {
+            const statusDiv = document.getElementById('status');
+            const timestamp = new Date().getTime();
+            
+            // URL com timestamp para forçar nova versão
+            const warRoomUrl = `http://localhost:5173/warroom?v=${timestamp}`;
+            
+            statusDiv.className = 'status success';
+            statusDiv.innerHTML = '✅ Abrindo WarRoom completo com todos os recursos...';
+            
+            // Abrir em nova aba
+            window.open(warRoomUrl, '_blank');
+            
+            // Instruções adicionais
+            setTimeout(() => {
+                statusDiv.innerHTML += '<br><br>Se aparecer algum erro, faça:<br>1. Pressione F12 para abrir o console<br>2. Clique com botão direito no botão de recarregar<br>3. Escolha "Esvaziar cache e recarregar"';
+            }, 2000);
+        }
+        
+        // Verificar status ao carregar
+        window.onload = function() {
+            const statusDiv = document.getElementById('status');
+            
+            fetch('http://localhost:5173/')
+                .then(response => {
+                    if (response.ok) {
+                        statusDiv.className = 'status success';
+                        statusDiv.innerHTML = '✅ Servidor Vite rodando! Pronto para usar.';
+                    }
+                })
+                .catch(error => {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = '❌ Servidor não está rodando. Execute: <code>npm run dev</code>';
+                });
+        }
+    </script>
+</body>
+</html>

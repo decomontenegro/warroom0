@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Abrir WarRoom</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #0D1117;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: #1F242A;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(156, 39, 176, 0.5);
+        }
+        h1 {
+            color: #FDD835;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            background: #FF9800;
+            color: white;
+            padding: 20px 40px;
+            margin: 10px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn:hover {
+            background: #FF6F00;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 152, 0, 0.7);
+        }
+        .instructions {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 92, 235, 0.2);
+            border-radius: 10px;
+            text-align: left;
+        }
+        code {
+            background: #01010A;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            display: block;
+            margin: 10px 0;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        .success {
+            background: rgba(253, 216, 53, 0.2);
+            color: #FDD835;
+            display: block;
+        }
+        .error {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 WarRoom com Tema Liqi</h1>
+        
+        <div id="status" class="status"></div>
+        
+        <button class="btn" onclick="abrirLocal()">
+            Abrir WarRoom Local
+        </button>
+        
+        <button class="btn" onclick="testarServidor()">
+            Testar Servidor
+        </button>
+        
+        <div class="instructions">
+            <h3>📋 Instruções Manuais:</h3>
+            
+            <p><strong>1. Abra o Terminal</strong></p>
+            
+            <p><strong>2. Cole este comando:</strong></p>
+            <code>cd /Users/andremontenegro/teste\ cursor\ gemini\ e\ claude/organic-code-studio-unified && npm run dev</code>
+            
+            <p><strong>3. Aguarde aparecer:</strong></p>
+            <code>➜  Local:   http://localhost:5173/</code>
+            
+            <p><strong>4. Abra no navegador:</strong></p>
+            <code>http://localhost:5173/warroom</code>
+            
+            <hr style="margin: 20px 0; opacity: 0.3;">
+            
+            <p><strong>Alternativa: Duplo clique em:</strong></p>
+            <code>abrir-warroom.command</code>
+        </div>
+    </div>
+    
+    <script>
+        function abrirLocal() {
+            const urls = [
+                'http://localhost:5173/warroom',
+                'http://127.0.0.1:5173/warroom',
+                'http://0.0.0.0:5173/warroom'
+            ];
+            
+            urls.forEach((url, index) => {
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                }, index * 500);
+            });
+            
+            document.getElementById('status').className = 'status success';
+            document.getElementById('status').innerHTML = '✅ Tentando abrir em 3 URLs diferentes...';
+        }
+        
+        async function testarServidor() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = 'status';
+            statusDiv.innerHTML = '⏳ Testando...';
+            
+            try {
+                const response = await fetch('http://localhost:5173/', { mode: 'no-cors' });
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = '✅ Servidor parece estar rodando! Clique em "Abrir WarRoom Local"';
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '❌ Servidor não está rodando. Execute: npm run dev';
+            }
+        }
+        
+        // Testar automaticamente ao carregar
+        window.onload = () => {
+            testarServidor();
+        };
+    </script>
+</body>
+</html>

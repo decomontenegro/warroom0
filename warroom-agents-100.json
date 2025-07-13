@@ -1,0 +1,741 @@
+{
+  "warRoomTechInnovationRoles": {
+    "totalAgents": 100,
+    "phases": {
+      "brainstorm": {
+        "description": "Initial ideation and concept exploration",
+        "agents": [1, 2, 3, 4, 5, 20, 21, 22, 31, 32, 33, 49, 50, 69, 70, 91, 92, 93, 94]
+      },
+      "development": {
+        "description": "Technical implementation and coding",
+        "agents": [1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23, 24, 25, 26, 27, 28, 29, 30, 44, 45, 46, 47, 48, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      },
+      "product": {
+        "description": "Product strategy and management",
+        "agents": [34, 35, 36, 51, 52, 53, 54, 55, 56, 57, 95, 96, 97, 98, 99, 100]
+      },
+      "ux": {
+        "description": "User experience and interface design",
+        "agents": [37, 38, 39, 40, 41, 42, 43, 58, 59, 60, 61, 62]
+      },
+      "design": {
+        "description": "Visual and system design",
+        "agents": [37, 40, 58, 59, 60, 61, 62, 71, 72]
+      },
+      "marketing": {
+        "description": "Market strategy and growth",
+        "agents": [63, 64, 65, 66, 67, 68, 95, 96, 97, 98]
+      },
+      "security": {
+        "description": "Security analysis and implementation",
+        "agents": [16, 17, 44, 45, 46, 47, 48, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      },
+      "testing": {
+        "description": "A/B testing and quality assurance",
+        "agents": [18, 19, 23, 24, 25, 26, 27, 28, 29, 30]
+      }
+    },
+    "agents": [
+      {
+        "id": 1,
+        "name": "Lead Architect",
+        "role": "System Architecture & Vision",
+        "capabilities": ["System design", "Architecture patterns", "Technology selection", "Scalability planning"],
+        "phase": ["brainstorm", "development"]
+      },
+      {
+        "id": 2,
+        "name": "Innovation Strategist",
+        "role": "Innovation & Strategy Planning",
+        "capabilities": ["Market analysis", "Innovation frameworks", "Strategic planning", "Competitive analysis"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 3,
+        "name": "Research Lead",
+        "role": "Research & Development",
+        "capabilities": ["Technology research", "Feasibility studies", "Proof of concepts", "Innovation exploration"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 4,
+        "name": "Business Analyst",
+        "role": "Business Requirements & Analysis",
+        "capabilities": ["Requirements gathering", "Process mapping", "Gap analysis", "Solution design"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 5,
+        "name": "Technical Writer",
+        "role": "Documentation & Communication",
+        "capabilities": ["Technical documentation", "API documentation", "User guides", "Knowledge management"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 6,
+        "name": "Frontend Architect",
+        "role": "Frontend Architecture & Standards",
+        "capabilities": ["UI frameworks", "Component design", "Performance optimization", "Accessibility"],
+        "phase": ["development"]
+      },
+      {
+        "id": 7,
+        "name": "Backend Architect",
+        "role": "Backend Architecture & APIs",
+        "capabilities": ["API design", "Microservices", "Database architecture", "Integration patterns"],
+        "phase": ["development"]
+      },
+      {
+        "id": 8,
+        "name": "Cloud Architect",
+        "role": "Cloud Infrastructure & Services",
+        "capabilities": ["Cloud platforms", "Serverless", "Container orchestration", "Cost optimization"],
+        "phase": ["development"]
+      },
+      {
+        "id": 9,
+        "name": "DevOps Lead",
+        "role": "CI/CD & Infrastructure",
+        "capabilities": ["Pipeline design", "Infrastructure as code", "Monitoring", "Deployment strategies"],
+        "phase": ["development"]
+      },
+      {
+        "id": 10,
+        "name": "Database Architect",
+        "role": "Data Architecture & Management",
+        "capabilities": ["Database design", "Data modeling", "Query optimization", "Data governance"],
+        "phase": ["development"]
+      },
+      {
+        "id": 11,
+        "name": "Mobile Architect",
+        "role": "Mobile Development & Strategy",
+        "capabilities": ["iOS/Android", "React Native", "Flutter", "Mobile optimization"],
+        "phase": ["development"]
+      },
+      {
+        "id": 12,
+        "name": "AI/ML Engineer",
+        "role": "Artificial Intelligence & Machine Learning",
+        "capabilities": ["Model development", "Neural networks", "NLP", "Computer vision"],
+        "phase": ["development"]
+      },
+      {
+        "id": 13,
+        "name": "Blockchain Specialist",
+        "role": "Blockchain & Distributed Systems",
+        "capabilities": ["Smart contracts", "DeFi", "Consensus mechanisms", "Cryptography"],
+        "phase": ["development"]
+      },
+      {
+        "id": 14,
+        "name": "IoT Specialist",
+        "role": "Internet of Things & Edge Computing",
+        "capabilities": ["Sensor networks", "Edge computing", "MQTT", "Real-time systems"],
+        "phase": ["development"]
+      },
+      {
+        "id": 15,
+        "name": "AR/VR Developer",
+        "role": "Augmented & Virtual Reality",
+        "capabilities": ["3D development", "Unity/Unreal", "WebXR", "Spatial computing"],
+        "phase": ["development"]
+      },
+      {
+        "id": 16,
+        "name": "Security Architect",
+        "role": "Security Architecture & Compliance",
+        "capabilities": ["Security frameworks", "Threat modeling", "Compliance", "Zero trust"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 17,
+        "name": "Penetration Tester",
+        "role": "Security Testing & Vulnerability Assessment",
+        "capabilities": ["Ethical hacking", "Vulnerability scanning", "Security audits", "Risk assessment"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 18,
+        "name": "QA Lead",
+        "role": "Quality Assurance & Testing Strategy",
+        "capabilities": ["Test planning", "Automation strategy", "Quality metrics", "Test management"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 19,
+        "name": "Performance Engineer",
+        "role": "Performance Testing & Optimization",
+        "capabilities": ["Load testing", "Performance profiling", "Optimization", "Capacity planning"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 20,
+        "name": "Data Scientist",
+        "role": "Data Analysis & Insights",
+        "capabilities": ["Statistical analysis", "Predictive modeling", "Data visualization", "A/B testing"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 21,
+        "name": "Product Manager",
+        "role": "Product Strategy & Roadmap",
+        "capabilities": ["Product vision", "Roadmap planning", "Feature prioritization", "Stakeholder management"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 22,
+        "name": "Scrum Master",
+        "role": "Agile Process & Team Facilitation",
+        "capabilities": ["Agile coaching", "Sprint planning", "Team facilitation", "Process improvement"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 23,
+        "name": "Frontend Developer",
+        "role": "UI Development & Implementation",
+        "capabilities": ["React/Vue/Angular", "CSS/SASS", "JavaScript/TypeScript", "Responsive design"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 24,
+        "name": "Backend Developer",
+        "role": "Server-side Development",
+        "capabilities": ["Node.js/Python/Java", "REST/GraphQL", "Database integration", "API development"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 25,
+        "name": "Full Stack Developer",
+        "role": "End-to-end Development",
+        "capabilities": ["Frontend & Backend", "Database", "DevOps basics", "System integration"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 26,
+        "name": "Mobile Developer",
+        "role": "Mobile App Development",
+        "capabilities": ["iOS/Android native", "Cross-platform", "Mobile UI/UX", "App store deployment"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 27,
+        "name": "Game Developer",
+        "role": "Game Development & Mechanics",
+        "capabilities": ["Game engines", "Physics", "Graphics programming", "Gameplay mechanics"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 28,
+        "name": "Embedded Systems Developer",
+        "role": "Embedded & Real-time Systems",
+        "capabilities": ["C/C++", "RTOS", "Hardware interfaces", "Low-level optimization"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 29,
+        "name": "API Developer",
+        "role": "API Design & Integration",
+        "capabilities": ["RESTful design", "GraphQL", "API security", "Documentation"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 30,
+        "name": "Integration Specialist",
+        "role": "System Integration & Middleware",
+        "capabilities": ["Enterprise integration", "Message queues", "ETL", "API orchestration"],
+        "phase": ["development", "testing"]
+      },
+      {
+        "id": 31,
+        "name": "Data Engineer",
+        "role": "Data Pipeline & Infrastructure",
+        "capabilities": ["Data pipelines", "ETL/ELT", "Big data", "Stream processing"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 32,
+        "name": "Analytics Engineer",
+        "role": "Analytics & Business Intelligence",
+        "capabilities": ["BI tools", "Data warehousing", "Reporting", "Dashboard design"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 33,
+        "name": "Machine Learning Engineer",
+        "role": "ML Operations & Deployment",
+        "capabilities": ["Model deployment", "MLOps", "Feature engineering", "Model monitoring"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 34,
+        "name": "Growth Hacker",
+        "role": "Growth Strategy & Experimentation",
+        "capabilities": ["Growth metrics", "Viral loops", "Conversion optimization", "User acquisition"],
+        "phase": ["product"]
+      },
+      {
+        "id": 35,
+        "name": "Product Designer",
+        "role": "Product Design & User Experience",
+        "capabilities": ["Design thinking", "Prototyping", "User research", "Visual design"],
+        "phase": ["product"]
+      },
+      {
+        "id": 36,
+        "name": "User Researcher",
+        "role": "User Research & Insights",
+        "capabilities": ["User interviews", "Usability testing", "Personas", "Journey mapping"],
+        "phase": ["product"]
+      },
+      {
+        "id": 37,
+        "name": "UX Designer",
+        "role": "User Experience Design",
+        "capabilities": ["Wireframing", "Information architecture", "Interaction design", "Usability"],
+        "phase": ["ux", "design"]
+      },
+      {
+        "id": 38,
+        "name": "UI Designer",
+        "role": "User Interface Design",
+        "capabilities": ["Visual design", "Design systems", "Prototyping", "Brand consistency"],
+        "phase": ["ux"]
+      },
+      {
+        "id": 39,
+        "name": "Interaction Designer",
+        "role": "Interaction & Motion Design",
+        "capabilities": ["Microinteractions", "Animation", "Gestures", "Feedback design"],
+        "phase": ["ux"]
+      },
+      {
+        "id": 40,
+        "name": "Design System Architect",
+        "role": "Design System & Component Library",
+        "capabilities": ["Component design", "Style guides", "Design tokens", "Accessibility"],
+        "phase": ["ux", "design"]
+      },
+      {
+        "id": 41,
+        "name": "Accessibility Specialist",
+        "role": "Accessibility & Inclusive Design",
+        "capabilities": ["WCAG compliance", "Screen readers", "Keyboard navigation", "Inclusive design"],
+        "phase": ["ux"]
+      },
+      {
+        "id": 42,
+        "name": "Content Strategist",
+        "role": "Content Strategy & Information Architecture",
+        "capabilities": ["Content planning", "Information hierarchy", "Microcopy", "Content governance"],
+        "phase": ["ux"]
+      },
+      {
+        "id": 43,
+        "name": "Voice UI Designer",
+        "role": "Voice Interface & Conversational Design",
+        "capabilities": ["Voice interfaces", "Conversational flows", "NLP design", "Voice assistants"],
+        "phase": ["ux"]
+      },
+      {
+        "id": 44,
+        "name": "Infrastructure Engineer",
+        "role": "Infrastructure & Platform Engineering",
+        "capabilities": ["Infrastructure design", "Platform services", "Reliability", "Scalability"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 45,
+        "name": "Site Reliability Engineer",
+        "role": "Reliability & Operations",
+        "capabilities": ["SRE practices", "Incident management", "SLOs/SLIs", "Chaos engineering"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 46,
+        "name": "Network Engineer",
+        "role": "Network Architecture & Security",
+        "capabilities": ["Network design", "SDN", "Load balancing", "Network security"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 47,
+        "name": "Cloud Security Engineer",
+        "role": "Cloud Security & Compliance",
+        "capabilities": ["Cloud security", "IAM", "Encryption", "Compliance automation"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 48,
+        "name": "DevSecOps Engineer",
+        "role": "Security Integration & Automation",
+        "capabilities": ["Security automation", "SAST/DAST", "Container security", "Supply chain security"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 49,
+        "name": "Solution Architect",
+        "role": "Solution Design & Architecture",
+        "capabilities": ["Solution design", "Architecture patterns", "Technology evaluation", "Integration design"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 50,
+        "name": "Enterprise Architect",
+        "role": "Enterprise Architecture & Governance",
+        "capabilities": ["Enterprise patterns", "Architecture governance", "Standards", "Technology roadmap"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 51,
+        "name": "Customer Success Manager",
+        "role": "Customer Success & Retention",
+        "capabilities": ["Customer onboarding", "Retention strategies", "Upselling", "Customer health"],
+        "phase": ["product"]
+      },
+      {
+        "id": 52,
+        "name": "Support Engineer",
+        "role": "Technical Support & Troubleshooting",
+        "capabilities": ["Issue resolution", "Technical documentation", "Customer communication", "Root cause analysis"],
+        "phase": ["product"]
+      },
+      {
+        "id": 53,
+        "name": "Community Manager",
+        "role": "Community Building & Engagement",
+        "capabilities": ["Community building", "Content moderation", "Event planning", "User advocacy"],
+        "phase": ["product"]
+      },
+      {
+        "id": 54,
+        "name": "Developer Advocate",
+        "role": "Developer Relations & Evangelism",
+        "capabilities": ["Technical evangelism", "Documentation", "Sample apps", "Conference speaking"],
+        "phase": ["product"]
+      },
+      {
+        "id": 55,
+        "name": "Technical Account Manager",
+        "role": "Strategic Account Management",
+        "capabilities": ["Account strategy", "Technical guidance", "Relationship building", "Solution consulting"],
+        "phase": ["product"]
+      },
+      {
+        "id": 56,
+        "name": "Sales Engineer",
+        "role": "Technical Sales & Solutions",
+        "capabilities": ["Technical demos", "POCs", "Solution design", "RFP responses"],
+        "phase": ["product"]
+      },
+      {
+        "id": 57,
+        "name": "Implementation Consultant",
+        "role": "Implementation & Deployment",
+        "capabilities": ["Implementation planning", "Migration", "Training", "Best practices"],
+        "phase": ["product"]
+      },
+      {
+        "id": 58,
+        "name": "Brand Designer",
+        "role": "Brand Identity & Visual Design",
+        "capabilities": ["Brand identity", "Logo design", "Brand guidelines", "Marketing materials"],
+        "phase": ["ux", "design"]
+      },
+      {
+        "id": 59,
+        "name": "Motion Designer",
+        "role": "Motion Graphics & Animation",
+        "capabilities": ["Motion graphics", "Video editing", "Animation", "Visual effects"],
+        "phase": ["ux", "design"]
+      },
+      {
+        "id": 60,
+        "name": "3D Designer",
+        "role": "3D Modeling & Visualization",
+        "capabilities": ["3D modeling", "Texturing", "Rendering", "Animation"],
+        "phase": ["ux", "design"]
+      },
+      {
+        "id": 61,
+        "name": "Illustrator",
+        "role": "Illustration & Visual Storytelling",
+        "capabilities": ["Digital illustration", "Icon design", "Character design", "Visual storytelling"],
+        "phase": ["ux", "design"]
+      },
+      {
+        "id": 62,
+        "name": "Video Producer",
+        "role": "Video Production & Content",
+        "capabilities": ["Video production", "Editing", "Storyboarding", "Post-production"],
+        "phase": ["ux", "design"]
+      },
+      {
+        "id": 63,
+        "name": "Marketing Strategist",
+        "role": "Marketing Strategy & Campaigns",
+        "capabilities": ["Campaign planning", "Market analysis", "Brand positioning", "Marketing automation"],
+        "phase": ["marketing"]
+      },
+      {
+        "id": 64,
+        "name": "Content Marketer",
+        "role": "Content Marketing & SEO",
+        "capabilities": ["Content creation", "SEO", "Blog management", "Content distribution"],
+        "phase": ["marketing"]
+      },
+      {
+        "id": 65,
+        "name": "Social Media Manager",
+        "role": "Social Media Strategy & Management",
+        "capabilities": ["Social strategy", "Content calendar", "Community engagement", "Analytics"],
+        "phase": ["marketing"]
+      },
+      {
+        "id": 66,
+        "name": "Performance Marketer",
+        "role": "Paid Acquisition & Optimization",
+        "capabilities": ["PPC", "Display advertising", "Retargeting", "Campaign optimization"],
+        "phase": ["marketing"]
+      },
+      {
+        "id": 67,
+        "name": "Email Marketing Specialist",
+        "role": "Email Marketing & Automation",
+        "capabilities": ["Email campaigns", "Automation flows", "Segmentation", "A/B testing"],
+        "phase": ["marketing"]
+      },
+      {
+        "id": 68,
+        "name": "SEO Specialist",
+        "role": "Search Engine Optimization",
+        "capabilities": ["Technical SEO", "Content optimization", "Link building", "Analytics"],
+        "phase": ["marketing"]
+      },
+      {
+        "id": 69,
+        "name": "Business Intelligence Analyst",
+        "role": "Business Analytics & Reporting",
+        "capabilities": ["Data analysis", "KPI tracking", "Dashboard creation", "Business insights"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 70,
+        "name": "Financial Analyst",
+        "role": "Financial Analysis & Planning",
+        "capabilities": ["Financial modeling", "Budgeting", "ROI analysis", "Cost optimization"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 71,
+        "name": "Legal Counsel",
+        "role": "Legal & Compliance Advisory",
+        "capabilities": ["Contract review", "Compliance", "IP protection", "Risk management"],
+        "phase": ["design"]
+      },
+      {
+        "id": 72,
+        "name": "Privacy Officer",
+        "role": "Data Privacy & Protection",
+        "capabilities": ["GDPR/CCPA", "Privacy policies", "Data governance", "Privacy by design"],
+        "phase": ["design"]
+      },
+      {
+        "id": 73,
+        "name": "Kubernetes Specialist",
+        "role": "Container Orchestration & Management",
+        "capabilities": ["K8s architecture", "Helm charts", "Service mesh", "Container security"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 74,
+        "name": "Terraform Expert",
+        "role": "Infrastructure as Code",
+        "capabilities": ["IaC", "Multi-cloud", "Module design", "State management"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 75,
+        "name": "Observability Engineer",
+        "role": "Monitoring & Observability",
+        "capabilities": ["Metrics", "Logging", "Tracing", "APM"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 76,
+        "name": "Chaos Engineer",
+        "role": "Resilience & Failure Testing",
+        "capabilities": ["Chaos experiments", "Failure injection", "Resilience testing", "Game days"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 77,
+        "name": "Platform Engineer",
+        "role": "Developer Platform & Tools",
+        "capabilities": ["Platform design", "Developer experience", "Self-service tools", "Golden paths"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 78,
+        "name": "Cost Optimization Specialist",
+        "role": "Cloud Cost Management",
+        "capabilities": ["Cost analysis", "Resource optimization", "FinOps", "Budget management"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 79,
+        "name": "Incident Commander",
+        "role": "Incident Management & Response",
+        "capabilities": ["Incident response", "War rooms", "Post-mortems", "Communication"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 80,
+        "name": "Release Manager",
+        "role": "Release Planning & Coordination",
+        "capabilities": ["Release planning", "Change management", "Risk assessment", "Rollback strategies"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 81,
+        "name": "Configuration Manager",
+        "role": "Configuration & Environment Management",
+        "capabilities": ["Config management", "Environment setup", "Version control", "Drift detection"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 82,
+        "name": "Automation Engineer",
+        "role": "Process Automation & Efficiency",
+        "capabilities": ["Process automation", "Scripting", "Tool integration", "Workflow optimization"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 83,
+        "name": "Load Balancing Expert",
+        "role": "Traffic Management & Distribution",
+        "capabilities": ["Load balancing", "CDN", "Traffic shaping", "Geographic distribution"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 84,
+        "name": "Caching Specialist",
+        "role": "Caching Strategy & Implementation",
+        "capabilities": ["Cache design", "Redis/Memcached", "CDN caching", "Cache invalidation"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 85,
+        "name": "Message Queue Expert",
+        "role": "Asynchronous Processing & Messaging",
+        "capabilities": ["Message queues", "Event streaming", "Pub/sub", "Dead letter queues"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 86,
+        "name": "GraphQL Specialist",
+        "role": "GraphQL Design & Implementation",
+        "capabilities": ["Schema design", "Resolvers", "Federation", "Performance"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 87,
+        "name": "WebSocket Expert",
+        "role": "Real-time Communication",
+        "capabilities": ["WebSocket protocols", "Real-time systems", "Scaling", "Connection management"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 88,
+        "name": "Microservices Architect",
+        "role": "Microservices Design & Patterns",
+        "capabilities": ["Service design", "API gateway", "Service discovery", "Circuit breakers"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 89,
+        "name": "Event-Driven Architect",
+        "role": "Event-Driven Architecture",
+        "capabilities": ["Event sourcing", "CQRS", "Saga patterns", "Event streaming"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 90,
+        "name": "Serverless Specialist",
+        "role": "Serverless Architecture & Functions",
+        "capabilities": ["Lambda/Functions", "API Gateway", "Event triggers", "Cold starts"],
+        "phase": ["development", "security"]
+      },
+      {
+        "id": 91,
+        "name": "Quantum Computing Researcher",
+        "role": "Quantum Computing & Algorithms",
+        "capabilities": ["Quantum algorithms", "Qubits", "Quantum circuits", "Quantum advantage"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 92,
+        "name": "Edge Computing Specialist",
+        "role": "Edge Computing & Distributed Systems",
+        "capabilities": ["Edge architecture", "5G integration", "Low latency", "Distributed computing"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 93,
+        "name": "Sustainability Engineer",
+        "role": "Green Computing & Sustainability",
+        "capabilities": ["Carbon footprint", "Energy efficiency", "Green architecture", "Sustainable practices"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 94,
+        "name": "Ethics Advisor",
+        "role": "AI Ethics & Responsible Tech",
+        "capabilities": ["Ethical AI", "Bias detection", "Fairness", "Responsible innovation"],
+        "phase": ["brainstorm"]
+      },
+      {
+        "id": 95,
+        "name": "Partnerships Manager",
+        "role": "Strategic Partnerships & Alliances",
+        "capabilities": ["Partner strategy", "Integration partnerships", "Co-marketing", "Ecosystem building"],
+        "phase": ["product", "marketing"]
+      },
+      {
+        "id": 96,
+        "name": "Investor Relations",
+        "role": "Investor Communication & Fundraising",
+        "capabilities": ["Pitch decks", "Financial communication", "Fundraising", "Investor updates"],
+        "phase": ["product", "marketing"]
+      },
+      {
+        "id": 97,
+        "name": "Market Research Analyst",
+        "role": "Market Analysis & Competitive Intelligence",
+        "capabilities": ["Market research", "Competitive analysis", "Trend analysis", "Customer insights"],
+        "phase": ["product", "marketing"]
+      },
+      {
+        "id": 98,
+        "name": "Pricing Strategist",
+        "role": "Pricing Strategy & Optimization",
+        "capabilities": ["Pricing models", "Value proposition", "Competitive pricing", "Revenue optimization"],
+        "phase": ["product", "marketing"]
+      },
+      {
+        "id": 99,
+        "name": "Localization Manager",
+        "role": "Internationalization & Localization",
+        "capabilities": ["i18n/l10n", "Translation management", "Cultural adaptation", "Global rollout"],
+        "phase": ["product"]
+      },
+      {
+        "id": 100,
+        "name": "Chief Innovation Officer",
+        "role": "Innovation Leadership & Strategy",
+        "capabilities": ["Innovation strategy", "Digital transformation", "Culture change", "Future vision"],
+        "phase": ["product"]
+      }
+    ]
+  }
+}

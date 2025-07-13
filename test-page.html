@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test War Room</title>
+</head>
+<body>
+    <h1>Testing War Room Access</h1>
+    <p>If you see this page, the server is working.</p>
+    <p>Click <a href="http://localhost:5173/">here</a> to go to the main app.</p>
+    <p>Or click <a href="http://localhost:5173/warroom">here</a> to go directly to War Room.</p>
+    
+    <script>
+        // Test if Vite is responding
+        fetch('http://localhost:5173/')
+            .then(res => {
+                console.log('Vite status:', res.status);
+                return res.text();
+            })
+            .then(text => {
+                console.log('Response length:', text.length);
+                if (text.length > 0) {
+                    document.body.innerHTML += '<p style="color: green;">✅ Vite is running!</p>';
+                } else {
+                    document.body.innerHTML += '<p style="color: red;">❌ Vite returned empty response</p>';
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                document.body.innerHTML += '<p style="color: red;">❌ Cannot connect to Vite: ' + err.message + '</p>';
+            });
+    </script>
+</body>
+</html>

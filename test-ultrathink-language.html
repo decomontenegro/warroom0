@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UltraThink Language Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .primary {
+            background: #007bff;
+            color: white;
+        }
+        .success {
+            background: #28a745;
+            color: white;
+        }
+        .warning {
+            background: #ffc107;
+            color: black;
+        }
+        .danger {
+            background: #dc3545;
+            color: white;
+        }
+        .info {
+            background: #17a2b8;
+            color: white;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #f8f9fa;
+            font-family: monospace;
+        }
+        .log-area {
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            border-radius: 5px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+        .response-preview {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .language-indicator {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+        .lang-pt { background: #28a745; color: white; }
+        .lang-en { background: #007bff; color: white; }
+        .lang-es { background: #ffc107; color: black; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 UltraThink Language Test Suite</h1>
+        
+        <div class="test-section">
+            <h2>1️⃣ Language Configuration</h2>
+            <p>Current Language: <span id="currentLang" class="language-indicator">Loading...</span></p>
+            <div class="button-group">
+                <button class="primary" onclick="setLanguageAndReload('pt-BR')">🇧🇷 Português</button>
+                <button class="success" onclick="setLanguageAndReload('en-US')">🇺🇸 English</button>
+                <button class="warning" onclick="setLanguageAndReload('es-ES')">🇪🇸 Español</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>2️⃣ Quick UltraThink Test</h2>
+            <p>Send a test message to UltraThink and monitor the language of responses:</p>
+            <div class="button-group">
+                <button class="info" onclick="testUltraThink('en')">📤 Test in English</button>
+                <button class="info" onclick="testUltraThink('pt')">📤 Test in Portuguese</button>
+                <button class="info" onclick="testUltraThink('es')">📤 Test in Spanish</button>
+            </div>
+            <button class="danger" onclick="clearLog()">🗑️ Clear Log</button>
+        </div>
+
+        <div class="test-section">
+            <h2>3️⃣ Direct WebSocket Test</h2>
+            <p>Send raw WebSocket messages to test language parameter:</p>
+            <input type="text" id="testMessage" placeholder="Enter test message" style="width: 100%; padding: 10px; margin: 10px 0;">
+            <div class="button-group">
+                <button class="primary" onclick="sendDirectMessage('pt-BR')">Send (PT)</button>
+                <button class="success" onclick="sendDirectMessage('en-US')">Send (EN)</button>
+                <button class="warning" onclick="sendDirectMessage('es-ES')">Send (ES)</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Response Monitor</h2>
+            <div id="responseStats" class="status">
+                <p>Total Responses: <span id="totalResponses">0</span></p>
+                <p>Portuguese: <span id="ptResponses">0</span></p>
+                <p>English: <span id="enResponses">0</span></p>
+                <p>Spanish: <span id="esResponses">0</span></p>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📜 Real-time Log</h2>
+            <div id="log" class="log-area"></div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let responseCount = { total: 0, pt: 0, en: 0, es: 0 };
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logArea = document.getElementById('log');
+            const prefix = type === 'error' ? '❌' : 
+                          type === 'success' ? '✅' : 
+                          type === 'warning' ? '⚠️' : 'ℹ️';
+            
+            logArea.innerHTML += `[${timestamp}] ${prefix} ${message}\n`;
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+        
+        function updateLanguageDisplay() {
+            const lang = localStorage.getItem('warroom-language') || 'pt-BR';
+            const indicator = document.getElementById('currentLang');
+            indicator.textContent = lang;
+            indicator.className = 'language-indicator ' + 
+                (lang === 'pt-BR' ? 'lang-pt' : 
+                 lang === 'en-US' ? 'lang-en' : 'lang-es');
+        }
+        
+        function setLanguageAndReload(lang) {
+            localStorage.setItem('warroom-language', lang);
+            log(`Language set to ${lang}`, 'success');
+            updateLanguageDisplay();
+            
+            if (confirm(`Language set to ${lang}. Open WarRoom in new tab?`)) {
+                window.open('http://localhost:5173/warroom', '_blank');
+            }
+        }
+        
+        function connectWebSocket() {
+            ws = new WebSocket('ws://localhost:3005/warroom-ws');
+            
+            ws.onopen = () => {
+                log('WebSocket connected', 'success');
+                ws.send(JSON.stringify({ type: 'register', sessionId: 'test-' + Date.now() }));
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                
+                if (data.type === 'agent-response') {
+                    responseCount.total++;
+                    
+                    // Detect language of response
+                    const content = data.content.toLowerCase();
+                    if (content.includes('based on') || content.includes('recommend') || 
+                        content.includes('the') || content.includes('and')) {
+                        responseCount.en++;
+                        log(`🇺🇸 English response from ${data.agent}`, 'success');
+                    } else if (content.includes('com base') || content.includes('recomendo') || 
+                               content.includes('que') || content.includes('para')) {
+                        responseCount.pt++;
+                        log(`🇧🇷 Portuguese response from ${data.agent}`, 'warning');
+                    } else if (content.includes('basado en') || content.includes('recomiendo') || 
+                               content.includes('que') || content.includes('para')) {
+                        responseCount.es++;
+                        log(`🇪🇸 Spanish response from ${data.agent}`, 'info');
+                    }
+                    
+                    updateStats();
+                    
+                    // Show preview
+                    log(`Response preview: "${content.substring(0, 100)}..."`, 'info');
+                }
+            };
+            
+            ws.onerror = (error) => {
+                log('WebSocket error: ' + error, 'error');
+            };
+            
+            ws.onclose = () => {
+                log('WebSocket disconnected', 'warning');
+            };
+        }
+        
+        function updateStats() {
+            document.getElementById('totalResponses').textContent = responseCount.total;
+            document.getElementById('ptResponses').textContent = responseCount.pt;
+            document.getElementById('enResponses').textContent = responseCount.en;
+            document.getElementById('esResponses').textContent = responseCount.es;
+        }
+        
+        function testUltraThink(lang) {
+            const messages = {
+                en: "help me build a DeFi trading platform",
+                pt: "me ajude a criar uma plataforma de trading DeFi",
+                es: "ayúdame a crear una plataforma de trading DeFi"
+            };
+            
+            const language = lang === 'en' ? 'en-US' : lang === 'pt' ? 'pt-BR' : 'es-ES';
+            
+            log(`Sending UltraThink test in ${language}...`, 'info');
+            
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('WebSocket not connected, reconnecting...', 'warning');
+                connectWebSocket();
+                setTimeout(() => testUltraThink(lang), 1000);
+                return;
+            }
+            
+            // Reset counters
+            responseCount = { total: 0, pt: 0, en: 0, es: 0 };
+            updateStats();
+            
+            // Send UltraThink workflow request
+            ws.send(JSON.stringify({
+                type: 'ultrathink-workflow',
+                workflow: {
+                    id: 'test-' + Date.now(),
+                    task: messages[lang],
+                    language: language,
+                    config: {
+                        enableAutoLearning: true,
+                        maxIterations: 1,
+                        selectedPhases: ['brainstorm', 'development']
+                    }
+                }
+            }));
+        }
+        
+        function sendDirectMessage(language) {
+            const message = document.getElementById('testMessage').value;
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+            
+            log(`Sending direct message in ${language}: "${message}"`, 'info');
+            
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('WebSocket not connected', 'error');
+                return;
+            }
+            
+            ws.send(JSON.stringify({
+                type: 'agent-request',
+                agent: { name: 'Test Agent', role: 'Tester' },
+                task: message,
+                language: language,
+                capabilities: ['testing', 'analysis']
+            }));
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            log('Log cleared', 'info');
+        }
+        
+        // Initialize
+        updateLanguageDisplay();
+        connectWebSocket();
+        log('Test suite initialized', 'success');
+        log(`Current language: ${localStorage.getItem('warroom-language') || 'pt-BR'}`, 'info');
+    </script>
+</body>
+</html>

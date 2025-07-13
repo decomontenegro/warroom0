@@ -1,0 +1,132 @@
+/* Final scroll fix - garantir que o scroll funcione */
+
+/* Forçar scroll no container de mensagens */
+.messages-container {
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+  position: relative !important;
+}
+
+/* Garantir que o chat-content-wrapper não bloqueie */
+.chat-content-wrapper {
+  overflow: visible !important;
+  height: 100% !important;
+}
+
+/* Se houver algum elemento bloqueando */
+.messages-container > * {
+  max-width: 100%;
+}
+
+/* Remover qualquer position fixed que possa estar bloqueando */
+.chat-area .messages-container {
+  position: relative !important;
+}
+
+/* Remover debug */
+
+/* Garantir que mensagens sejam visíveis */
+.message {
+  position: relative;
+  z-index: 1;
+}
+
+/* Se o problema for com o coordinator panel */
+.coordinator-panel {
+  pointer-events: all !important;
+}
+
+/* Corrigir posicionamento do input */
+.chat-input-area {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: #1F242A !important;
+  border-top: 1px solid rgba(0, 92, 235, 0.3) !important;
+  padding: 16px 20px !important;
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  z-index: 100 !important;
+  margin: 0 !important;
+}
+
+/* Ajustar o input de texto */
+.chat-input {
+  flex: 1 !important;
+  background: rgba(13, 17, 23, 0.8) !important;
+  border: 1px solid rgba(253, 216, 53, 0.2) !important;
+  border-radius: 24px !important;
+  padding: 12px 20px !important;
+  color: #FFFFFF !important;
+  font-size: 14px !important;
+  outline: none !important;
+  transition: all 0.2s !important;
+  min-width: 0 !important; /* Prevenir overflow */
+}
+
+.chat-input::placeholder {
+  color: #B8BFC6 !important;
+  font-size: 14px !important;
+  opacity: 0.8 !important;
+}
+
+.chat-input:focus {
+  border-color: rgba(253, 216, 53, 0.5) !important;
+  background: rgba(13, 17, 23, 0.9) !important;
+}
+
+/* Botão de enviar */
+.send-button {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #FF9800, #FDD835) !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  flex-shrink: 0 !important;
+}
+
+.send-button:hover:not(:disabled) {
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4) !important;
+}
+
+.send-button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Ajustar área de mensagens para dar espaço ao input */
+.messages-container {
+  padding-bottom: 100px !important; /* Espaço para o input fixo */
+}
+
+/* Para telas com sidebar */
+.warroom-whatsapp .chat-input-area {
+  left: auto !important;
+  width: calc(100% - 380px) !important; /* Largura da sidebar */
+  margin-left: 380px !important;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .chat-input-area {
+    padding: 12px 16px !important;
+  }
+  
+  .chat-input {
+    font-size: 16px !important; /* Prevenir zoom no iOS */
+  }
+  
+  .warroom-whatsapp .chat-input-area {
+    left: 0 !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}

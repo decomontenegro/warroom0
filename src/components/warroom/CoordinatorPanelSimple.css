@@ -1,0 +1,172 @@
+/* Coordinator Panel - Simple Fix */
+
+.coordinator-panel {
+  position: fixed !important;
+  right: 20px !important;
+  top: 120px !important;
+  width: 300px !important;
+  max-height: 500px !important;
+  background: rgba(31, 36, 42, 0.98) !important;
+  border: 1px solid rgba(0, 92, 235, 0.3) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  z-index: 1000 !important;
+  overflow: hidden !important;
+}
+
+.coordinator-header {
+  background: rgba(13, 17, 23, 0.9) !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  border-bottom: 1px solid rgba(253, 216, 53, 0.2) !important;
+}
+
+.coordinator-header h3 {
+  margin: 0 !important;
+  color: #FDD835 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.coordinator-status {
+  padding: 16px !important;
+  max-height: 400px !important;
+  overflow-y: auto !important;
+}
+
+.status-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 8px 12px !important;
+  margin-bottom: 8px !important;
+  background: rgba(13, 17, 23, 0.6) !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+}
+
+.status-label {
+  color: #B8BFC6 !important;
+}
+
+.status-value {
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
+}
+
+.phase-indicator {
+  color: #FF9800 !important;
+}
+
+.success-rate {
+  color: #00D46A !important;
+}
+
+.coordinator-messages {
+  margin-top: 12px !important;
+  padding: 12px !important;
+  background: rgba(13, 17, 23, 0.4) !important;
+  border-radius: 6px !important;
+}
+
+.coordinator-message {
+  color: #FFFFFF !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  margin-bottom: 8px !important;
+}
+
+.phase-progress {
+  display: flex !important;
+  gap: 6px !important;
+  justify-content: center !important;
+  margin-top: 16px !important;
+}
+
+.phase-step {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: rgba(31, 36, 42, 0.8) !important;
+  border: 2px solid rgba(156, 39, 176, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  color: #B8BFC6 !important;
+}
+
+.phase-step.completed {
+  background: #9C27B0 !important;
+  border-color: #FDD835 !important;
+  color: #FFFFFF !important;
+}
+
+.phase-step.active {
+  background: #FF9800 !important;
+  border-color: #FDD835 !important;
+  color: #FFFFFF !important;
+  animation: pulse 2s infinite !important;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.force-orchestration-btn {
+  width: 100% !important;
+  margin-top: 16px !important;
+  padding: 10px !important;
+  background: linear-gradient(135deg, #FF9800, #FDD835) !important;
+  color: #01010A !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.force-orchestration-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4) !important;
+}
+
+.coordinator-close-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  background: transparent !important;
+  border: none !important;
+  color: #B8BFC6 !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  padding: 4px !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+  transition: all 0.2s !important;
+}
+
+.coordinator-close-btn:hover {
+  background: rgba(255, 152, 0, 0.2) !important;
+  color: #FF9800 !important;
+}
+
+/* Keep messages container normal */
+.messages-container {
+  margin-right: 0 !important;
+}
+
+/* Don't change chat area layout */
+.chat-content-wrapper {
+  position: relative !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}

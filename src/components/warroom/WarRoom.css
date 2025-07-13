@@ -1,0 +1,491 @@
+.warroom {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.warroom-header {
+  padding: 30px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.warroom-header h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.warroom-header p {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.header-controls {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.view-mode-toggle {
+  background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
+  color: #0a0a0a;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-mode-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.status-indicator {
+  font-size: 14px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.status-indicator.connected {
+  color: #4ade80;
+  border-color: #4ade80;
+}
+
+.status-indicator.disconnected {
+  color: #f87171;
+  border-color: #f87171;
+}
+
+.cli-hint {
+  font-size: 12px;
+  color: #64748b;
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.warroom-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.warroom-main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.warroom-sidebar {
+  width: 320px;
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border-color);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Session Control */
+.session-control {
+  margin-bottom: 30px;
+}
+
+.session-control h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.session-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.session-input-group textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 14px;
+  resize: vertical;
+  transition: all 0.2s ease;
+}
+
+.session-input-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.session-input-group textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.session-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Active Session */
+.active-session {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.active-session h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.session-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.session-status,
+.session-request {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-label,
+.request-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  min-width: 80px;
+}
+
+.status-value {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: var(--bg-tertiary);
+}
+
+.status-value.analyzing {
+  color: var(--accent-orange);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.status-value.in-progress {
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.status-value.processing {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.status-value.completed {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.request-value {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+/* Session Log */
+.session-log {
+  margin-top: 20px;
+}
+
+.session-log h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.log-entries {
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.log-entry {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.log-entry:last-child {
+  margin-bottom: 0;
+}
+
+.log-time {
+  color: var(--text-secondary);
+  min-width: 80px;
+}
+
+.log-agent {
+  color: #7c3aed;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.log-message {
+  color: var(--text-primary);
+  flex: 1;
+}
+
+/* Agents Grid */
+.agents-grid h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.agents {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.agent-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 15px;
+  transition: all 0.2s ease;
+}
+
+.agent-card.active {
+  border-color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.agent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.agent-status-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.agent-header h4 {
+  font-size: 16px;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.agent-status {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.agent-status.idle {
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+}
+
+.agent-status.active {
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.agent-spoken-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #10b981;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: checkAppear 0.3s ease-out;
+}
+
+@keyframes checkAppear {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.agent-capability {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Sessions History */
+.sessions-history {
+  margin-bottom: 30px;
+}
+
+.sessions-history h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.no-sessions {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 20px;
+}
+
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.session-item {
+  padding: 10px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.session-time {
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.session-request-preview {
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Capabilities */
+.capabilities h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.capabilities ul {
+  list-style: none;
+  padding: 0;
+}
+
+.capabilities li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.capabilities li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent-blue);
+}
+
+/* CLI Commands */
+.cli-commands {
+  margin-top: 30px;
+}
+
+.cli-commands h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.command-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cli-command {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: var(--bg-primary);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.cli-command code {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--accent-color);
+  background: rgba(59, 130, 246, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.cli-command span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Integrated layout */
+.warroom-integrated {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0a0a0a;
+}
+
+.ultrathink-section {
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.warroom-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}

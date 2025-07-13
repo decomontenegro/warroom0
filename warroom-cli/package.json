@@ -1,0 +1,29 @@
+{
+  "name": "warroom-cli",
+  "version": "1.0.0",
+  "description": "War Room CLI - AI-powered collaborative development command line interface",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "warroom": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12",
+    "ora": "^7.0.1",
+    "axios": "^1.6.2",
+    "open": "^10.0.0",
+    "ws": "^8.15.0",
+    "glob": "^10.3.10",
+    "acorn": "^8.11.2",
+    "acorn-walk": "^8.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Language System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .language-info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .test-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #45a049;
+        }
+        .log-output {
+            background: #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .status-ok {
+            background: #4CAF50;
+            color: white;
+        }
+        .status-error {
+            background: #f44336;
+            color: white;
+        }
+        .websocket-monitor {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .message-item {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .message-sent {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+        }
+        .message-received {
+            background: #f1f8e9;
+            border-left: 4px solid #8BC34A;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Language System Debugger</h1>
+
+    <div class="section">
+        <h2>Current Language State</h2>
+        <div id="language-state" class="language-info">
+            Loading...
+        </div>
+        <div>
+            <button class="test-button" onclick="testLanguageChange('pt-BR')">Set Portuguese</button>
+            <button class="test-button" onclick="testLanguageChange('en-US')">Set English</button>
+            <button class="test-button" onclick="testLanguageChange('es-ES')">Set Spanish</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>WebSocket Monitor</h2>
+        <div class="websocket-monitor">
+            <div>
+                <h3>Sent Messages</h3>
+                <div id="sent-messages" class="log-output"></div>
+            </div>
+            <div>
+                <h3>Received Messages</h3>
+                <div id="received-messages" class="log-output"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Language System Tests</h2>
+        <button class="test-button" onclick="testI18nSystem()">Test i18n System</button>
+        <button class="test-button" onclick="testLanguageManager()">Test Language Manager</button>
+        <button class="test-button" onclick="testUltraThinkLanguage()">Test UltraThink Language</button>
+        <button class="test-button" onclick="testWebSocketLanguage()">Test WebSocket Language</button>
+        <div id="test-results" class="log-output" style="margin-top: 15px;"></div>
+    </div>
+
+    <div class="section">
+        <h2>Console Output</h2>
+        <div id="console-output" class="log-output"></div>
+    </div>
+
+    <script type="module">
+        // Import necessary modules
+        import { i18n, SUPPORTED_LANGUAGES } from './src/services/i18n-config.js';
+        import { languageManager } from './src/services/language-manager.js';
+        
+        window.i18n = i18n;
+        window.languageManager = languageManager;
+
+        // Override console methods to capture output
+        const originalConsole = {
+            log: console.log,
+            error: console.error,
+            warn: console.warn,
+            info: console.info
+        };
+
+        function addToConsole(type, ...args) {
+            const output = document.getElementById('console-output');
+            const timestamp = new Date().toLocaleTimeString();
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg
+            ).join(' ');
+            
+            output.innerHTML += `<div style="color: ${type === 'error' ? '#ff5252' : type === 'warn' ? '#ff9800' : '#4CAF50'}">
+                [${timestamp}] ${type.toUpperCase()}: ${message}
+            </div>`;
+            output.scrollTop = output.scrollHeight;
+            
+            // Call original console method
+            originalConsole[type](...args);
+        }
+
+        console.log = (...args) => addToConsole('log', ...args);
+        console.error = (...args) => addToConsole('error', ...args);
+        console.warn = (...args) => addToConsole('warn', ...args);
+        console.info = (...args) => addToConsole('info', ...args);
+
+        // WebSocket monitoring
+        const originalWebSocket = window.WebSocket;
+        window.WebSocket = function(...args) {
+            const ws = new originalWebSocket(...args);
+            console.log('WebSocket created:', args[0]);
+            
+            const originalSend = ws.send.bind(ws);
+            ws.send = function(data) {
+                const sentMessages = document.getElementById('sent-messages');
+                const timestamp = new Date().toLocaleTimeString();
+                
+                try {
+                    const parsed = JSON.parse(data);
+                    sentMessages.innerHTML += `<div class="message-item message-sent">
+                        <strong>[${timestamp}]</strong> Type: ${parsed.type || 'unknown'}<br>
+                        Language: ${parsed.language || 'not specified'}<br>
+                        <pre>${JSON.stringify(parsed, null, 2)}</pre>
+                    </div>`;
+                } catch (e) {
+                    sentMessages.innerHTML += `<div class="message-item message-sent">
+                        <strong>[${timestamp}]</strong> Raw: ${data}
+                    </div>`;
+                }
+                sentMessages.scrollTop = sentMessages.scrollHeight;
+                
+                return originalSend(data);
+            };
+            
+            ws.addEventListener('message', function(event) {
+                const receivedMessages = document.getElementById('received-messages');
+                const timestamp = new Date().toLocaleTimeString();
+                
+                try {
+                    const parsed = JSON.parse(event.data);
+                    receivedMessages.innerHTML += `<div class="message-item message-received">
+                        <strong>[${timestamp}]</strong> Type: ${parsed.type || 'unknown'}<br>
+                        Language: ${parsed.language || 'not detected'}<br>
+                        <pre>${JSON.stringify(parsed, null, 2)}</pre>
+                    </div>`;
+                } catch (e) {
+                    receivedMessages.innerHTML += `<div class="message-item message-received">
+                        <strong>[${timestamp}]</strong> Raw: ${event.data}
+                    </div>`;
+                }
+                receivedMessages.scrollTop = receivedMessages.scrollHeight;
+            });
+            
+            return ws;
+        };
+
+        // Update language state display
+        function updateLanguageState() {
+            const stateDiv = document.getElementById('language-state');
+            const currentLang = localStorage.getItem('warroom-language') || 'pt-BR';
+            const i18nLang = i18n.getLanguage();
+            const managerLang = languageManager.getLanguage();
+            
+            stateDiv.innerHTML = `
+                <p><strong>LocalStorage:</strong> ${currentLang} 
+                    <span class="status-badge ${currentLang ? 'status-ok' : 'status-error'}">
+                        ${currentLang ? 'OK' : 'MISSING'}
+                    </span>
+                </p>
+                <p><strong>i18n Current:</strong> ${i18nLang}
+                    <span class="status-badge ${i18nLang === currentLang ? 'status-ok' : 'status-error'}">
+                        ${i18nLang === currentLang ? 'SYNCED' : 'OUT OF SYNC'}
+                    </span>
+                </p>
+                <p><strong>Language Manager:</strong> ${managerLang}
+                    <span class="status-badge ${managerLang === currentLang ? 'status-ok' : 'status-error'}">
+                        ${managerLang === currentLang ? 'SYNCED' : 'OUT OF SYNC'}
+                    </span>
+                </p>
+                <p><strong>UltraThink Instance:</strong> 
+                    <span class="status-badge ${window.ultrathinkWorkflow ? 'status-ok' : 'status-error'}">
+                        ${window.ultrathinkWorkflow ? 'ACTIVE' : 'NOT FOUND'}
+                    </span>
+                </p>
+            `;
+        }
+
+        // Test functions
+        window.testLanguageChange = function(lang) {
+            console.log(`Testing language change to: ${lang}`);
+            localStorage.setItem('warroom-language', lang);
+            i18n.setLanguage(lang);
+            languageManager.setLanguage(lang);
+            if (window.ultrathinkWorkflow) {
+                window.ultrathinkWorkflow.setLanguage(lang);
+            }
+            updateLanguageState();
+            console.log('Language change complete');
+        };
+
+        window.testI18nSystem = function() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Testing i18n System...</h3>';
+            
+            try {
+                // Test each language
+                for (const [code, lang] of Object.entries(SUPPORTED_LANGUAGES)) {
+                    i18n.setLanguage(code);
+                    const test = i18n.t('system.analyzing');
+                    results.innerHTML += `<div>✅ ${lang.name}: "${test}"</div>`;
+                }
+                
+                // Test parameter replacement
+                i18n.setLanguage('en-US');
+                const paramTest = i18n.t('system.processing', { agentName: 'Test Agent' });
+                results.innerHTML += `<div>✅ Parameter test: "${paramTest}"</div>`;
+                
+            } catch (error) {
+                results.innerHTML += `<div style="color: red;">❌ Error: ${error.message}</div>`;
+            }
+        };
+
+        window.testLanguageManager = function() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Testing Language Manager...</h3>';
+            
+            try {
+                const original = languageManager.getLanguage();
+                results.innerHTML += `<div>Current language: ${original}</div>`;
+                
+                // Test language switching
+                languageManager.setLanguage('en-US');
+                const instruction = languageManager.getLanguageInstruction();
+                results.innerHTML += `<div>✅ English instruction: "${instruction}"</div>`;
+                
+                // Test mock responses
+                const mockResponse = languageManager.getMockResponse(
+                    { name: 'Lead Architect' },
+                    'test task'
+                );
+                results.innerHTML += `<div>✅ Mock response generated</div>`;
+                
+                // Restore original
+                languageManager.setLanguage(original);
+                
+            } catch (error) {
+                results.innerHTML += `<div style="color: red;">❌ Error: ${error.message}</div>`;
+            }
+        };
+
+        window.testUltraThinkLanguage = function() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Testing UltraThink Language...</h3>';
+            
+            if (!window.ultrathinkWorkflow) {
+                results.innerHTML += '<div style="color: orange;">⚠️ UltraThink workflow not initialized</div>';
+                return;
+            }
+            
+            try {
+                const currentLang = window.ultrathinkWorkflow.getLanguage();
+                results.innerHTML += `<div>Current UltraThink language: ${currentLang}</div>`;
+                
+                // Test language switching
+                window.ultrathinkWorkflow.setLanguage('es-ES');
+                const newLang = window.ultrathinkWorkflow.getLanguage();
+                results.innerHTML += `<div>✅ Changed to: ${newLang}</div>`;
+                
+                // Restore
+                window.ultrathinkWorkflow.setLanguage(currentLang);
+                
+            } catch (error) {
+                results.innerHTML += `<div style="color: red;">❌ Error: ${error.message}</div>`;
+            }
+        };
+
+        window.testWebSocketLanguage = function() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Testing WebSocket Language Communication...</h3>';
+            
+            try {
+                // Simulate a WebSocket message
+                const testMessage = {
+                    type: 'ultrathink_request',
+                    task: 'Test task',
+                    language: localStorage.getItem('warroom-language') || 'pt-BR',
+                    timestamp: new Date().toISOString()
+                };
+                
+                results.innerHTML += `<div>✅ Test message prepared with language: ${testMessage.language}</div>`;
+                results.innerHTML += `<pre>${JSON.stringify(testMessage, null, 2)}</pre>`;
+                
+                // Check if we would send the correct language
+                const currentLang = localStorage.getItem('warroom-language');
+                if (currentLang === testMessage.language) {
+                    results.innerHTML += '<div style="color: green;">✅ Language correctly synchronized</div>';
+                } else {
+                    results.innerHTML += '<div style="color: red;">❌ Language mismatch detected</div>';
+                }
+                
+            } catch (error) {
+                results.innerHTML += `<div style="color: red;">❌ Error: ${error.message}</div>`;
+            }
+        };
+
+        // Initialize
+        updateLanguageState();
+        setInterval(updateLanguageState, 2000); // Update every 2 seconds
+        
+        console.log('Language System Debugger initialized');
+        console.log('Available languages:', Object.keys(SUPPORTED_LANGUAGES));
+    </script>
+</body>
+</html>

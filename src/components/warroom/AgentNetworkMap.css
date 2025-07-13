@@ -1,0 +1,448 @@
+/* Container do mapa de rede */
+.agent-network-map {
+  background: rgba(31, 36, 42, 0.98);
+  border: 1px solid rgba(0, 92, 235, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Modo mini (canto da tela) */
+.agent-network-map.mini {
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+  width: 300px;
+  height: 300px;
+  z-index: 1000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.agent-network-map.mini:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Modo expandido */
+.agent-network-map.expanded {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vh;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header do mini mapa */
+.network-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: rgba(13, 17, 23, 0.9);
+  border-bottom: 1px solid rgba(0, 92, 235, 0.2);
+  min-height: 44px;
+}
+
+.network-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.active-count {
+  font-size: 10px;
+  color: #3b82f6;
+  margin-left: 8px;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.dynamic-indicator {
+  font-size: 12px;
+  margin-left: 8px;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(180deg);
+  }
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.expand-btn:hover {
+  color: #3b82f6;
+}
+
+/* Controles do modo expandido */
+.network-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(30, 30, 30, 0.9);
+  border-bottom: 1px solid #333;
+  gap: 20px;
+}
+
+/* Controles de layout */
+.layout-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.layout-select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e0e0e0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.layout-select:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.layout-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.layout-select option {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.dynamic-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #999;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dynamic-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.dynamic-toggle:hover {
+  color: #e0e0e0;
+}
+
+.network-info h3 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 18px;
+}
+
+.network-info p {
+  margin: 4px 0 0;
+  color: #999;
+  font-size: 14px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 8px;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #ef4444;
+}
+
+/* SVG do grafo */
+.network-svg {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+/* Animação das conexões ativas */
+@keyframes pulseConnection {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes connectionGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 1));
+  }
+}
+
+.network-link {
+  transition: all 0.3s ease;
+}
+
+.active-connection {
+  stroke-dasharray: 5, 5;
+  animation: pulseConnection 1s linear infinite, connectionGlow 2s ease-in-out infinite;
+  stroke: url(#connectionGradient) !important;
+  stroke-width: 2 !important;
+  opacity: 1 !important;
+}
+
+/* Tooltip dos nós */
+.node-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #e0e0e0;
+  pointer-events: none;
+  z-index: 1001;
+  white-space: nowrap;
+}
+
+.tooltip-role {
+  color: #999;
+  font-size: 11px;
+}
+
+/* Legenda */
+.network-legend {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  display: flex;
+  gap: 16px;
+  font-size: 10px;
+  color: #999;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot.central {
+  background: #8b5cf6;
+  box-shadow: 0 0 4px #8b5cf6;
+}
+
+.legend-dot.active {
+  background: #3b82f6;
+  box-shadow: 0 0 4px #3b82f6;
+}
+
+/* Animação de entrada */
+.agent-network-map.mini {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .agent-network-map.mini {
+    width: 200px;
+    height: 200px;
+    right: 10px;
+    bottom: 70px;
+  }
+  
+  .network-title {
+    font-size: 11px;
+  }
+  
+  .expand-btn {
+    font-size: 14px;
+  }
+}
+
+/* Efeitos visuais para os nós */
+.nodes circle {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.nodes circle:hover {
+  filter: brightness(1.3) drop-shadow(0 0 8px currentColor);
+  transform: scale(1.1);
+}
+
+/* Animações específicas por layout */
+.agent-network-map[data-layout="radial"] .nodes circle {
+  animation: radialPulse 4s ease-in-out infinite;
+}
+
+@keyframes radialPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.agent-network-map[data-layout="hierarchical"] .nodes circle {
+  animation: hierarchicalFloat 3s ease-in-out infinite;
+}
+
+@keyframes hierarchicalFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.agent-network-map[data-layout="circular"] .nodes circle {
+  animation: circularRotate 20s linear infinite;
+}
+
+@keyframes circularRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estados dos nós por fase */
+.node-active {
+  animation: nodeActivePulse 1s ease-in-out infinite;
+}
+
+@keyframes nodeActivePulse {
+  0%, 100% {
+    r: 8;
+    opacity: 0.9;
+  }
+  50% {
+    r: 12;
+    opacity: 1;
+  }
+}
+
+/* Cores por fase */
+.phase-1 {
+  stroke: #10b981 !important;
+  filter: drop-shadow(0 0 6px #10b981);
+}
+
+.phase-2 {
+  stroke: #3b82f6 !important;
+  filter: drop-shadow(0 0 6px #3b82f6);
+}
+
+.phase-3 {
+  stroke: #8b5cf6 !important;
+  filter: drop-shadow(0 0 6px #8b5cf6);
+}
+
+.phase-4 {
+  stroke: #f59e0b !important;
+  filter: drop-shadow(0 0 6px #f59e0b);
+}
+
+.phase-5 {
+  stroke: #ef4444 !important;
+  filter: drop-shadow(0 0 6px #ef4444);
+}
+
+/* Gradiente animado para conexões */
+@keyframes gradientFlow {
+  0% {
+    stop-color: #3b82f6;
+    stop-opacity: 0.2;
+  }
+  50% {
+    stop-color: #3b82f6;
+    stop-opacity: 1;
+  }
+  100% {
+    stop-color: #3b82f6;
+    stop-opacity: 0.2;
+  }
+}
+
+/* Modo escuro/claro (se necessário) */
+.agent-network-map {
+  backdrop-filter: blur(8px);
+}
+
+/* Animação de partículas */
+@keyframes particleGlow {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}

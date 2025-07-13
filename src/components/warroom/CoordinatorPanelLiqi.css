@@ -1,0 +1,321 @@
+/* Coordinator Panel - Liqi Theme */
+
+/* Override existing coordinator panel styles */
+.coordinator-panel {
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 320px !important;
+  background: rgba(31, 36, 42, 0.98) !important;
+  border-left: 1px solid rgba(0, 92, 235, 0.3) !important;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(10px) !important;
+  overflow: hidden !important;
+  z-index: 50 !important;
+  animation: slideInRight 0.3s ease-out !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Header */
+.coordinator-header {
+  background: linear-gradient(135deg, rgba(156, 39, 176, 0.2) 0%, rgba(0, 92, 235, 0.2) 100%) !important;
+  padding: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  border-bottom: 1px solid rgba(253, 216, 53, 0.2) !important;
+}
+
+.coordinator-icon {
+  font-size: 24px !important;
+  filter: drop-shadow(0 0 8px rgba(255, 152, 0, 0.6)) !important;
+}
+
+.coordinator-header h3 {
+  margin: 0 !important;
+  color: #FDD835 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-shadow: 0 0 10px rgba(253, 216, 53, 0.4) !important;
+}
+
+/* Status Container */
+.coordinator-status {
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #9C27B0 transparent !important;
+}
+
+/* Status Items */
+.status-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 8px 12px !important;
+  background: rgba(13, 17, 23, 0.6) !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 92, 235, 0.1) !important;
+  transition: all 0.2s ease !important;
+}
+
+.status-item:hover {
+  background: rgba(0, 92, 235, 0.1) !important;
+  border-color: rgba(0, 92, 235, 0.3) !important;
+}
+
+.status-label {
+  color: #B8BFC6 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.status-value {
+  color: #FFFFFF !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* Phase Indicator */
+.phase-indicator {
+  color: #FF9800 !important;
+  text-shadow: 0 0 8px rgba(255, 152, 0, 0.4) !important;
+}
+
+/* Success Rate */
+.success-rate {
+  color: #00D46A !important;
+  text-shadow: 0 0 8px rgba(0, 212, 106, 0.4) !important;
+}
+
+/* Coordinator Messages */
+.coordinator-messages {
+  padding: 12px !important;
+  background: rgba(13, 17, 23, 0.4) !important;
+  border-radius: 8px !important;
+  margin: 0 16px 16px 16px !important;
+  max-height: 120px !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #9C27B0 transparent !important;
+}
+
+.coordinator-message {
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  padding: 8px !important;
+  background: rgba(0, 92, 235, 0.1) !important;
+  border-radius: 6px !important;
+  border-left: 3px solid #005CEB !important;
+  margin-bottom: 8px !important;
+}
+
+.coordinator-message:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Progress Visual */
+.coordinator-progress {
+  padding: 0 16px 16px 16px !important;
+}
+
+.phase-progress {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.phase-step {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: rgba(31, 36, 42, 0.8) !important;
+  border: 2px solid rgba(156, 39, 176, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #B8BFC6 !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+}
+
+.phase-step.completed {
+  background: linear-gradient(135deg, #9C27B0 0%, #005CEB 100%) !important;
+  border-color: #FDD835 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 15px rgba(156, 39, 176, 0.5) !important;
+}
+
+.phase-step.active {
+  background: #FF9800 !important;
+  border-color: #FDD835 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 20px rgba(255, 152, 0, 0.6) !important;
+  animation: pulseActive 2s infinite !important;
+}
+
+/* Connecting lines between phases */
+.phase-step:not(:last-child)::after {
+  content: '' !important;
+  position: absolute !important;
+  right: -8px !important;
+  top: 50% !important;
+  width: 8px !important;
+  height: 2px !important;
+  background: rgba(156, 39, 176, 0.3) !important;
+  transform: translateY(-50%) !important;
+}
+
+.phase-step.completed:not(:last-child)::after {
+  background: #FDD835 !important;
+}
+
+/* Force Orchestration Button */
+.force-orchestration-btn {
+  background: linear-gradient(135deg, #FF9800 0%, #FDD835 100%) !important;
+  color: #01010A !important;
+  border: none !important;
+  padding: 12px 20px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 10px rgba(255, 152, 0, 0.4) !important;
+  text-shadow: none !important;
+}
+
+.force-orchestration-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 20px rgba(255, 152, 0, 0.6) !important;
+}
+
+.force-orchestration-btn:active {
+  transform: translateY(0) !important;
+}
+
+/* Animations */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseActive {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.6);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.8);
+  }
+}
+
+/* Scrollbar styling */
+.coordinator-messages::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.coordinator-messages::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.coordinator-messages::-webkit-scrollbar-thumb {
+  background: #9C27B0 !important;
+  border-radius: 3px !important;
+}
+
+.coordinator-messages::-webkit-scrollbar-thumb:hover {
+  background: #005CEB !important;
+}
+
+/* Scrollbar styling for coordinator-status */
+.coordinator-status::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.coordinator-status::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.coordinator-status::-webkit-scrollbar-thumb {
+  background: #9C27B0 !important;
+  border-radius: 3px !important;
+}
+
+.coordinator-status::-webkit-scrollbar-thumb:hover {
+  background: #005CEB !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .coordinator-panel {
+    display: none !important;
+  }
+}
+
+/* Timer styling */
+.status-value:has(⏱️) {
+  color: #FDD835 !important;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace !important;
+}
+
+/* Response counter styling */
+.status-value:has(📊) {
+  color: #00D46A !important;
+}
+
+/* Close button (if needed) */
+.coordinator-close-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  background: transparent !important;
+  border: none !important;
+  color: #FF9800 !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  transition: all 0.2s !important;
+  z-index: 10 !important;
+}
+
+.coordinator-close-btn:hover {
+  background: rgba(255, 152, 0, 0.2) !important;
+  transform: rotate(90deg) !important;
+}
+
+/* Ensure the network map stays in its container */
+.agent-network-map {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 89 !important; /* Below coordinator panel */
+}
+
+/* When coordinator is open, move network map to the left */
+.warroom-whatsapp:has(.coordinator-panel) .agent-network-map {
+  right: 360px !important; /* 320px coordinator + 40px spacing */
+  transition: right 0.3s ease !important;
+}

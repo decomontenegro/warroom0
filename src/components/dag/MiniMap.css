@@ -1,0 +1,58 @@
+.minimap-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.minimap-container:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.minimap-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.node-count {
+  font-weight: 500;
+  color: var(--accent-blue);
+}
+
+.minimap-svg {
+  display: block;
+  background: var(--bg-primary);
+  cursor: crosshair;
+}
+
+.minimap-viewport {
+  cursor: move;
+  transition: opacity 0.2s ease;
+}
+
+.minimap-viewport:hover {
+  opacity: 0.5 !important;
+  stroke-width: 3;
+}
+
+/* Modo compacto para telas menores */
+@media (max-width: 768px) {
+  .minimap-container {
+    bottom: 10px;
+    right: 10px;
+    transform: scale(0.8);
+    transform-origin: bottom right;
+  }
+}

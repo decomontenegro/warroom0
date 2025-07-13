@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>War Room Quick Test</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            font-family: system-ui;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        #result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            white-space: pre-wrap;
+        }
+        .status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .connected { background: #10b981; }
+        .disconnected { background: #ef4444; }
+    </style>
+</head>
+<body>
+    <h1>🧠 War Room - Teste Rápido</h1>
+    
+    <p>Status: <span class="status disconnected" id="status"></span><span id="statusText">Desconectado</span></p>
+    
+    <div>
+        <h3>Clique para testar:</h3>
+        <button onclick="testDebug()">🐛 Debugar Erro</button>
+        <button onclick="testReview()">👀 Revisar Código</button>
+        <button onclick="testPerf()">⚡ Melhorar Performance</button>
+        <button onclick="testCustom()">💬 Pergunta Livre</button>
+    </div>
+    
+    <div id="result"></div>
+    
+    <script>
+        let ws;
+        const result = document.getElementById('result');
+        const status = document.getElementById('status');
+        const statusText = document.getElementById('statusText');
+        
+        function connect() {
+            ws = new WebSocket('ws://localhost:3005/warroom-ws');
+            
+            ws.onopen = () => {
+                status.className = 'status connected';
+                statusText.textContent = 'Conectado';
+                result.textContent = '✅ Conectado ao War Room! Clique em um botão para testar.';
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.type === 'agent-response') {
+                    result.textContent = `${data.agent}:\n\n${data.content}`;
+                }
+            };
+            
+            ws.onclose = () => {
+                status.className = 'status disconnected';
+                statusText.textContent = 'Desconectado';
+                result.textContent = '❌ Conexão perdida. Recarregue a página.';
+            };
+            
+            ws.onerror = () => {
+                result.textContent = '❌ Erro de conexão. Verifique se o servidor está rodando.';
+            };
+        }
+        
+        function sendRequest(task) {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                result.textContent = '⏳ Processando...';
+                ws.send(JSON.stringify({
+                    type: 'agent-request',
+                    agent: { name: 'Assistant', role: 'Helper' },
+                    task: task,
+                    capabilities: ['Debugging', 'Code Review', 'Performance', 'General']
+                }));
+            } else {
+                result.textContent = '❌ Não conectado. Recarregue a página.';
+            }
+        }
+        
+        function testDebug() {
+            sendRequest('debugar TypeError: Cannot read property "name" of undefined');
+        }
+        
+        function testReview() {
+            sendRequest('revisar código de autenticação de usuário');
+        }
+        
+        function testPerf() {
+            sendRequest('melhorar performance de query SQL que demora 5 segundos');
+        }
+        
+        function testCustom() {
+            const question = prompt('Digite sua pergunta:');
+            if (question) {
+                sendRequest(question);
+            }
+        }
+        
+        // Conectar ao carregar
+        connect();
+    </script>
+</body>
+</html>

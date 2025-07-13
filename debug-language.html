@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Language System - UltraThink</title>
+    <style>
+        body {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        .debug-section {
+            background: #0a0a0a;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .debug-section h2 {
+            color: #ffff00;
+            margin-top: 0;
+        }
+        .test-button {
+            background: #003300;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .test-button:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            background: #001100;
+            border-left: 3px solid #00ff00;
+            font-size: 12px;
+        }
+        .error {
+            color: #ff0000;
+            border-left-color: #ff0000;
+        }
+        .success {
+            color: #00ff00;
+            border-left-color: #00ff00;
+        }
+        .info {
+            color: #00ffff;
+            border-left-color: #00ffff;
+        }
+        pre {
+            background: #000;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        #wsStatus {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+        .connected {
+            background: #003300;
+            color: #00ff00;
+        }
+        .disconnected {
+            background: #330000;
+            color: #ff0000;
+        }
+        #languageDisplay {
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            background: #002200;
+            border: 2px solid #00ff00;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 UltraThink Language System Debugger</h1>
+        
+        <div class="debug-section">
+            <h2>Current Status</h2>
+            <div>WebSocket: <span id="wsStatus" class="disconnected">Disconnected</span></div>
+            <div id="languageDisplay">Current Language: <span id="currentLang">--</span></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>Language Tests</h2>
+            <button class="test-button" onclick="testLanguage('pt-BR')">🇧🇷 Test Portuguese</button>
+            <button class="test-button" onclick="testLanguage('en-US')">🇺🇸 Test English</button>
+            <button class="test-button" onclick="testLanguage('es-ES')">🇪🇸 Test Spanish</button>
+            <button class="test-button" onclick="clearLogs()">🗑️ Clear Logs</button>
+        </div>
+
+        <div class="debug-section">
+            <h2>Test Agent Response</h2>
+            <input type="text" id="testQuery" placeholder="Enter test query..." style="width: 60%; padding: 5px;">
+            <button class="test-button" onclick="testAgentResponse()">Send Test Query</button>
+        </div>
+
+        <div class="debug-section">
+            <h2>Debug Logs</h2>
+            <div id="logs"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>localStorage Data</h2>
+            <pre id="localStorage"></pre>
+        </div>
+    </div>
+
+    <script type="module">
+        import { i18n, SUPPORTED_LANGUAGES } from './src/services/i18n-config.js';
+        
+        let ws = null;
+        let currentLanguage = 'pt-BR';
+        
+        function log(message, type = 'info') {
+            const logs = document.getElementById('logs');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logs.insertBefore(entry, logs.firstChild);
+        }
+        
+        function updateLocalStorageDisplay() {
+            const data = {
+                'warroom-language': localStorage.getItem('warroom-language'),
+                'warroom-settings': localStorage.getItem('warroom-settings')
+            };
+            document.getElementById('localStorage').textContent = JSON.stringify(data, null, 2);
+        }
+        
+        function connectWebSocket() {
+            const wsUrl = 'ws://localhost:3005/warroom-ws';
+            log(`Connecting to ${wsUrl}...`);
+            
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                log('WebSocket connected!', 'success');
+                document.getElementById('wsStatus').textContent = 'Connected';
+                document.getElementById('wsStatus').className = 'connected';
+                
+                // Register for debugging
+                ws.send(JSON.stringify({
+                    type: 'register',
+                    sessionId: 'debug-' + Date.now()
+                }));
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                log(`Received: ${data.type} - ${JSON.stringify(data).substring(0, 100)}...`, 'info');
+                
+                if (data.type === 'agent-response') {
+                    log(`Agent Response [${data.language || 'unknown'}]: "${data.content.substring(0, 100)}..."`, 'success');
+                }
+            };
+            
+            ws.onerror = (error) => {
+                log('WebSocket error: ' + error, 'error');
+            };
+            
+            ws.onclose = () => {
+                log('WebSocket disconnected', 'error');
+                document.getElementById('wsStatus').textContent = 'Disconnected';
+                document.getElementById('wsStatus').className = 'disconnected';
+            };
+        }
+        
+        window.testLanguage = function(lang) {
+            currentLanguage = lang;
+            document.getElementById('currentLang').textContent = `${lang} ${SUPPORTED_LANGUAGES[lang].flag}`;
+            
+            // Update i18n
+            i18n.setLanguage(lang);
+            log(`Language set to: ${lang}`, 'success');
+            
+            // Save to localStorage
+            localStorage.setItem('warroom-language', lang);
+            updateLocalStorageDisplay();
+            
+            // Test i18n
+            const testKeys = ['workflow.started', 'agent.analyzing', 'chief.intro'];
+            testKeys.forEach(key => {
+                const translation = i18n.t(key, { 
+                    agent: 'Test Agent', 
+                    current: 1, 
+                    total: 5,
+                    query: 'test query',
+                    lng: lang 
+                });
+                log(`i18n.t('${key}'): ${translation}`, 'info');
+            });
+        };
+        
+        window.testAgentResponse = function() {
+            const query = document.getElementById('testQuery').value || 'Help me build a DeFi platform';
+            
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('WebSocket not connected!', 'error');
+                return;
+            }
+            
+            log(`Sending test query in ${currentLanguage}: "${query}"`, 'info');
+            
+            ws.send(JSON.stringify({
+                type: 'agent-request',
+                agent: { 
+                    name: 'Lead Architect', 
+                    role: 'System Architecture Expert' 
+                },
+                task: query,
+                capabilities: ['Architecture Design', 'System Planning'],
+                language: currentLanguage
+            }));
+        };
+        
+        window.clearLogs = function() {
+            document.getElementById('logs').innerHTML = '';
+            log('Logs cleared', 'info');
+        };
+        
+        // Initialize
+        connectWebSocket();
+        updateLocalStorageDisplay();
+        testLanguage(localStorage.getItem('warroom-language') || 'pt-BR');
+        
+        // Auto-refresh localStorage display
+        setInterval(updateLocalStorageDisplay, 1000);
+    </script>
+</body>
+</html>
