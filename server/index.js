@@ -8,6 +8,7 @@ import dagRoutes from './routes/dag.js'
 import taskRoutes from './routes/tasks.js'
 import uploadRoutes from './routes/upload.js'
 import warRoomRoutes, { createWarRoomWebSocket } from './routes/warroom.js'
+import llmRoutes from './routes/llm.js'
 
 dotenv.config()
 
@@ -30,6 +31,7 @@ app.use('/api/dag', dagRoutes)
 app.use('/api/tasks', taskRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/warroom', warRoomRoutes)
+app.use('/api/llm', llmRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {

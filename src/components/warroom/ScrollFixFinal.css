@@ -64,6 +64,15 @@
   outline: none !important;
   transition: all 0.2s !important;
   min-width: 0 !important; /* Prevenir overflow */
+  white-space: pre-wrap !important; /* Permitir quebra de linha */
+  word-wrap: break-word !important; /* Quebrar palavras longas */
+  overflow-wrap: break-word !important;
+  min-height: 44px !important;
+  max-height: 120px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  resize: none !important;
+  line-height: 1.5 !important;
 }
 
 .chat-input::placeholder {

@@ -13,7 +13,31 @@ import './WarRoomScrollFix.css'
 import './WarRoomLayoutFix.css'
 import './CoordinatorPanelSimple.css'
 import './ScrollFixFinal.css'
-import { Icon, getAgentIcon, getAgentColor } from './ModernIcons'
+import './TextareaFix.css'
+import './AgentColorSystem.css'
+import { Icon, getAgentIcon } from './ModernIcons'
+import { getAgentCategory, getAgentBadge, getAgentColor } from './agentCategories'
+
+// Funções auxiliares para cores
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function getContrastColor(hexColor) {
+  // Converte hex para RGB
+  const r = parseInt(hexColor.slice(1, 3), 16);
+  const g = parseInt(hexColor.slice(3, 5), 16);
+  const b = parseInt(hexColor.slice(5, 7), 16);
+  
+  // Calcula luminância
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  
+  // Retorna preto para cores claras, branco para cores escuras
+  return luminance > 0.5 ? '#0D1117' : '#FFFFFF';
+}
 
 // Componente para mensagens com resumo expandível
 function MessageContent({ message, isExpanded, onToggleExpand }) {
@@ -90,6 +114,7 @@ function WarRoomWhatsApp() {
   })
   const [agentStatus, setAgentStatus] = useState({}) // Track status of each agent
   const [expandedMessages, setExpandedMessages] = useState({}) // Track expanded/collapsed messages
+  const [showColorLegend, setShowColorLegend] = useState(false) // Show color legend
   
   // Estado para progresso dos agentes
   const [agentProgress, setAgentProgress] = useState({
@@ -2645,11 +2670,11 @@ function WarRoomWhatsApp() {
                 <div 
                   className="chat-avatar"
                   style={{
-                    '--avatar-color-1': getAgentColor(agent),
-                    '--avatar-color-2': getAgentColor(agent) + 'dd'
+                    '--avatar-color-1': getAgentColor(agent.name),
+                    '--avatar-color-2': getAgentColor(agent.name) + 'dd'
                   }}
                 >
-                  <Icon name={getAgentIcon(agent)} size={24} color="white" />
+                  <Icon name={getAgentIcon(agent.name)} size={24} color="white" />
                   <span className="status-indicator" />
                 </div>
                 <div className="chat-info">
@@ -2836,6 +2861,14 @@ function WarRoomWhatsApp() {
             </div>
           ) : (
             <div className="messages-container">
+              {/* Legenda de cores */}
+              {showColorLegend && (activeChat === 'all' || allAgents.find(a => a.id === activeChat)) && (
+                <AgentColorLegend 
+                  collapsed={false}
+                  onToggle={() => setShowColorLegend(false)}
+                />
+              )}
+              
               {/* Mensagem de boas-vindas do UltraThink */}
               {activeChat === 'ultrathink' && currentMessages.length === 0 && (
                 <div className="ultrathink-welcome">
@@ -2872,11 +2905,50 @@ function WarRoomWhatsApp() {
                 </div>
               )}
               
-              {currentMessages.map(msg => (
-              <div key={msg.id} className={`message message-${msg.type} ${msg.subtype ? `message-${msg.subtype}` : ''}`}>
+              {currentMessages.map(msg => {
+                // Obter categoria e cor do agente
+                const agentCategory = msg.agent ? getAgentCategory(msg.agent) : null;
+                const agentBadge = msg.agent ? getAgentBadge(msg.agent) : null;
+                
+                // Debug das cores
+                if (msg.type === 'agent' && agentBadge) {
+                  console.log('🎨 Aplicando cor:', {
+                    agent: msg.agent,
+                    category: agentCategory?.name,
+                    color: agentBadge?.color,
+                    categoryKey: agentCategory?.key
+                  });
+                }
+                
+                return (
+                <div 
+                  key={msg.id} 
+                  className={`message message-${msg.type} ${msg.subtype ? `message-${msg.subtype}` : ''} ${agentCategory ? `agent-category-${agentCategory.key}` : ''}`}
+                  style={msg.type === 'agent' && agentBadge ? {
+                    borderLeft: `4px solid ${agentBadge.color}`,
+                    background: `linear-gradient(90deg, ${hexToRgba(agentBadge.color, 0.1)} 0%, transparent 50%)`
+                  } : {}}
+                >
                 {msg.type === 'agent' && msg.agent && (
                   <div className="message-agent-info">
-                    <span className="agent-name">{msg.agent}</span>
+                    <span 
+                      className="agent-name"
+                      style={{
+                        background: agentBadge?.color || '#666',
+                        color: getContrastColor(agentBadge?.color || '#666'),
+                        padding: '4px 12px',
+                        borderRadius: '16px',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                      }}
+                    >
+                      <span>{agentCategory?.icon}</span>
+                      {msg.agent}
+                    </span>
                   </div>
                 )}
                 
@@ -2929,7 +3001,8 @@ function WarRoomWhatsApp() {
                   {msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString() : ''}
                 </div>
               </div>
-            ))}
+              )
+            })}
             <div ref={messagesEndRef} />
           </div>
           )}

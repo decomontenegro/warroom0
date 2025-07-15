@@ -240,10 +240,28 @@ class AIService {
 
   getMockResponse(messages) {
     const lastMessage = messages[messages.length - 1].content;
-    console.log('Mock response for message:', lastMessage.substring(0, 100) + '...');
+    console.log('Using intelligent mock response for:', lastMessage.substring(0, 100) + '...');
     
-    // War Room discussion mock responses - ULTRATHINK approach
-    // Check this FIRST before other conditions
+    // Import the intelligent mock response generator
+    try {
+      const { getIntelligentMockResponse } = require('./ai-temp-fix.js');
+      
+      // Extract task and agent info
+      if (lastMessage.includes('Task:') && lastMessage.includes('perspective')) {
+        const task = lastMessage.match(/Task: ([^\n]+)/)?.[1] || 'the given task';
+        const agentMatch = lastMessage.match(/from the perspective of (.*?)\./) || 
+                          lastMessage.match(/as (.*?)[,\.]/) ||
+                          lastMessage.match(/Agent: (.*?)[\n,]/);
+        const agentName = agentMatch ? agentMatch[1] : 'Technical Expert';
+        const language = lastMessage.includes('Tarefa:') ? 'pt-BR' : 'en-US';
+        
+        return getIntelligentMockResponse(agentName, task, language);
+      }
+    } catch (error) {
+      console.log('Fallback to simple mock response');
+    }
+    
+    // Original mock response logic as fallback
     if (lastMessage.includes('Task:') && lastMessage.includes('perspective')) {
       const task = lastMessage.match(/Task: ([^\n]+)/)?.[1] || 'the given task';
       

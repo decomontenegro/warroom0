@@ -1,0 +1,379 @@
+/* Sistema de Cores por Categoria de Especialistas - Otimizado para Fundo Escuro */
+
+:root {
+  /* 🏗️ ARQUITETURA & ENGENHARIA (Azuis Vibrantes) */
+  --agent-architecture-1: #90CAF9; /* Lead Architect - Azul muito claro */
+  --agent-architecture-2: #64B5F6; /* System Architect - Azul claro */
+  --agent-architecture-3: #42A5F5; /* Solution Architect - Azul médio */
+  --agent-architecture-4: #2196F3; /* Enterprise Architect - Azul vibrante */
+  --agent-architecture-5: #1E88E5; /* Frontend Architect - Azul forte */
+  --agent-architecture-6: #1976D2; /* Backend Architect - Azul intenso */
+  --agent-architecture-7: #42A5F5; /* Cloud Architect - Azul médio (repetido) */
+  
+  /* 💻 DESENVOLVIMENTO (Verdes Luminosos) */
+  --agent-dev-1: #A5D6A7; /* Frontend Developer - Verde muito claro */
+  --agent-dev-2: #81C784; /* Backend Developer - Verde claro */
+  --agent-dev-3: #66BB6A; /* Full Stack Developer - Verde médio */
+  --agent-dev-4: #4CAF50; /* Mobile Developer - Verde vibrante */
+  --agent-dev-5: #43A047; /* API Developer - Verde forte */
+  --agent-dev-6: #66BB6A; /* Integration Specialist - Verde médio (repetido) */
+  --agent-dev-7: #81C784; /* Embedded Systems - Verde claro (repetido) */
+  
+  /* 🎨 DESIGN & UX (Roxos Brilhantes) */
+  --agent-design-1: #E1BEE7; /* UI Designer - Roxo muito claro */
+  --agent-design-2: #CE93D8; /* UX Designer - Roxo claro */
+  --agent-design-3: #BA68C8; /* Product Designer - Roxo médio */
+  --agent-design-4: #AB47BC; /* Design System Architect - Roxo vibrante */
+  --agent-design-5: #9C27B0; /* Interaction Designer - Roxo Liqi */
+  --agent-design-6: #BA68C8; /* Brand Designer - Roxo médio (repetido) */
+  --agent-design-7: #CE93D8; /* Motion Designer - Roxo claro (repetido) */
+  
+  /* 🚀 DEVOPS & INFRA (Laranjas Radiantes) */
+  --agent-devops-1: #FFCC80; /* DevOps Lead - Laranja muito claro */
+  --agent-devops-2: #FFB74D; /* Infrastructure Engineer - Laranja claro */
+  --agent-devops-3: #FFA726; /* Site Reliability Engineer - Laranja médio */
+  --agent-devops-4: #FF9800; /* Platform Engineer - Laranja Liqi */
+  --agent-devops-5: #FB8C00; /* Kubernetes Specialist - Laranja forte */
+  --agent-devops-6: #FFB74D; /* Terraform Expert - Laranja claro (repetido) */
+  --agent-devops-7: #FFA726; /* Cloud Security Engineer - Laranja médio (repetido) */
+  
+  /* 🔒 SEGURANÇA & QA (Vermelhos Vivos) */
+  --agent-security-1: #FFAB91; /* Security Architect - Vermelho coral claro */
+  --agent-security-2: #FF8A65; /* Penetration Tester - Vermelho coral */
+  --agent-security-3: #FF7043; /* Cloud Security Engineer - Vermelho médio */
+  --agent-security-4: #FF5722; /* DevSecOps Engineer - Vermelho vibrante */
+  --agent-security-5: #F4511E; /* QA Lead - Vermelho forte */
+  --agent-security-6: #FF7043; /* Performance Engineer - Vermelho médio (repetido) */
+  --agent-security-7: #FF8A65; /* Chaos Engineer - Vermelho coral (repetido) */
+  
+  /* 📊 DADOS & ANALYTICS (Cianos Brilhantes) */
+  --agent-data-1: #80DEEA; /* Data Scientist - Ciano muito claro */
+  --agent-data-2: #4DD0E1; /* Data Engineer - Ciano claro */
+  --agent-data-3: #26C6DA; /* Analytics Engineer - Ciano médio */
+  --agent-data-4: #00BCD4; /* Business Intelligence - Ciano vibrante */
+  --agent-data-5: #00ACC1; /* Machine Learning Engineer - Ciano forte */
+  --agent-data-6: #26C6DA; /* AI/ML Engineer - Ciano médio (repetido) */
+  --agent-data-7: #4DD0E1; /* Data Analyst - Ciano claro (repetido) */
+  
+  /* 💼 PRODUTO & NEGÓCIOS (Amarelos Luminosos) */
+  --agent-business-1: #FFF9C4; /* Product Manager - Amarelo muito claro */
+  --agent-business-2: #FFF59D; /* Business Analyst - Amarelo claro */
+  --agent-business-3: #FFF176; /* Scrum Master - Amarelo médio */
+  --agent-business-4: #FFEE58; /* Product Owner - Amarelo vibrante */
+  --agent-business-5: #FDD835; /* Marketing Strategist - Amarelo Liqi */
+  --agent-business-6: #FFF176; /* Sales Engineer - Amarelo médio (repetido) */
+  --agent-business-7: #FFF59D; /* Growth Hacker - Amarelo claro (repetido) */
+  
+  /* 🌟 INOVAÇÃO & ESTRATÉGIA (Rosas Vibrantes) */
+  --agent-innovation-1: #FCE4EC; /* Innovation Strategist - Rosa muito claro */
+  --agent-innovation-2: #F8BBD0; /* Chief Innovation Officer - Rosa claro */
+  --agent-innovation-3: #F48FB1; /* Research Lead - Rosa médio */
+  --agent-innovation-4: #F06292; /* Blockchain Specialist - Rosa vibrante */
+  --agent-innovation-5: #EC407A; /* IoT Specialist - Rosa forte */
+  --agent-innovation-6: #F48FB1; /* AR/VR Developer - Rosa médio (repetido) */
+  --agent-innovation-7: #F8BBD0; /* Quantum Computing - Rosa claro (repetido) */
+}
+
+/* Classes de aplicação */
+.agent-category-architecture { 
+  border-left: 4px solid var(--agent-architecture-3);
+  background: linear-gradient(90deg, rgba(33, 150, 243, 0.1) 0%, transparent 100%);
+}
+
+.agent-category-development { 
+  border-left: 4px solid var(--agent-dev-3);
+  background: linear-gradient(90deg, rgba(76, 175, 80, 0.1) 0%, transparent 100%);
+}
+
+.agent-category-design { 
+  border-left: 4px solid var(--agent-design-4);
+  background: linear-gradient(90deg, rgba(156, 39, 176, 0.1) 0%, transparent 100%);
+}
+
+.agent-category-devops { 
+  border-left: 4px solid var(--agent-devops-3);
+  background: linear-gradient(90deg, rgba(255, 152, 0, 0.1) 0%, transparent 100%);
+}
+
+.agent-category-security { 
+  border-left: 4px solid var(--agent-security-2);
+  background: linear-gradient(90deg, rgba(244, 67, 54, 0.1) 0%, transparent 100%);
+}
+
+.agent-category-data { 
+  border-left: 4px solid var(--agent-data-3);
+  background: linear-gradient(90deg, rgba(0, 188, 212, 0.1) 0%, transparent 100%);
+}
+
+.agent-category-business { 
+  border-left: 4px solid var(--agent-business-4);
+  background: linear-gradient(90deg, rgba(253, 216, 53, 0.1) 0%, transparent 100%);
+}
+
+.agent-category-innovation { 
+  border-left: 4px solid var(--agent-innovation-4);
+  background: linear-gradient(90deg, rgba(233, 30, 99, 0.1) 0%, transparent 100%);
+}
+
+/* Badge de especialista com cores */
+.agent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+/* Exemplos de badges por especialista */
+.agent-badge.lead-architect {
+  background: var(--agent-architecture-1);
+  color: #0D1117;
+}
+
+.agent-badge.frontend-developer {
+  background: var(--agent-dev-1);
+  color: #0D1117;
+}
+
+.agent-badge.ui-designer {
+  background: var(--agent-design-1);
+  color: #0D1117;
+}
+
+.agent-badge.devops-lead {
+  background: var(--agent-devops-1);
+  color: #0D1117;
+}
+
+.agent-badge.security-architect {
+  background: var(--agent-security-1);
+  color: #0D1117;
+}
+
+.agent-badge.data-scientist {
+  background: var(--agent-data-1);
+  color: #0D1117;
+}
+
+.agent-badge.product-manager {
+  background: var(--agent-business-1);
+  color: #0D1117;
+}
+
+.agent-badge.innovation-strategist {
+  background: var(--agent-innovation-1);
+  color: #0D1117;
+}
+
+/* Hover effects */
+.agent-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Legenda de categorias */
+.agent-legend-container {
+  background: rgba(21, 27, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 10px 20px 20px 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.agent-legend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.agent-legend-header h4 {
+  margin: 0;
+  color: #E6EDF3;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.agent-legend-close {
+  background: transparent;
+  border: none;
+  color: #8B949E;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.agent-legend-close:hover {
+  color: #E6EDF3;
+}
+
+.agent-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.agent-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.agent-legend-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.agent-legend-color {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.agent-legend-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.agent-legend-icon {
+  font-size: 16px;
+}
+
+.agent-legend-name {
+  color: #E6EDF3;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.agent-legend-count {
+  color: #8B949E;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.agent-legend-tip {
+  color: #8B949E;
+  font-size: 12px;
+  text-align: center;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Botão toggle da legenda */
+.agent-legend-toggle {
+  background: rgba(33, 150, 243, 0.1);
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  color: #2196F3;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 10px 20px;
+}
+
+.agent-legend-toggle:hover {
+  background: rgba(33, 150, 243, 0.2);
+  border-color: rgba(33, 150, 243, 0.5);
+}
+
+/* Botão de legenda no header */
+.color-legend-button {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.color-legend-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Indicadores visuais no chat */
+.message.agent-message {
+  position: relative;
+  padding-left: 20px;
+  transition: all 0.3s ease;
+}
+
+.message.agent-message::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Efeito hover nas mensagens de agentes */
+.message.agent-message:hover {
+  transform: translateX(4px);
+}
+
+.message.agent-message:hover::before {
+  width: 6px;
+}
+
+/* Aplicar cores por categoria no chat */
+.message.agent-category-architecture::before { background: var(--agent-architecture-3) !important; }
+.message.agent-category-development::before { background: var(--agent-dev-3) !important; }
+.message.agent-category-design::before { background: var(--agent-design-4) !important; }
+.message.agent-category-devops::before { background: var(--agent-devops-3) !important; }
+.message.agent-category-security::before { background: var(--agent-security-2) !important; }
+.message.agent-category-data::before { background: var(--agent-data-3) !important; }
+.message.agent-category-business::before { background: var(--agent-business-4) !important; }
+.message.agent-category-innovation::before { background: var(--agent-innovation-4) !important; }
+
+/* Backgrounds sutis por categoria */
+.message.agent-category-architecture {
+  background: linear-gradient(90deg, rgba(33, 150, 243, 0.05) 0%, transparent 50%) !important;
+}
+
+.message.agent-category-development {
+  background: linear-gradient(90deg, rgba(76, 175, 80, 0.05) 0%, transparent 50%) !important;
+}
+
+.message.agent-category-design {
+  background: linear-gradient(90deg, rgba(156, 39, 176, 0.05) 0%, transparent 50%) !important;
+}
+
+.message.agent-category-devops {
+  background: linear-gradient(90deg, rgba(255, 152, 0, 0.05) 0%, transparent 50%) !important;
+}
+
+.message.agent-category-security {
+  background: linear-gradient(90deg, rgba(244, 67, 54, 0.05) 0%, transparent 50%) !important;
+}
+
+.message.agent-category-data {
+  background: linear-gradient(90deg, rgba(0, 188, 212, 0.05) 0%, transparent 50%) !important;
+}
+
+.message.agent-category-business {
+  background: linear-gradient(90deg, rgba(253, 216, 53, 0.05) 0%, transparent 50%) !important;
+}
+
+.message.agent-category-innovation {
+  background: linear-gradient(90deg, rgba(233, 30, 99, 0.05) 0%, transparent 50%) !important;
+}

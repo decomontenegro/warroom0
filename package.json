@@ -20,6 +20,7 @@
     "warroom": "./warroom-cli.js"
   },
   "dependencies": {
+    "@anthropic-ai/claude-code": "^1.0.51",
     "@react-three/drei": "^9.88.0",
     "@react-three/fiber": "^8.15.0",
     "@tailwindcss/postcss": "^4.1.11",
