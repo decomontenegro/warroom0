@@ -1,0 +1,40 @@
+/* Fix minimalista - apenas corrigir z-index sem quebrar o layout */
+
+/* Sidebar dos especialistas - manter baixo z-index */
+.warroom-whatsapp .sidebar {
+  z-index: 10 !important;
+}
+
+/* Chat area e messages container - z-index médio */
+.warroom-whatsapp .chat-area {
+  z-index: 20 !important;
+  position: relative !important;
+}
+
+.warroom-whatsapp .messages-container {
+  z-index: 30 !important;
+  position: relative !important;
+}
+
+/* Mensagens individuais - z-index alto */
+.warroom-whatsapp .message {
+  position: relative !important;
+  z-index: 40 !important;
+}
+
+/* Message bubbles - z-index mais alto */
+.warroom-whatsapp .message-bubble {
+  position: relative !important;
+  z-index: 50 !important;
+}
+
+/* Prompt builder específico - manter baixo */
+.warroom-whatsapp .message.message-special.message-detailed-prompt {
+  z-index: 5 !important;
+}
+
+/* Input area - sempre no topo */
+.warroom-whatsapp .chat-input-area {
+  z-index: 100 !important;
+  position: relative !important;
+}

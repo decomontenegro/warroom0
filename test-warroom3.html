@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test WarRoom3</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0D1117;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .link {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #FF9800 0%, #FF6F00 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+        }
+        .info {
+            background: #1F242A;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid rgba(0, 92, 235, 0.2);
+        }
+        h1 {
+            background: linear-gradient(135deg, #9C27B0 0%, #005CEB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .status {
+            padding: 10px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WarRoom3 Test Page</h1>
+        
+        <div class="info">
+            <h2>Status do Servidor</h2>
+            <div id="serverStatus" class="status">Verificando...</div>
+        </div>
+        
+        <div class="info">
+            <h2>Links Disponíveis:</h2>
+            <a href="http://localhost:5173/" class="link">🏠 Home</a>
+            <a href="http://localhost:5173/warroom" class="link">🎯 WarRoom Classic</a>
+            <a href="http://localhost:5173/warroom-v2" class="link">🚀 WarRoom v2</a>
+            <a href="http://localhost:5173/warroom3" class="link">💬 WarRoom 3.0</a>
+        </div>
+        
+        <div class="info">
+            <h2>Teste de Conexão WebSocket:</h2>
+            <div id="wsStatus" class="status">Não conectado</div>
+        </div>
+        
+        <div class="info">
+            <h2>Console de Erros:</h2>
+            <div id="errorConsole" style="background: #000; padding: 10px; border-radius: 5px; font-family: monospace; min-height: 100px;">
+                Aguardando...
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Verificar servidor
+        fetch('http://localhost:5173/')
+            .then(response => {
+                document.getElementById('serverStatus').innerHTML = '✅ Servidor rodando em http://localhost:5173/';
+                document.getElementById('serverStatus').className = 'status';
+            })
+            .catch(error => {
+                document.getElementById('serverStatus').innerHTML = '❌ Servidor não está respondendo: ' + error.message;
+                document.getElementById('serverStatus').className = 'status error';
+            });
+        
+        // Testar WebSocket
+        try {
+            const ws = new WebSocket('ws://localhost:3456');
+            ws.onopen = () => {
+                document.getElementById('wsStatus').innerHTML = '✅ WebSocket conectado';
+                document.getElementById('wsStatus').className = 'status';
+            };
+            ws.onerror = (error) => {
+                document.getElementById('wsStatus').innerHTML = '❌ Erro no WebSocket';
+                document.getElementById('wsStatus').className = 'status error';
+            };
+            ws.onclose = () => {
+                document.getElementById('wsStatus').innerHTML = '⚠️ WebSocket desconectado';
+                document.getElementById('wsStatus').className = 'status error';
+            };
+        } catch (error) {
+            document.getElementById('wsStatus').innerHTML = '❌ Erro ao criar WebSocket: ' + error.message;
+            document.getElementById('wsStatus').className = 'status error';
+        }
+        
+        // Capturar erros
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            const errorDiv = document.getElementById('errorConsole');
+            errorDiv.innerHTML += `<div style="color: #ff5555; margin: 5px 0;">
+                ${new Date().toLocaleTimeString()} - ${msg}<br>
+                Arquivo: ${url}<br>
+                Linha: ${lineNo}, Coluna: ${columnNo}
+            </div>`;
+            return false;
+        };
+        
+        // Log inicial
+        document.getElementById('errorConsole').innerHTML = '<div style="color: #50fa7b;">Console iniciado...</div>';
+    </script>
+</body>
+</html>

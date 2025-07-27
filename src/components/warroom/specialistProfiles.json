@@ -1,0 +1,62 @@
+[
+  {
+    "id": "frontend-expert",
+    "name": "Frontend Expert",
+    "avatar": "🎨",
+    "expertise": "React, Vue, Angular, CSS"
+  },
+  {
+    "id": "backend-expert",
+    "name": "Backend Expert",
+    "avatar": "🔧",
+    "expertise": "Node.js, Python, Java, APIs"
+  },
+  {
+    "id": "devops-expert",
+    "name": "DevOps Expert",
+    "avatar": "🚀",
+    "expertise": "Docker, K8s, CI/CD, Cloud"
+  },
+  {
+    "id": "ai-ml-expert",
+    "name": "AI/ML Expert",
+    "avatar": "🤖",
+    "expertise": "Machine Learning, Deep Learning"
+  },
+  {
+    "id": "mobile-expert",
+    "name": "Mobile Expert",
+    "avatar": "📱",
+    "expertise": "React Native, Flutter, Swift"
+  },
+  {
+    "id": "database-expert",
+    "name": "Database Expert",
+    "avatar": "🗄️",
+    "expertise": "SQL, NoSQL, PostgreSQL, MongoDB"
+  },
+  {
+    "id": "security-expert",
+    "name": "Security Expert",
+    "avatar": "🔒",
+    "expertise": "Cybersecurity, Penetration Testing"
+  },
+  {
+    "id": "cloud-expert",
+    "name": "Cloud Expert",
+    "avatar": "☁️",
+    "expertise": "AWS, Azure, GCP"
+  },
+  {
+    "id": "blockchain-expert",
+    "name": "Blockchain Expert",
+    "avatar": "⛓️",
+    "expertise": "Smart Contracts, Web3, DeFi"
+  },
+  {
+    "id": "ux-ui-expert",
+    "name": "UX/UI Expert",
+    "avatar": "🎯",
+    "expertise": "Design Systems, User Research"
+  }
+]

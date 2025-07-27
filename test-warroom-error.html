@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug WarRoom WhatsApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #0D1117;
+            color: white;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: rgba(22, 27, 34, 0.9);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 92, 235, 0.3);
+        }
+        .error {
+            color: #FF5555;
+            background: rgba(255, 85, 85, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        .success {
+            color: #50FA7B;
+            background: rgba(80, 250, 123, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .log {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .btn {
+            background: #FF9800;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #FF6F00;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #FF9800;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Debug do WarRoom WhatsApp</h1>
+        
+        <div class="test-section">
+            <h2>1. Teste de Carregamento do React</h2>
+            <button class="btn" onclick="testReact()">Testar React</button>
+            <div id="react-test"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>2. Teste de Importações</h2>
+            <button class="btn" onclick="testImports()">Verificar Importações</button>
+            <div id="import-test"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>3. Console do Navegador</h2>
+            <button class="btn" onclick="captureConsole()">Capturar Erros do Console</button>
+            <div id="console-errors" class="log"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>4. Teste Direto do WarRoom</h2>
+            <button class="btn" onclick="loadWarRoom()">Carregar WarRoom em iframe</button>
+            <button class="btn" onclick="openWarRoom()">Abrir em Nova Aba</button>
+            <iframe id="warroom-frame" style="display:none;"></iframe>
+        </div>
+        
+        <div class="test-section">
+            <h2>5. Verificar Arquivos Críticos</h2>
+            <button class="btn" onclick="checkFiles()">Verificar Arquivos</button>
+            <div id="file-check"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Capturar erros globais
+        window.addEventListener('error', (e) => {
+            const errorDiv = document.getElementById('console-errors');
+            errorDiv.innerHTML += `<div class="error">
+                <strong>Erro Global:</strong><br>
+                Mensagem: ${e.message}<br>
+                Arquivo: ${e.filename}<br>
+                Linha: ${e.lineno}, Coluna: ${e.colno}<br>
+                Stack: ${e.error?.stack || 'N/A'}
+            </div>`;
+        });
+        
+        function testReact() {
+            const resultDiv = document.getElementById('react-test');
+            
+            fetch('http://localhost:5173/')
+                .then(response => response.text())
+                .then(html => {
+                    // Verificar se o HTML contém o ponto de montagem do React
+                    if (html.includes('id="root"')) {
+                        resultDiv.innerHTML = '<div class="success">✅ HTML contém div#root</div>';
+                    } else {
+                        resultDiv.innerHTML = '<div class="error">❌ div#root não encontrado no HTML</div>';
+                    }
+                    
+                    // Verificar se há scripts do Vite
+                    if (html.includes('type="module"')) {
+                        resultDiv.innerHTML += '<div class="success">✅ Scripts do Vite detectados</div>';
+                    } else {
+                        resultDiv.innerHTML += '<div class="error">❌ Scripts do Vite não encontrados</div>';
+                    }
+                    
+                    // Mostrar parte do HTML
+                    const preview = html.substring(0, 500) + '...';
+                    resultDiv.innerHTML += `<div class="log">Preview do HTML:<br><pre>${escapeHtml(preview)}</pre></div>`;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<div class="error">❌ Erro ao buscar página: ${error.message}</div>`;
+                });
+        }
+        
+        function testImports() {
+            const resultDiv = document.getElementById('import-test');
+            const criticalFiles = [
+                '/src/components/warroom/WarRoomWhatsApp.jsx',
+                '/warroom-agents-100.json',
+                '/src/services/i18n-config.js',
+                '/src/services/ultrathink-workflow-enhanced.js'
+            ];
+            
+            resultDiv.innerHTML = '<div class="log">Verificando arquivos críticos...</div>';
+            
+            criticalFiles.forEach(file => {
+                fetch(`http://localhost:5173${file}`)
+                    .then(response => {
+                        if (response.ok) {
+                            resultDiv.innerHTML += `<div class="success">✅ ${file} - OK (${response.status})</div>`;
+                        } else {
+                            resultDiv.innerHTML += `<div class="error">❌ ${file} - Erro ${response.status}</div>`;
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.innerHTML += `<div class="error">❌ ${file} - ${error.message}</div>`;
+                    });
+            });
+        }
+        
+        function captureConsole() {
+            const errorDiv = document.getElementById('console-errors');
+            errorDiv.innerHTML = '<div class="log">Monitorando console... Abra o WarRoom para capturar erros.</div>';
+            
+            // Sobrescrever console.error temporariamente
+            const originalError = console.error;
+            console.error = function(...args) {
+                errorDiv.innerHTML += `<div class="error">Console Error: ${args.join(' ')}</div>`;
+                originalError.apply(console, args);
+            };
+            
+            // Restaurar após 30 segundos
+            setTimeout(() => {
+                console.error = originalError;
+                errorDiv.innerHTML += '<div class="log">Monitoramento do console finalizado.</div>';
+            }, 30000);
+        }
+        
+        function loadWarRoom() {
+            const iframe = document.getElementById('warroom-frame');
+            iframe.style.display = 'block';
+            iframe.src = 'http://localhost:5173/warroom';
+            
+            iframe.onload = () => {
+                console.log('WarRoom carregado no iframe');
+                try {
+                    // Tentar acessar o documento do iframe
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    console.log('Título do iframe:', iframeDoc.title);
+                } catch (e) {
+                    console.error('Erro ao acessar iframe:', e);
+                }
+            };
+        }
+        
+        function openWarRoom() {
+            window.open('http://localhost:5173/warroom', '_blank');
+        }
+        
+        function checkFiles() {
+            const resultDiv = document.getElementById('file-check');
+            
+            // Verificar manifest.json do Vite
+            fetch('http://localhost:5173/manifest.json')
+                .then(response => response.json())
+                .then(manifest => {
+                    resultDiv.innerHTML = '<div class="success">✅ Manifest do Vite encontrado</div>';
+                    resultDiv.innerHTML += `<div class="log">Entries: ${Object.keys(manifest).join(', ')}</div>`;
+                })
+                .catch(() => {
+                    // Normal não ter manifest em dev
+                    resultDiv.innerHTML = '<div class="log">ℹ️ Manifest não encontrado (normal em dev)</div>';
+                });
+            
+            // Verificar rota específica do WarRoom
+            fetch('http://localhost:5173/warroom')
+                .then(response => {
+                    resultDiv.innerHTML += `<div class="success">✅ Rota /warroom respondeu com status ${response.status}</div>`;
+                    return response.text();
+                })
+                .then(html => {
+                    // Verificar se é a página correta
+                    if (html.includes('WarRoom') || html.includes('warroom')) {
+                        resultDiv.innerHTML += '<div class="success">✅ HTML contém referências ao WarRoom</div>';
+                    } else {
+                        resultDiv.innerHTML += '<div class="error">❌ HTML não parece conter o WarRoom</div>';
+                    }
+                })
+                .catch(error => {
+                    resultDiv.innerHTML += `<div class="error">❌ Erro ao verificar rota: ${error.message}</div>`;
+                });
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Teste automático ao carregar
+        window.onload = () => {
+            console.log('Página de debug carregada. Use os botões para testar.');
+        };
+    </script>
+</body>
+</html>

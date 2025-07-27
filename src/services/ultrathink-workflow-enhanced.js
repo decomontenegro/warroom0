@@ -10,6 +10,11 @@ import ContextualPromptBuilder from './contextual-prompt-builder.js';
 import AdvancedSynthesizer from './advanced-synthesizer.js';
 import { i18n } from './i18n-config.js';
 import { generateAgentResponse } from './agent-response-templates.js';
+import contextualResponseGenerator from './contextual-response-generator.js';
+import deepContextAnalyzer from './deep-context-analyzer.js';
+import enhancedMetaAgent from './enhanced-meta-agent.js';
+import agentProfileManager from './agent-profile-manager.js';
+import agentDeduplicationManager from './agent-deduplication-manager.js';
 
 export class UltrathinkWorkflowEnhanced {
   constructor() {
@@ -57,6 +62,23 @@ export class UltrathinkWorkflowEnhanced {
   async executeAdvancedWorkflow(input, options = {}) {
     console.log('🚀 Starting UltraThink Enhanced Workflow');
     
+    // Suportar tanto string quanto objeto com originalQuery/currentQuery
+    let originalQuery, currentQuery;
+    if (typeof input === 'string') {
+      originalQuery = input;
+      currentQuery = input;
+    } else if (input && typeof input === 'object') {
+      originalQuery = input.originalQuery || input.currentQuery || '';
+      currentQuery = input.currentQuery || input.originalQuery || '';
+    }
+    
+    // DEBUG: Log queries
+    console.log('🔍 [UltraThink] Queries:', {
+      originalQuery,
+      currentQuery,
+      inputType: typeof input
+    });
+    
     const {
       documentType = 'auto',
       maxAgents = 15,
@@ -64,11 +86,18 @@ export class UltrathinkWorkflowEnhanced {
       targetSystem = 'claude-code',
       progressCallback = null
     } = options;
+    
+    // Iniciar nova sessão de deduplicação
+    const sessionId = `session-${Date.now()}`;
+    agentDeduplicationManager.startNewSession(sessionId);
+    this.workflowState.sessionId = sessionId;
 
     try {
       // Fase 1: Análise profunda do documento
       if (progressCallback) progressCallback('document_analysis', null, this.i18n.t('system.analyzing'));
-      const documentAnalysis = await this.analyzeDocument(input, documentType);
+      // Usar currentQuery para análise, mas preservar originalQuery no state
+      const documentAnalysis = await this.analyzeDocument(currentQuery, documentType);
+      documentAnalysis.originalQuery = originalQuery; // Preservar query original
       this.workflowState.documentAnalysis = documentAnalysis;
       
       // Fase 2: Seleção inteligente de agentes
@@ -140,6 +169,7 @@ export class UltrathinkWorkflowEnhanced {
       return {
         type: 'query',
         content: input,
+        query: input, // Adicionar query explicitamente
         complexity: { complexity: 'low' },
         technicalDomain: this.inferDomainFromQuery(input),
         concepts: { technical: [], architectural: [], mathematical: [], business: [] },
@@ -189,10 +219,17 @@ export class UltrathinkWorkflowEnhanced {
     const responses = [];
     const phases = ['analysis', 'design', 'implementation', 'validation'];
     
+    // Usar deduplicação para distribuir agentes
+    const agentDistribution = agentDeduplicationManager.distributeAgentsAcrossPhases(
+      this.workflowState.sessionId,
+      agentSelection.selectedAgents,
+      phases
+    );
+    
     for (const phase of phases) {
       console.log(`\n📋 Executing phase: ${phase.toUpperCase()}`);
       
-      const phaseAgents = agentSelection.teams[phase] || [];
+      const phaseAgents = agentDistribution.get(phase) || [];
       if (phaseAgents.length === 0) continue;
       
       // Anunciar fase
@@ -232,8 +269,14 @@ export class UltrathinkWorkflowEnhanced {
   async executePhaseAgents(agents, input, documentAnalysis, phase, previousResponses, progressCallback) {
     const phaseResponses = [];
     
+    // Resetar agentes usados no início de cada execução completa
+    if (phase === 'analysis') {
+      agentProfileManager.resetUsedAgents();
+    }
+    
     for (let i = 0; i < agents.length; i++) {
-      const agent = agents[i];
+      // Garantir que pegamos um agente único
+      const agent = agentProfileManager.getUniqueAgent(agents[i].id);
       
       if (progressCallback) {
         progressCallback(phase, agent, this.i18n.t('agent.thinking', { agent: agent.name }));
@@ -245,7 +288,8 @@ export class UltrathinkWorkflowEnhanced {
       }
       
       try {
-        // Construir prompt contextualizado
+        // Construir prompt contextualizado com perfil único
+        const personalityContext = agentProfileManager.buildPersonalityContext(agent);
         const prompt = this.promptBuilder.buildPrompt(
           agent,
           documentAnalysis,
@@ -254,12 +298,13 @@ export class UltrathinkWorkflowEnhanced {
             phase,
             previousContext: this.extractRelevantContext(previousResponses, agent),
             specificFocus: this.determineAgentFocus(agent, documentAnalysis),
-            outputFormat: 'detailed'
+            outputFormat: 'detailed',
+            personalityContext: personalityContext
           }
         );
         
         // Executar agente
-        const response = await this.runAgentWithPrompt(agent, prompt);
+        let response = await this.runAgentWithPrompt(agent, prompt);
         
         // Adicionar delay após resposta para visualização
         await this.simulateProcessing(300);
@@ -269,6 +314,19 @@ export class UltrathinkWorkflowEnhanced {
           // Formatar resposta para exibição
           const formattedResponse = `**${agent.name} (${agent.role})**\n\n${response}`;
           progressCallback(phase, agent, formattedResponse);
+        }
+        
+        // Verificar unicidade da resposta
+        const isUnique = agentDeduplicationManager.trackAgentResponse(
+          this.workflowState.sessionId,
+          agent.id,
+          response
+        );
+        
+        if (!isUnique) {
+          console.warn(`Agent ${agent.name} response not unique, regenerating...`);
+          // Tentar gerar resposta única novamente
+          response = await this.runAgentWithPrompt(agent, prompt);
         }
         
         phaseResponses.push({
@@ -323,22 +381,43 @@ export class UltrathinkWorkflowEnhanced {
   }
 
   /**
-   * Gera simulação aprimorada baseada no contexto
+   * Gera simulação aprimorada baseada no contexto e perfil único
    */
   generateEnhancedSimulation(agent, prompt) {
     const context = prompt.messages.find(m => m.role === 'user').content;
-    const isWhitepaper = context.includes('whitepaper');
-    const isBlockchain = context.toLowerCase().includes('blockchain');
-    const isFanBet = context.toLowerCase().includes('fanbet');
     
-    let response = '';
+    // Extrair a pergunta original do usuário do contexto
+    let userQuery = context;
+    const queryMatch = context.match(/Document Extract:\s*(.+?)(?:\n\nSpecific Analysis|$)/s);
+    if (queryMatch) {
+      userQuery = queryMatch[1].trim();
+    }
     
-    // Tentar usar o sistema de templates multiidioma primeiro
+    // DEBUG: Log query extraída
+    console.log('🔎 [UltraThink] Query extraída para agente:', {
+      agent: agent.name,
+      userQuery: userQuery.substring(0, 100) + '...',
+      contextLength: context.length
+    });
+    
+    // Usar análise profunda de contexto
     try {
-      response = generateAgentResponse(agent, context, this.language);
+      console.log('🤖 [UltraThink] Tentando deepContextAnalyzer para:', agent.name);
+      const deepContext = deepContextAnalyzer.analyzeDeepContext(userQuery);
+      const response = deepContextAnalyzer.generateValueDrivenResponse(agent, userQuery, deepContext);
+      console.log('✅ [UltraThink] Resposta gerada com sucesso via deepContext');
       return response;
-    } catch (templateError) {
-      console.warn('Template generation failed, using fallback:', templateError);
+    } catch (error) {
+      console.warn('⚠️ [UltraThink] Deep context generation failed, using fallback:', error);
+      // Tentar gerador contextual básico
+      try {
+        console.log('🔄 [UltraThink] Tentando contextualResponseGenerator');
+        const contextAnalysis = contextualResponseGenerator.analyzeContext(userQuery);
+        return contextualResponseGenerator.generateAgentResponse(agent, userQuery, contextAnalysis);
+      } catch (fallbackError) {
+        console.warn('❌ [UltraThink] All generators failed, using template:', fallbackError);
+        return generateAgentResponse(agent, context, this.language);
+      }
     }
     
     // Fallback: Respostas específicas baseadas no papel do agente
@@ -927,18 +1006,52 @@ Baseado em minhas competências em ${capabilities}, sugiro atenção especial ao
   async synthesizeResults(agentResponses, documentAnalysis, options) {
     console.log('🔄 Synthesizing results from all agents...');
     
-    // Configurar idioma no synthesizer
-    this.synthesizer.setLanguage(this.language);
-    
-    const synthesis = await this.synthesizer.synthesize(
-      agentResponses,
-      documentAnalysis,
-      options
-    );
-    
-    console.log('Synthesis confidence metrics:', synthesis.metrics);
-    
-    return synthesis;
+    // Tentar usar o enhanced meta agent primeiro
+    try {
+      // Extrair a pergunta original se disponível
+      const userInput = documentAnalysis.content || documentAnalysis.query || '';
+      const deepContext = deepContextAnalyzer.analyzeDeepContext(userInput);
+      
+      // Incluir informação sobre query original vs refinada
+      const queryContext = {
+        originalQuery: documentAnalysis.originalQuery || userInput,
+        currentQuery: userInput,
+        isRefined: documentAnalysis.originalQuery !== userInput
+      };
+      
+      const enhancedSynthesis = enhancedMetaAgent.synthesizeResponses(
+        agentResponses,
+        userInput,
+        deepContext,
+        queryContext
+      );
+      
+      // Formatar para o formato esperado
+      return {
+        synthesis: enhancedSynthesis,
+        metrics: {
+          overallConfidence: enhancedSynthesis.confidence_analysis?.consensus_level || 0.8,
+          consensusStrength: enhancedSynthesis.confidence_analysis?.consensus_level || 0.8,
+          analysisDepth: 0.9,
+          executionTime: Date.now()
+        }
+      };
+    } catch (error) {
+      console.warn('Enhanced synthesis failed, using default:', error);
+      
+      // Fallback para o synthesizer padrão
+      this.synthesizer.setLanguage(this.language);
+      
+      const synthesis = await this.synthesizer.synthesize(
+        agentResponses,
+        documentAnalysis,
+        options
+      );
+      
+      console.log('Synthesis confidence metrics:', synthesis.metrics);
+      
+      return synthesis;
+    }
   }
 
   /**

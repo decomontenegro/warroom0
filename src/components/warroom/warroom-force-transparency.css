@@ -1,0 +1,187 @@
+/* FORÇA TRANSPARÊNCIA TOTAL - Remove TODOS os fundos */
+
+/* Reset total de fundos */
+* {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Body e HTML transparentes */
+html {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+body {
+  background: transparent !important;
+  background-color: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Root transparente */
+#root {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  min-height: 100vh !important;
+  animation: none !important;
+}
+
+/* App wrapper transparente */
+.App,
+.app,
+[class*="app"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* WarRoom com transparência de 50% */
+.warroom-whatsapp {
+  background: rgba(0, 0, 0, 0.5) !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* Chat area com 50% transparência */
+.warroom-whatsapp .chat-area {
+  background: rgba(13, 17, 23, 0.5) !important;
+  background-color: rgba(13, 17, 23, 0.5) !important;
+}
+
+/* Messages transparente */
+.warroom-whatsapp .messages-container {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Chat wrapper transparente */
+.warroom-whatsapp .chat-content-wrapper {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Header semi-transparente */
+.warroom-whatsapp .chat-header {
+  background: rgba(22, 27, 34, 0.5) !important;
+  background-color: rgba(22, 27, 34, 0.5) !important;
+}
+
+/* Input area semi-transparente */
+.warroom-whatsapp .chat-input-area {
+  background: rgba(22, 27, 34, 0.5) !important;
+  background-color: rgba(22, 27, 34, 0.5) !important;
+}
+
+/* Sidebar com mais opacidade para legibilidade */
+.warroom-whatsapp .sidebar {
+  background: rgba(22, 27, 34, 0.8) !important;
+  background-color: rgba(22, 27, 34, 0.8) !important;
+}
+
+/* Mensagens com fundo leve */
+.warroom-whatsapp .message-bubble {
+  background: rgba(30, 40, 55, 0.6) !important;
+  background-color: rgba(30, 40, 55, 0.6) !important;
+}
+
+/* Remove TODOS os pseudo-elementos */
+*::before,
+*::after {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
+}
+
+/* Remove animações de fundo */
+@keyframes backgroundShift {
+  from, to { background: transparent !important; }
+}
+
+/* Remove qualquer sobreposição */
+[class*="overlay"],
+[class*="backdrop"],
+[class*="background"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Força transparência em elementos específicos do React */
+#root > div {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#root > div > div {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Remove qualquer div com fundo */
+div[style*="background"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Importante: mantém apenas elementos com rgba */
+[style*="rgba"] {
+  /* Permite que elementos com rgba mantenham suas cores */
+}
+
+/* Debug - borda vermelha em elementos com fundo */
+*:not([style*="rgba"]) {
+  /* background: transparent !important; */
+}
+
+/* Garante que o HTML seja transparente */
+:root {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Remove qualquer canvas ou overlay de fundo */
+canvas,
+.canvas-background,
+.app-background {
+  display: none !important;
+}
+
+/* Força transparência no estilo inline */
+[style] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Exceção apenas para elementos com rgba explícito */
+.warroom-whatsapp [style*="rgba"] {
+  /* Mantém o rgba */
+}
+
+/* Window controls */
+.warroom-whatsapp .window-controls {
+  background: rgba(22, 27, 34, 0.5) !important;
+}
+
+/* Agent network map */
+.warroom-whatsapp .agent-network-map {
+  background: rgba(22, 27, 34, 0.5) !important;
+}
+
+/* Input field */
+.warroom-whatsapp .chat-input {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Agent name badges */
+.warroom-whatsapp .agent-name {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Buttons */
+.warroom-whatsapp button {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* IMPORTANTE: Este CSS deve ser o ÚLTIMO a ser carregado */

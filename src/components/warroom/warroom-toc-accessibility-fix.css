@@ -1,0 +1,324 @@
+/* WarRoom TOC Accessibility Fix - v1.0 */
+/* Correções críticas de acessibilidade para pessoas com TOC */
+/* Aplicar APÓS os CSS originais */
+
+/* ==================== VARIÁVEIS GLOBAIS ==================== */
+:root {
+  /* Sistema de Grid rigoroso baseado em 8px */
+  --grid-unit: 8px;
+  --spacing-xs: 8px;   /* 1 unit */
+  --spacing-sm: 16px;  /* 2 units */
+  --spacing-md: 24px;  /* 3 units */
+  --spacing-lg: 32px;  /* 4 units */
+  --spacing-xl: 48px;  /* 6 units */
+  
+  /* Cores com contraste WCAG AAA */
+  --color-bg-primary: #0D1117;
+  --color-bg-secondary: #161B22;
+  --color-bg-tertiary: #1C2128;
+  
+  /* Superfícies interativas com contraste adequado */
+  --color-surface-1: rgba(255, 255, 255, 0.08);
+  --color-surface-2: rgba(255, 255, 255, 0.12);
+  --color-surface-3: rgba(255, 255, 255, 0.16);
+  
+  /* Bordas visíveis e consistentes */
+  --color-border-default: rgba(255, 255, 255, 0.25);
+  --color-border-hover: rgba(255, 255, 255, 0.35);
+  --color-border-focus: #2196F3;
+  
+  /* Texto acessível */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #C9D1D9;
+  --color-text-tertiary: #8B949E;
+}
+
+/* ==================== RESET PARA PRECISÃO ==================== */
+* {
+  box-sizing: border-box !important;
+}
+
+/* ==================== CORREÇÃO CRÍTICA: INPUT VISÍVEL ==================== */
+.query-input,
+.search-input,
+textarea[class*="input"],
+input[type="text"],
+input[type="search"] {
+  /* Background visível com contraste adequado */
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  color: #FFFFFF !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  padding: 12px 16px !important;
+  min-height: 48px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  
+  /* Garantir visibilidade */
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 10 !important;
+}
+
+/* Estado de foco com feedback claro */
+.query-input:focus,
+.search-input:focus,
+textarea[class*="input"]:focus,
+input[type="text"]:focus,
+input[type="search"]:focus {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: #2196F3 !important;
+  box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.3) !important;
+  outline: none !important;
+}
+
+/* Placeholder visível */
+.query-input::placeholder,
+.search-input::placeholder,
+textarea[class*="input"]::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 500 !important;
+  opacity: 1 !important;
+}
+
+/* ==================== ALINHAMENTO PERFEITO ==================== */
+.warroom-redesigned,
+.warroom-whatsapp {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh !important;
+}
+
+/* Headers alinhados */
+.warroom-header,
+.sidebar-header,
+.chat-header {
+  height: 64px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 var(--spacing-md) !important;
+  border-bottom: 2px solid var(--color-border-default) !important;
+}
+
+/* Conteúdo principal */
+.warroom-main,
+.main-content,
+.chat-messages {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: var(--spacing-md) !important;
+  scroll-behavior: smooth !important;
+}
+
+/* Footer/Input area */
+.warroom-footer,
+.input-area,
+.message-input-container {
+  min-height: 88px !important;
+  padding: var(--spacing-sm) var(--spacing-md) !important;
+  border-top: 2px solid var(--color-border-default) !important;
+  background: var(--color-bg-secondary) !important;
+}
+
+/* Container de input centralizado */
+.input-container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  display: flex !important;
+  gap: var(--spacing-sm) !important;
+  align-items: center !important;
+}
+
+/* ==================== BOTÕES SIMÉTRICOS ==================== */
+button,
+.button,
+[role="button"],
+.send-button,
+.pref-btn {
+  min-width: 44px !important;
+  min-height: 44px !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border: 2px solid transparent !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+/* Botão de enviar sempre visível */
+.send-button {
+  background: #2196F3 !important;
+  color: white !important;
+  border-color: #2196F3 !important;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #1976D2 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3) !important;
+}
+
+.send-button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* ==================== MENSAGENS ALINHADAS ==================== */
+.message,
+.chat-message,
+[class*="message"] {
+  margin-bottom: var(--spacing-sm) !important;
+  padding: var(--spacing-sm) !important;
+  border-radius: 8px !important;
+  position: relative !important;
+}
+
+/* ==================== EXECUTIVE SUMMARY ALINHADO ==================== */
+.executive-summary {
+  padding: var(--spacing-lg) !important;
+  margin: var(--spacing-md) 0 !important;
+  border: 2px solid var(--color-border-default) !important;
+  border-radius: 16px !important;
+  background: var(--color-bg-secondary) !important;
+}
+
+/* ==================== PROGRESSIVE DISCLOSURE SIMÉTRICO ==================== */
+.layer-indicator {
+  padding: var(--spacing-md) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: var(--spacing-md) !important;
+}
+
+.layer-dot {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  border: 2px solid var(--color-border-default) !important;
+}
+
+/* ==================== SIDEBAR ALINHADA (v1) ==================== */
+.sidebar {
+  width: 320px !important;
+  border-right: 2px solid var(--color-border-default) !important;
+}
+
+.chat-list-item {
+  padding: var(--spacing-sm) var(--spacing-md) !important;
+  border-bottom: 1px solid var(--color-border-default) !important;
+  min-height: 72px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--spacing-sm) !important;
+}
+
+/* ==================== INDICADORES DE ESTADO ==================== */
+.connection-status {
+  background: var(--color-surface-1) !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  border: 1px solid var(--color-border-default) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.connection-status.connected {
+  border-color: #4CAF50 !important;
+  background: rgba(76, 175, 80, 0.1) !important;
+}
+
+/* ==================== LOADING STATES ==================== */
+.loading,
+.processing-indicator,
+[class*="spinner"] {
+  background: var(--color-surface-1) !important;
+  border: 2px solid var(--color-border-focus) !important;
+  padding: var(--spacing-md) !important;
+  border-radius: 8px !important;
+  margin: var(--spacing-md) auto !important;
+  text-align: center !important;
+}
+
+/* ==================== SCROLLBAR CONSISTENTE ==================== */
+*::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary) !important;
+  border: 1px solid var(--color-border-default) !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-surface-3) !important;
+  border-radius: 6px !important;
+  border: 2px solid var(--color-bg-secondary) !important;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ==================== FOCUS STATES UNIVERSAIS ==================== */
+*:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.5) !important;
+}
+
+*:focus:not(:focus-visible) {
+  box-shadow: none !important;
+}
+
+/* ==================== MODO ALTO CONTRASTE ==================== */
+@media (prefers-contrast: high) {
+  .query-input,
+  .search-input,
+  textarea[class*="input"] {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 3px solid rgba(255, 255, 255, 0.5) !important;
+    color: #FFFFFF !important;
+  }
+  
+  button,
+  .button {
+    border-width: 3px !important;
+  }
+}
+
+/* ==================== ANIMAÇÕES REDUZIDAS PARA TOC ==================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==================== GARANTIR VISIBILIDADE DO INPUT ==================== */
+.warroom-footer .query-input {
+  position: relative !important;
+  z-index: 100 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ==================== MODO ESCURO FORÇADO ==================== */
+.warroom-redesigned *,
+.warroom-whatsapp * {
+  color-scheme: dark !important;
+}
+
+/* ==================== FIX ESPECÍFICO PARA V2 ==================== */
+.progressive-view .query-input {
+  width: 100% !important;
+  max-width: none !important;
+  flex: 1 !important;
+}

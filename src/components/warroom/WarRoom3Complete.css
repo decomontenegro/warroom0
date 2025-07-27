@@ -1,0 +1,576 @@
+/* WarRoom 3.0 Complete - Todas funcionalidades integradas */
+
+/* ========== CONTAINER PRINCIPAL ========== */
+.warroom3-container {
+  display: flex;
+  height: 100vh;
+  background: #0D1117;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ========== SIDEBAR APRIMORADA ========== */
+.wr3-sidebar {
+  width: 400px;
+  transition: width 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.wr3-sidebar.collapsed {
+  width: 80px;
+}
+
+.wr3-sidebar.collapsed .wr3-specialist-info,
+.wr3-sidebar.collapsed .wr3-search-box,
+.wr3-sidebar.collapsed .wr3-control-btn span {
+  display: none;
+}
+
+/* Language Selector */
+.wr3-language-selector {
+  margin-left: auto;
+}
+
+.wr3-language-select {
+  background: rgba(0, 92, 235, 0.1);
+  border: 1px solid rgba(0, 92, 235, 0.2);
+  border-radius: 20px;
+  padding: 6px 12px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.wr3-language-select option {
+  background: #1F242A;
+  color: #FFFFFF;
+}
+
+/* Controles da Sidebar */
+.wr3-sidebar-controls {
+  display: flex;
+  gap: 10px;
+  padding: 15px 20px;
+  background: #1E2235;
+  border-bottom: 1px solid rgba(0, 92, 235, 0.15);
+}
+
+.wr3-control-btn {
+  flex: 1;
+  padding: 10px 15px;
+  background: transparent;
+  border: 1px solid rgba(0, 92, 235, 0.2);
+  border-radius: 20px;
+  color: #8B92A6;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.wr3-control-btn:hover {
+  background: rgba(0, 92, 235, 0.1);
+  color: #FFFFFF;
+  border-color: #005CEB;
+}
+
+.wr3-control-btn.active {
+  background: linear-gradient(135deg, #FF9800 0%, #FF6F00 100%);
+  border-color: transparent;
+  color: #FFFFFF;
+}
+
+/* ========== MAIN CONTENT AREA ========== */
+.wr3-main-content {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ========== NETWORK PANEL INTEGRADO ========== */
+.wr3-network-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  height: 90vh;
+  max-width: 1200px;
+  max-height: 800px;
+  background: #1F242A;
+  border: 2px solid rgba(0, 92, 235, 0.3);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  animation: zoomIn 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* Overlay escuro atrás do graph */
+.wr3-network-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 17, 23, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wr3-panel-header {
+  padding: 20px 24px;
+  background: rgba(30, 34, 53, 0.95);
+  border-bottom: 1px solid rgba(0, 92, 235, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  border-radius: 20px 20px 0 0;
+  position: relative;
+  z-index: 20;
+}
+
+.wr3-panel-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wr3-close-panel {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.wr3-close-panel:hover {
+  background: #FF9800;
+  border-color: #FF9800;
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 4px 20px rgba(255, 152, 0, 0.4);
+}
+
+.wr3-network-content {
+  flex: 1;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  position: relative;
+  min-height: 0;
+  pointer-events: none;
+}
+
+/* Permitir interação apenas com o SVG */
+.wr3-network-content svg {
+  pointer-events: auto;
+}
+
+/* Ajustes para o AgentNetworkMap dentro do WarRoom3 */
+.wr3-network-content .agent-network-map {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  background: #0D1117 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.wr3-network-content .network-svg {
+  width: 100% !important;
+  height: 100% !important;
+  background: #0D1117 !important;
+}
+
+.wr3-network-content .network-header {
+  background: rgba(30, 34, 53, 0.95) !important;
+  border-bottom: 1px solid rgba(0, 92, 235, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  padding: 12px 16px !important;
+}
+
+.wr3-network-content .mini-controls {
+  background: rgba(31, 36, 42, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 8px !important;
+  margin: 8px !important;
+}
+
+/* Garantir que o graph seja interativo */
+.wr3-network-content svg {
+  cursor: grab !important;
+}
+
+.wr3-network-content svg:active {
+  cursor: grabbing !important;
+}
+
+.wr3-network-content .network-link {
+  pointer-events: none !important;
+}
+
+.wr3-network-content .nodes g {
+  cursor: pointer !important;
+  transition: transform 0.2s ease !important;
+}
+
+.wr3-network-content .nodes g:hover {
+  transform: scale(1.2) !important;
+}
+
+/* ========== CHAT AREA AJUSTÁVEL ========== */
+.wr3-chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Quando o graph está aberto, diminui opacidade do chat */
+.wr3-chat-area.with-graph {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* ========== METRICS PANEL INTEGRADO ========== */
+.wr3-metrics-panel {
+  background: rgba(31, 36, 42, 0.95);
+  border-bottom: 1px solid rgba(0, 92, 235, 0.15);
+  padding: 20px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.wr3-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.wr3-metric-card {
+  background: #1E2235;
+  border: 1px solid rgba(0, 92, 235, 0.15);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+
+.wr3-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 92, 235, 0.2);
+  border-color: #005CEB;
+}
+
+.wr3-metric-icon {
+  font-size: 32px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 92, 235, 0.1);
+  border-radius: 12px;
+}
+
+.wr3-metric-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #8B92A6;
+  font-weight: 500;
+}
+
+.wr3-metric-value {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 1200px) {
+  .wr3-sidebar {
+    width: 350px;
+  }
+  
+  .wr3-network-panel {
+    width: 350px;
+  }
+}
+
+@media (max-width: 992px) {
+  .wr3-sidebar {
+    width: 300px;
+  }
+  
+  .wr3-network-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 100;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .wr3-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .warroom3-container {
+    flex-direction: column;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  .wr3-sidebar {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: auto;
+    max-height: 40vh;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 92, 235, 0.15);
+    box-sizing: border-box;
+  }
+  
+  .wr3-sidebar-controls {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .wr3-main-content {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .wr3-chat-area {
+    width: 100%;
+  }
+  
+  .wr3-network-panel {
+    width: 100%;
+    height: 50vh;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: none;
+    z-index: 1000;
+    border-right: none;
+    border-top: 1px solid rgba(0, 92, 235, 0.15);
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .wr3-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .wr3-metric-card {
+    padding: 15px;
+  }
+  
+  .wr3-metric-icon {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .wr3-metric-value {
+    font-size: 20px;
+  }
+  
+  .wr3-language-select {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .wr3-chat-header {
+    padding: 12px 16px;
+  }
+  
+  .wr3-input-container {
+    padding: 15px;
+  }
+  
+  .wr3-specialist-list {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .wr3-specialist-item {
+    min-width: 80px;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .wr3-specialist-info {
+    display: block !important;
+  }
+  
+  .wr3-specialist-info h4 {
+    font-size: 12px;
+  }
+  
+  .wr3-specialist-info p {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .wr3-sidebar-header h2 {
+    font-size: 20px;
+  }
+  
+  .wr3-control-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .wr3-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wr3-message-bubble {
+    max-width: 85%;
+  }
+  
+  .wr3-input {
+    font-size: 14px;
+    padding: 10px;
+  }
+  
+  .wr3-send-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+/* ========== ANIMAÇÕES ADICIONAIS ========== */
+.wr3-specialist-item {
+  animation: fadeIn 0.3s ease;
+}
+
+.wr3-message {
+  animation: messageSlide 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageSlide {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ========== MELHORIAS DE ACESSIBILIDADE ========== */
+.wr3-control-btn:focus,
+.wr3-specialist-item:focus,
+.wr3-send-btn:focus {
+  outline: 2px solid #005CEB;
+  outline-offset: 2px;
+}
+
+.wr3-input:focus {
+  border-color: #005CEB;
+  box-shadow: 0 0 0 3px rgba(0, 92, 235, 0.2);
+}
+
+/* Dark scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 92, 235, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 92, 235, 0.5);
+}

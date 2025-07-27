@@ -27,15 +27,13 @@
 
 /* Modo expandido */
 .agent-network-map.expanded {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80vw;
-  height: 80vh;
-  z-index: 2000;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 /* Header do mini mapa */
@@ -445,4 +443,70 @@
     opacity: 1;
     transform: scale(1.2);
   }
+}
+
+/* Controles do modo mini */
+.mini-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(13, 17, 23, 0.9);
+  border-top: 1px solid rgba(0, 92, 235, 0.2);
+}
+
+.mini-layout-select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e0e0e0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 50px;
+}
+
+.mini-layout-select:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.mini-layout-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.mini-layout-select option {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  font-size: 14px;
+}
+
+.mini-dynamic-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: #999;
+  transition: color 0.2s;
+}
+
+.mini-dynamic-toggle:hover {
+  color: #e0e0e0;
+}
+
+.mini-dynamic-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.mini-dynamic-toggle span {
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.mini-dynamic-toggle input[type="checkbox"]:checked + span {
+  color: #fbbf24;
+  filter: drop-shadow(0 0 4px #fbbf24);
 }

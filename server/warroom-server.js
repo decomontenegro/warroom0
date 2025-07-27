@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import aiService from './services/ai.js';
+import WarRoomEnhancedHandlers from './services/warroom-handlers-enhanced.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
@@ -16,6 +17,9 @@ const wss = new WebSocketServer({
   server,
   path: '/warroom-ws'
 });
+
+// Instanciar o handler enhanced
+const handlers = new WarRoomEnhancedHandlers();
 
 app.use(cors());
 app.use(express.json());
@@ -38,6 +42,19 @@ wss.on('connection', (ws) => {
       const data = JSON.parse(message.toString());
       console.log('Received message:', data.type);
       
+      
+      // Handler para mensagens do usuário
+      if (data.type === 'user_message') {
+        handlers.handleUserMessage(ws, data);
+        return;
+      }
+      
+      // Handler para queries do ultrathink
+      if (data.type === 'ultrathink_query') {
+        handlers.handleUltraThinkQuery(ws, data);
+        return;
+      }
+
       if (data.type === 'agent-request') {
         const { agent, task, phase, capabilities, language = 'pt-BR' } = data;
         

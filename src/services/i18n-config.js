@@ -46,6 +46,25 @@ export const SUPPORTED_LANGUAGES = {
 // Traduções para o sistema UltraThink
 export const translations = {
   'pt-BR': {
+    // WarRoom3 translations
+    warroom: {
+      chats: 'Chats',
+      specialists: 'Especialistas',
+      searchSpecialists: 'Buscar especialistas...',
+      allSpecialists: 'Todos os Especialistas',
+      askAll100Specialists: 'Pergunte para todos os 100+ especialistas',
+      specialistsOnline: 'especialistas online',
+      viewSpecialistsGraph: 'Ver Graph de Especialistas',
+      promptBuilder: 'Construtor de Prompt',
+      viewMetrics: 'Ver Métricas',
+      search: 'Buscar',
+      menu: 'Menu',
+      startConversation: 'Inicie uma conversa',
+      askQuestionToSpecialists: 'Faça uma pergunta aos especialistas',
+      attach: 'Anexar',
+      typeMessage: 'Digite uma mensagem...',
+      send: 'Enviar'
+    },
     // Mensagens do sistema
     system: {
       analyzing: 'Analisando documento...',

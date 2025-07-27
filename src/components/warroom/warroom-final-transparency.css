@@ -1,0 +1,138 @@
+/* SOLUÇÃO FINAL - Remove conflitos dos CSS anteriores */
+
+/* Sobrescreve warroom-transparent-background.css */
+#root {
+  background: transparent !important;
+  background-image: none !important;
+  animation: none !important;
+}
+
+/* Sobrescreve warroom-glass-effect.css */
+#root {
+  animation: none !important;
+}
+
+/* Remove qualquer animação de background */
+@keyframes backgroundShift {
+  from, to { 
+    background: transparent !important;
+    background-position: 0 0 !important;
+  }
+}
+
+/* Garante transparência em todos os níveis */
+html {
+  background: transparent !important;
+}
+
+body {
+  background: transparent !important;
+}
+
+/* WarRoom principal com 50% de transparência */
+.warroom-whatsapp {
+  /* Cor de fundo escura com 50% de transparência */
+  background: rgba(13, 17, 23, 0.5) !important;
+  /* Remove qualquer outro background */
+  background-image: none !important;
+  /* Efeito glassmorphism */
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  /* Remove animações e pseudo-elementos */
+  animation: none !important;
+}
+
+/* Remove pseudo-elementos que criam fundos */
+.warroom-whatsapp::before,
+.warroom-whatsapp::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Chat area mantém transparência */
+.warroom-whatsapp .chat-area {
+  /* Usa inherit para herdar a transparência do pai */
+  background: transparent !important;
+  /* Ou pode usar uma cor levemente mais escura */
+  /* background: rgba(13, 17, 23, 0.3) !important; */
+}
+
+/* Messages container totalmente transparente */
+.warroom-whatsapp .messages-container {
+  background: transparent !important;
+}
+
+/* Elementos com fundos semi-transparentes */
+.warroom-whatsapp .chat-header {
+  background: rgba(22, 27, 34, 0.6) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.warroom-whatsapp .chat-input-area {
+  background: rgba(22, 27, 34, 0.6) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.warroom-whatsapp .sidebar {
+  background: rgba(22, 27, 34, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* Mensagens com leve opacidade */
+.warroom-whatsapp .message-bubble {
+  background: rgba(30, 40, 55, 0.7) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+}
+
+/* Botões e controles */
+.warroom-whatsapp button {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.warroom-whatsapp .window-controls {
+  background: rgba(22, 27, 34, 0.6) !important;
+}
+
+.warroom-whatsapp .agent-network-map {
+  background: rgba(22, 27, 34, 0.6) !important;
+}
+
+/* Input fields */
+.warroom-whatsapp .chat-input {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.warroom-whatsapp .chat-input:focus {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Agent badges */
+.warroom-whatsapp .agent-name {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Remove hover effects que adicionam fundos */
+.warroom-whatsapp .message-bubble:hover {
+  background: rgba(30, 40, 55, 0.8) !important;
+  transform: none !important;
+}
+
+/* App e Layout transparentes */
+.app, .App, .layout {
+  background: transparent !important;
+}
+
+.header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.main-content {
+  background: transparent !important;
+}
+
+/* IMPORTANTE: Este CSS tem máxima prioridade */

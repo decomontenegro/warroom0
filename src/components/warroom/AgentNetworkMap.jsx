@@ -583,18 +583,20 @@ function AgentNetworkMap({
               <span>Dinâmico</span>
             </label>
           </div>
-          <button 
-            className="close-btn"
-            onClick={onClose}
-          >
-            ✕
-          </button>
+          {onClose && (
+            <button 
+              className="close-btn"
+              onClick={onClose}
+            >
+              ✕
+            </button>
+          )}
         </div>
       )}
       
       <svg ref={svgRef} className="network-svg"></svg>
       
-      {hoveredNode && (
+      {hoveredNode && !expanded && (
         <div className="node-tooltip" style={{
           left: hoveredNode.x + 10,
           top: hoveredNode.y - 20

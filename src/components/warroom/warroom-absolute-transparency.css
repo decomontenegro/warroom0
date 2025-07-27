@@ -1,0 +1,92 @@
+/* TRANSPARÊNCIA ABSOLUTA - Último recurso */
+
+/* Injeta transparência com máxima prioridade */
+html {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+html body {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+html body #root {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Remove QUALQUER elemento com background via atributo universal */
+* {
+  /* Primeiro remove todos os backgrounds */
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Depois reaplica apenas nos elementos que precisam */
+.warroom-whatsapp {
+  background: rgba(13, 17, 23, 0.5) !important;
+}
+
+.warroom-whatsapp .chat-header {
+  background: rgba(22, 27, 34, 0.5) !important;
+}
+
+.warroom-whatsapp .chat-input-area {
+  background: rgba(22, 27, 34, 0.5) !important;
+}
+
+.warroom-whatsapp .sidebar {
+  background: rgba(22, 27, 34, 0.8) !important;
+}
+
+.warroom-whatsapp .message-bubble {
+  background: rgba(30, 40, 55, 0.6) !important;
+}
+
+.warroom-whatsapp .window-controls {
+  background: rgba(22, 27, 34, 0.5) !important;
+}
+
+.warroom-whatsapp .agent-network-map {
+  background: rgba(22, 27, 34, 0.5) !important;
+}
+
+.warroom-whatsapp .chat-input {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.warroom-whatsapp .agent-name {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.warroom-whatsapp button {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Usa @supports para garantir compatibilidade */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .warroom-whatsapp {
+    backdrop-filter: blur(20px) brightness(0.8) !important;
+    -webkit-backdrop-filter: blur(20px) brightness(0.8) !important;
+  }
+}
+
+/* Media query para forçar em todas as resoluções */
+@media all {
+  html, body, #root {
+    background: transparent !important;
+  }
+}
+
+/* Remove fundos via pseudo-seletores */
+:where(html, body, #root) {
+  background: transparent !important;
+}
+
+/* Último recurso - JavaScript inline style override */
+body {
+  /* Isso será sobrescrito pelo JavaScript se necessário */
+  opacity: 1 !important;
+}

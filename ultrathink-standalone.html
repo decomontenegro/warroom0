@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 UltraThink - 100 Especialistas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0D1117;
+            color: #E6EDF3;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(22, 27, 34, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(0, 92, 235, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #FF9800, #FDD835);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .status-item {
+            background: rgba(30, 40, 55, 0.7);
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-item.connected {
+            background: rgba(80, 250, 123, 0.2);
+            border: 1px solid #50FA7B;
+        }
+
+        .status-item.disconnected {
+            background: rgba(255, 85, 85, 0.2);
+            border: 1px solid #FF5555;
+        }
+
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            height: 600px;
+        }
+
+        .agents-list {
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-y: auto;
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+
+        .agent-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .agent-item:hover {
+            background: rgba(255, 152, 0, 0.2);
+            transform: translateX(5px);
+        }
+
+        .agent-item.active {
+            background: rgba(255, 152, 0, 0.3);
+            border: 1px solid #FF9800;
+        }
+
+        .chat-area {
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 92, 235, 0.3);
+        }
+
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(30, 40, 55, 0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.system {
+            background: rgba(0, 92, 235, 0.2);
+            border: 1px solid rgba(0, 92, 235, 0.5);
+        }
+
+        .message.agent {
+            background: rgba(156, 39, 176, 0.2);
+            border: 1px solid rgba(156, 39, 176, 0.5);
+        }
+
+        .message.user {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid rgba(255, 152, 0, 0.5);
+            text-align: right;
+        }
+
+        .input-area {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .input-area button {
+            padding: 12px 30px;
+            background: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .input-area button:hover {
+            background: #FF6F00;
+            transform: scale(1.05);
+        }
+
+        .phase-indicator {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 92, 235, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .phase-indicator h3 {
+            color: #FDD835;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF9800, #FDD835);
+            width: 0%;
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 UltraThink Workflow</h1>
+            <p>Sistema avançado de análise com 100 especialistas</p>
+        </div>
+
+        <div class="status">
+            <div class="status-item" id="ws-status">
+                <span id="ws-icon">⏳</span>
+                <span id="ws-text">Conectando...</span>
+            </div>
+            <div class="status-item">
+                <span>👥</span>
+                <span id="agent-count">100 Especialistas</span>
+            </div>
+            <div class="status-item">
+                <span>🔄</span>
+                <span id="phase">Fase: Aguardando</span>
+            </div>
+        </div>
+
+        <div class="phase-indicator" id="phase-info" style="display: none;">
+            <h3 id="phase-title">Iniciando análise...</h3>
+            <p id="phase-description"></p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="agents-list">
+                <h3 style="margin-bottom: 15px; color: #FDD835;">🤖 Especialistas</h3>
+                <div id="agents-container">
+                    <div class="agent-item active" data-agent="ultrathink">
+                        <strong>🚀 UltraThink</strong><br>
+                        <small>Sistema completo</small>
+                    </div>
+                    <div class="agent-item" data-agent="all">
+                        <strong>👥 Todos</strong><br>
+                        <small>100 especialistas</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-area">
+                <div class="messages" id="messages">
+                    <div class="message system">
+                        <strong>🚀 Sistema UltraThink</strong><br>
+                        Bem-vindo! Digite sua pergunta para ativar a análise com 100 especialistas.
+                    </div>
+                </div>
+                <div class="input-area">
+                    <input 
+                        type="text" 
+                        id="message-input" 
+                        placeholder="Digite sua pergunta..." 
+                        onkeypress="if(event.key === 'Enter') sendMessage()"
+                    >
+                    <button onclick="sendMessage()">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let currentAgent = 'ultrathink';
+        let isConnected = false;
+
+        // Conectar WebSocket
+        function connectWebSocket() {
+            ws = new WebSocket('ws://localhost:3005/warroom-ws');
+            
+            ws.onopen = () => {
+                console.log('✅ WebSocket conectado!');
+                isConnected = true;
+                updateStatus(true);
+                addMessage('system', '✅ Conectado ao servidor!');
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log('📥 Mensagem recebida:', data);
+                handleMessage(data);
+            };
+            
+            ws.onerror = (error) => {
+                console.error('❌ Erro WebSocket:', error);
+                updateStatus(false);
+                addMessage('system', '❌ Erro de conexão. Tentando reconectar...');
+            };
+            
+            ws.onclose = () => {
+                console.log('🔌 WebSocket desconectado');
+                isConnected = false;
+                updateStatus(false);
+                setTimeout(connectWebSocket, 3000);
+            };
+        }
+
+        // Atualizar status
+        function updateStatus(connected) {
+            const statusEl = document.getElementById('ws-status');
+            const iconEl = document.getElementById('ws-icon');
+            const textEl = document.getElementById('ws-text');
+            
+            if (connected) {
+                statusEl.className = 'status-item connected';
+                iconEl.textContent = '✅';
+                textEl.textContent = 'Conectado';
+            } else {
+                statusEl.className = 'status-item disconnected';
+                iconEl.textContent = '❌';
+                textEl.textContent = 'Desconectado';
+            }
+        }
+
+        // Adicionar mensagem
+        function addMessage(type, content, agent = null) {
+            const messagesEl = document.getElementById('messages');
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${type}`;
+            
+            if (agent) {
+                messageEl.innerHTML = `<strong>${agent}</strong><br>${content}`;
+            } else {
+                messageEl.innerHTML = content;
+            }
+            
+            messagesEl.appendChild(messageEl);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        // Enviar mensagem
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+            
+            if (!message || !isConnected) return;
+            
+            addMessage('user', message);
+            
+            // Enviar para UltraThink
+            const request = {
+                type: 'ultrathink-workflow',
+                query: message,
+                requestId: `ultra-${Date.now()}`,
+                language: 'pt-BR'
+            };
+            
+            ws.send(JSON.stringify(request));
+            input.value = '';
+            
+            // Mostrar indicador de fase
+            document.getElementById('phase-info').style.display = 'block';
+            updatePhase('Iniciando', 'Analisando sua solicitação...', 10);
+        }
+
+        // Atualizar fase
+        function updatePhase(title, description, progress) {
+            document.getElementById('phase-title').textContent = title;
+            document.getElementById('phase-description').textContent = description;
+            document.getElementById('progress').style.width = progress + '%';
+            document.getElementById('phase').textContent = `Fase: ${title}`;
+        }
+
+        // Processar mensagens
+        function handleMessage(data) {
+            switch(data.type) {
+                case 'phase-update':
+                    updatePhase(data.phase, data.description || '', data.progress || 0);
+                    addMessage('system', `📊 ${data.phase}: ${data.description || ''}`);
+                    break;
+                    
+                case 'agent-response':
+                    addMessage('agent', data.content, data.agent);
+                    break;
+                    
+                case 'workflow-complete':
+                    updatePhase('Concluído', 'Análise finalizada!', 100);
+                    addMessage('system', '✅ Análise UltraThink completa!');
+                    setTimeout(() => {
+                        document.getElementById('phase-info').style.display = 'none';
+                    }, 5000);
+                    break;
+                    
+                default:
+                    if (data.content) {
+                        addMessage('agent', data.content, data.agent || 'Sistema');
+                    }
+            }
+        }
+
+        // Inicializar
+        connectWebSocket();
+    </script>
+</body>
+</html>

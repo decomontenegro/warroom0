@@ -1,0 +1,30 @@
+/* Força fundo escuro no WarRoom3 */
+
+/* Garante que o WarRoom3 tenha fundo escuro */
+.warroom3-container {
+  background: #0D1117 !important;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Elementos específicos do WarRoom3 */
+.warroom3-sidebar {
+  background: #1F242A !important;
+}
+
+.warroom3-main {
+  background: #0D1117 !important;
+}
+
+.chat-header {
+  background: #1E2235 !important;
+}
+
+.chat-messages {
+  background: #0D1117 !important;
+}
+
+.chat-input-container {
+  background: #1F242A !important;
+}

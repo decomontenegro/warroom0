@@ -201,13 +201,18 @@ Evaluate:
     // Adicionar contexto de domínio
     const domainEnhancements = this.addDomainContext(documentAnalysis.technicalDomain);
     
-    // Construir prompt final
-    const systemPrompt = this.fillTemplate(template.system, {
+    // Incluir contexto de personalidade se fornecido
+    let enhancedSystemPrompt = this.fillTemplate(template.system, {
       agentName: agent.name,
       agentRole: agent.role,
       capabilities: agent.capabilities.join(', '),
       domain: this.formatDomains(documentAnalysis.technicalDomain)
     });
+    
+    // Adicionar contexto de personalidade se disponível
+    if (options.personalityContext) {
+      enhancedSystemPrompt = options.personalityContext + '\n\n' + enhancedSystemPrompt;
+    }
 
     const userPrompt = this.fillTemplate(template.user, {
       documentTitle: documentAnalysis.metadata.title || 'Technical Document',
@@ -224,7 +229,7 @@ Evaluate:
 
     // Adicionar contexto anterior se disponível
     const fullPrompt = this.assembleFullPrompt({
-      systemPrompt,
+      systemPrompt: enhancedSystemPrompt,
       userPrompt,
       domainEnhancements,
       outputInstructions,
@@ -422,13 +427,17 @@ Provide specific, actionable insights based on your expertise in ${agent.capabil
     }
     
     // Add technical sections
-    if (analysis.keyElements.codeSnippets.length > 0 && 
+    if (analysis.keyElements && 
+        analysis.keyElements.codeSnippets && 
+        analysis.keyElements.codeSnippets.length > 0 && 
         (agent.role.includes('Developer') || agent.role.includes('Engineer'))) {
       content += 'Code Examples:\n' + analysis.keyElements.codeSnippets[0] + '\n\n';
     }
     
     // Add formulas for scientists
-    if (analysis.keyElements.formulas.length > 0 && 
+    if (analysis.keyElements && 
+        analysis.keyElements.formulas && 
+        analysis.keyElements.formulas.length > 0 && 
         agent.role.includes('Scientist')) {
       content += 'Mathematical Formulations:\n' + analysis.keyElements.formulas.join('\n') + '\n\n';
     }

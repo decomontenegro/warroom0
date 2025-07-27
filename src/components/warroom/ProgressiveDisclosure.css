@@ -1,0 +1,594 @@
+/* Progressive Disclosure - Estilo em Camadas */
+
+.progressive-disclosure {
+  position: relative;
+  min-height: 400px;
+}
+
+/* Indicador de Camadas */
+.layer-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 20px;
+}
+
+.layer-dot {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.layer-dot.active {
+  background: #2196F3;
+  border-color: #2196F3;
+  box-shadow: 0 0 20px rgba(33, 150, 243, 0.4);
+}
+
+.layer-dot.active .layer-label {
+  color: #E6EDF3;
+}
+
+.layer-label {
+  position: absolute;
+  bottom: -25px;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #8B949E;
+  font-weight: 500;
+}
+
+.layer-connector {
+  width: 80px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.layer-connector.active {
+  background: #2196F3;
+}
+
+/* Conteúdo das Camadas */
+.layer-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header das Camadas */
+.layer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.layer-header h3 {
+  color: #E6EDF3;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #8B949E;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #E6EDF3;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Tabs de Navegação */
+.view-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #8B949E;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #C9D1D9;
+}
+
+.tab.active {
+  background: #2196F3;
+  color: white;
+}
+
+/* Camada 2 - Conteúdo de Exploração */
+.layer2-content {
+  background: rgba(13, 17, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+/* Visão de Divergências */
+.divergences-view h4 {
+  color: #E6EDF3;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.divergence-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.divergence-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.divergence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.divergence-theme {
+  color: #E6EDF3;
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.divergence-support {
+  background: rgba(255, 152, 0, 0.1);
+  color: #FF9800;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.supporting-agents {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  color: #8B949E;
+  font-size: 12px;
+}
+
+.agent-chip {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.more-agents {
+  color: #2196F3;
+  font-weight: 500;
+}
+
+/* Visão de Clusters */
+.clusters-view h4 {
+  color: #E6EDF3;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cluster-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.cluster-header {
+  padding: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.cluster-header:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.cluster-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cluster-theme {
+  color: #E6EDF3;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cluster-weight {
+  color: #8B949E;
+  font-size: 12px;
+}
+
+.expand-icon {
+  color: #8B949E;
+  font-size: 12px;
+}
+
+.cluster-details {
+  padding: 0 16px 16px;
+  animation: slideDown 0.2s ease;
+}
+
+.cluster-agents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.agent-name {
+  background: rgba(33, 150, 243, 0.1);
+  color: #2196F3;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+/* Visão de Análise Completa */
+.full-analysis-view {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.full-analysis-view h4 {
+  color: #E6EDF3;
+  font-size: 16px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.full-analysis-view h5 {
+  color: #C9D1D9;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* Confidence Breakdown */
+.confidence-breakdown {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.confidence-factor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.factor-name {
+  color: #8B949E;
+  font-size: 13px;
+  min-width: 100px;
+  text-transform: capitalize;
+}
+
+.factor-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.factor-fill {
+  height: 100%;
+  background: #2196F3;
+  transition: width 0.3s ease;
+}
+
+.factor-value {
+  color: #E6EDF3;
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Consensus Details */
+.consensus-details {
+  background: rgba(76, 175, 80, 0.05);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.consensus-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.consensus-item:last-child {
+  border-bottom: none;
+}
+
+.consensus-theme {
+  color: #C9D1D9;
+  font-size: 13px;
+  flex: 1;
+}
+
+.consensus-support {
+  color: #4CAF50;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* All Tradeoffs */
+.all-tradeoffs {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.tradeoff-detail {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tradeoff-detail:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.tradeoff-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.option strong {
+  display: block;
+  color: #E6EDF3;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.option ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.option li {
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 4px 0;
+}
+
+.option li.pro {
+  color: #A5D6A7;
+}
+
+.option li.con {
+  color: #FFAB91;
+}
+
+/* Camada 3 - Todas as Respostas */
+.layer3-content {
+  background: rgba(13, 17, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.warning-notice {
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.warning-icon {
+  font-size: 24px;
+}
+
+.warning-notice p {
+  color: #FFAB91;
+  font-size: 14px;
+  margin: 0;
+}
+
+.original-responses {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.original-response {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.response-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.response-header .agent-name {
+  color: #2196F3;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.response-time {
+  color: #8B949E;
+  font-size: 12px;
+}
+
+.response-content {
+  color: #C9D1D9;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 17, 23, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(33, 150, 243, 0.2);
+  border-top: 3px solid #2196F3;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-overlay p {
+  color: #8B949E;
+  font-size: 14px;
+}
+
+/* Scrollbar Personalizada */
+.original-responses::-webkit-scrollbar {
+  width: 6px;
+}
+
+.original-responses::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.original-responses::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.original-responses::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .layer-indicator {
+    padding: 16px;
+  }
+  
+  .layer-dot {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .layer-connector {
+    width: 40px;
+  }
+  
+  .view-tabs {
+    flex-direction: column;
+  }
+  
+  .tradeoff-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .layer2-content,
+  .layer3-content {
+    padding: 16px;
+  }
+}

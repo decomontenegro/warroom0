@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test WarRoom3 - Static</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #0D1117;
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .status {
+            background: #1E2235;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .success {
+            color: #4ade80;
+        }
+        .error {
+            color: #f87171;
+        }
+        .info {
+            background: #1E2235;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #3b82f6;
+        }
+        code {
+            background: #0D1117;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste Estático - WarRoom3</h1>
+        
+        <div class="status">
+            <h2 class="success">✅ Esta página HTML está funcionando!</h2>
+            <p>Se você está vendo esta página, significa que:</p>
+            <ul>
+                <li>✅ O navegador está funcionando corretamente</li>
+                <li>✅ Não há problemas de firewall para arquivos locais</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>🔧 Próximos passos para resolver o problema:</h3>
+            <ol>
+                <li>
+                    <strong>Verificar se o Node está instalado corretamente:</strong><br>
+                    <code>node --version</code> e <code>npm --version</code>
+                </li>
+                <li>
+                    <strong>Tentar iniciar o servidor manualmente:</strong><br>
+                    <code>cd organic-code-studio-unified</code><br>
+                    <code>npx vite --host 0.0.0.0 --port 5173</code>
+                </li>
+                <li>
+                    <strong>Verificar o arquivo vite.config.js:</strong><br>
+                    Pode haver configurações que estão impedindo o servidor de iniciar
+                </li>
+                <li>
+                    <strong>Testar com um servidor HTTP simples:</strong><br>
+                    <code>npx http-server -p 8080</code>
+                </li>
+            </ol>
+        </div>
+
+        <div class="info">
+            <h3>🌐 URLs para testar quando o servidor estiver funcionando:</h3>
+            <ul>
+                <li><a href="http://localhost:5173/warroom3" style="color: #3b82f6;">http://localhost:5173/warroom3</a> - WarRoom3 Complete</li>
+                <li><a href="http://localhost:5173/" style="color: #3b82f6;">http://localhost:5173/</a> - HomePage</li>
+                <li><a href="http://localhost:5173/test-warroom3.html" style="color: #3b82f6;">http://localhost:5173/test-warroom3.html</a> - Test Page</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>💡 Alternativa: Abrir o arquivo diretamente</h3>
+            <p>Como solução temporária, você pode abrir o arquivo HTML diretamente:</p>
+            <code>open test-warroom3.html</code>
+            <p>ou</p>
+            <code>open ABRIR-WARROOM3.html</code>
+        </div>
+    </div>
+</body>
+</html>

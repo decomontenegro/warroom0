@@ -9,6 +9,7 @@ import taskRoutes from './routes/tasks.js'
 import uploadRoutes from './routes/upload.js'
 import warRoomRoutes, { createWarRoomWebSocket } from './routes/warroom.js'
 import llmRoutes from './routes/llm.js'
+import UltraThinkConsensusIntegration from './services/consensus/ultrathink-integration.js'
 
 dotenv.config()
 
@@ -21,10 +22,16 @@ const PORT = process.env.PORT || 3005
 // Create HTTP server for WebSocket support
 const server = createServer(app)
 
+// Initialize Consensus Integration
+const consensusIntegration = new UltraThinkConsensusIntegration()
+
 // Middleware
 app.use(cors())
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
+
+// Add consensus middleware
+app.use(consensusIntegration.middleware())
 
 // API Routes
 app.use('/api/dag', dagRoutes)

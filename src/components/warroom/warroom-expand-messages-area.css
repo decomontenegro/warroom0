@@ -1,0 +1,43 @@
+/* Expandir área de mensagens para aproveitar melhor o espaço */
+
+/* Chat content wrapper - ocupar toda altura disponível */
+.warroom-whatsapp .chat-content-wrapper {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+/* Messages container - expandir para ocupar todo espaço */
+.warroom-whatsapp .messages-container {
+  flex: 1 !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+  padding-bottom: 20px !important; /* Reduzir padding inferior */
+}
+
+/* Remover espaços desnecessários */
+.warroom-whatsapp .chat-area {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+/* Garantir que o chat-content ocupe todo espaço disponível */
+.warroom-whatsapp .chat-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* Ajustar padding inferior do container de mensagens */
+.warroom-whatsapp .messages-container {
+  padding-bottom: 30px !important; /* Apenas espaço mínimo necessário */
+}
+
+/* Se houver um footer ou espaço vazio, remover */
+.warroom-whatsapp .chat-footer,
+.warroom-whatsapp .empty-space {
+  display: none !important;
+}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Warroom Simples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #0D1117;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px;
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 10px;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 92, 235, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 92, 235, 0.5);
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px;
+            background: #FF9800;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #FF6F00;
+            transform: translateY(-2px);
+        }
+        .error {
+            color: #FF5555;
+            background: rgba(255, 85, 85, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            color: #50FA7B;
+            background: rgba(80, 250, 123, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .log {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste do Warroom</h1>
+        
+        <div class="status">
+            <h2>Status dos Servidores</h2>
+            <div id="frontend-status">Frontend: Verificando...</div>
+            <div id="backend-status">Backend: Verificando...</div>
+            <div id="websocket-status">WebSocket: Verificando...</div>
+        </div>
+        
+        <div>
+            <a href="http://localhost:5173/" class="btn" target="_blank">Abrir Home</a>
+            <a href="http://localhost:5173/warroom" class="btn" target="_blank">Abrir Warroom</a>
+        </div>
+        
+        <div class="log" id="log">
+            <h3>Log de Testes:</h3>
+        </div>
+    </div>
+    
+    <script>
+        const log = document.getElementById('log');
+        
+        function addLog(message, type = 'info') {
+            const time = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#FF5555' : type === 'success' ? '#50FA7B' : '#8BE9FD';
+            log.innerHTML += `<div style="color: ${color}">[${time}] ${message}</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        // Testar Frontend
+        async function testFrontend() {
+            try {
+                addLog('Testando frontend...');
+                const response = await fetch('http://localhost:5173/', {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                if (response.ok) {
+                    document.getElementById('frontend-status').innerHTML = 
+                        '<span class="success">Frontend: ✅ ONLINE</span>';
+                    addLog('Frontend está online!', 'success');
+                    
+                    // Testar rota do warroom
+                    const warroomResponse = await fetch('http://localhost:5173/warroom', {
+                        method: 'GET',
+                        mode: 'cors'
+                    });
+                    if (warroomResponse.ok) {
+                        addLog('Rota /warroom está acessível!', 'success');
+                    } else {
+                        addLog(`Rota /warroom retornou status: ${warroomResponse.status}`, 'error');
+                    }
+                } else {
+                    throw new Error(`Status: ${response.status}`);
+                }
+            } catch (error) {
+                document.getElementById('frontend-status').innerHTML = 
+                    '<span class="error">Frontend: ❌ OFFLINE</span>';
+                addLog(`Erro no frontend: ${error.message}`, 'error');
+            }
+        }
+        
+        // Testar Backend
+        async function testBackend() {
+            try {
+                addLog('Testando backend...');
+                const response = await fetch('http://localhost:3005/', {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                if (response.ok) {
+                    document.getElementById('backend-status').innerHTML = 
+                        '<span class="success">Backend: ✅ ONLINE</span>';
+                    addLog('Backend está online!', 'success');
+                } else {
+                    throw new Error(`Status: ${response.status}`);
+                }
+            } catch (error) {
+                document.getElementById('backend-status').innerHTML = 
+                    '<span class="error">Backend: ❌ OFFLINE</span>';
+                addLog(`Erro no backend: ${error.message}`, 'error');
+            }
+        }
+        
+        // Testar WebSocket
+        function testWebSocket() {
+            try {
+                addLog('Testando WebSocket...');
+                const ws = new WebSocket('ws://localhost:3005/warroom-ws');
+                
+                ws.onopen = () => {
+                    document.getElementById('websocket-status').innerHTML = 
+                        '<span class="success">WebSocket: ✅ CONECTADO</span>';
+                    addLog('WebSocket conectado com sucesso!', 'success');
+                    ws.close();
+                };
+                
+                ws.onerror = (error) => {
+                    document.getElementById('websocket-status').innerHTML = 
+                        '<span class="error">WebSocket: ❌ ERRO</span>';
+                    addLog('Erro no WebSocket', 'error');
+                };
+                
+                ws.onclose = () => {
+                    addLog('WebSocket fechado');
+                };
+                
+                setTimeout(() => {
+                    if (ws.readyState === WebSocket.CONNECTING) {
+                        document.getElementById('websocket-status').innerHTML = 
+                            '<span class="error">WebSocket: ⏱️ TIMEOUT</span>';
+                        addLog('WebSocket timeout', 'error');
+                        ws.close();
+                    }
+                }, 5000);
+            } catch (error) {
+                document.getElementById('websocket-status').innerHTML = 
+                    '<span class="error">WebSocket: ❌ ERRO</span>';
+                addLog(`Erro ao criar WebSocket: ${error.message}`, 'error');
+            }
+        }
+        
+        // Executar testes
+        addLog('Iniciando testes...', 'info');
+        testFrontend();
+        testBackend();
+        testWebSocket();
+        
+        // Re-testar a cada 10 segundos
+        setInterval(() => {
+            addLog('--- Re-testando ---', 'info');
+            testFrontend();
+            testBackend();
+            testWebSocket();
+        }, 10000);
+    </script>
+</body>
+</html>

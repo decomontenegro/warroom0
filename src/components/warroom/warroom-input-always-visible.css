@@ -1,0 +1,138 @@
+/* WarRoom Input Always Visible - Emergency Fix */
+/* Força o campo de input a ficar sempre visível acima de todos os elementos */
+
+/* ==================== ÁREA DE INPUT FORÇADA AO TOPO ==================== */
+.chat-input-area {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important; /* Máximo absoluto */
+  background: #0D1117 !important; /* Fundo sólido opaco */
+  border-top: 3px solid #2196F3 !important; /* Borda visível */
+  padding: 20px !important;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.8) !important;
+  
+  /* Garantir que não seja coberto */
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  min-height: 88px !important;
+}
+
+/* Para WarRoom v1 específico */
+.warroom-whatsapp .chat-input-area {
+  left: 320px !important; /* Compensar sidebar */
+}
+
+/* Campo de texto super visível */
+.chat-input-area textarea,
+.chat-input-area input[type="text"],
+.message-input {
+  flex: 1 !important;
+  background: rgba(255, 255, 255, 0.2) !important; /* Mais visível */
+  border: 3px solid rgba(255, 255, 255, 0.4) !important;
+  color: #FFFFFF !important;
+  font-size: 16px !important;
+  padding: 14px 18px !important;
+  min-height: 48px !important;
+  border-radius: 8px !important;
+  resize: none !important;
+  
+  /* Sombra para destacar */
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.4) inset !important;
+}
+
+/* Focus ainda mais visível */
+.chat-input-area textarea:focus,
+.chat-input-area input[type="text"]:focus,
+.message-input:focus {
+  outline: none !important;
+  border-color: #2196F3 !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 
+    0 0 0 4px rgba(33, 150, 243, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.4) inset !important;
+}
+
+/* Placeholder bem visível */
+.chat-input-area textarea::placeholder,
+.chat-input-area input[type="text"]::placeholder,
+.message-input::placeholder {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+}
+
+/* Botão enviar sempre visível */
+.chat-input-area button,
+.send-btn {
+  position: relative !important;
+  z-index: 10000 !important;
+  background: #2196F3 !important;
+  color: white !important;
+  border: none !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  padding: 12px 20px !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4) !important;
+  transition: all 0.2s ease !important;
+}
+
+.chat-input-area button:hover:not(:disabled),
+.send-btn:hover:not(:disabled) {
+  background: #1976D2 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(33, 150, 243, 0.5) !important;
+}
+
+/* Ajustar área de mensagens para não ficar atrás */
+.chat-messages,
+.messages-container {
+  padding-bottom: 140px !important; /* Espaço extra para o input */
+  scroll-padding-bottom: 140px !important;
+}
+
+/* Esconder elementos que podem cobrir */
+.coordinator-panel-simple {
+  max-height: calc(100vh - 200px) !important;
+  overflow-y: auto !important;
+}
+
+.agent-network-map {
+  bottom: 160px !important; /* Acima do input */
+}
+
+/* Mobile específico */
+@media (max-width: 768px) {
+  .warroom-whatsapp .chat-input-area {
+    left: 0 !important; /* Sidebar oculta em mobile */
+  }
+  
+  .chat-input-area {
+    padding: 12px !important;
+  }
+}
+
+/* ==================== DEBUG VISUAL ==================== */
+/* Borda vermelha para identificar facilmente o input */
+.chat-input-area {
+  outline: 2px dashed rgba(255, 0, 0, 0.3) !important;
+  outline-offset: -2px !important;
+}
+
+/* ==================== FORÇA MÁXIMA ==================== */
+body .warroom-whatsapp .chat-input-area,
+body .warroom-whatsapp .message-input,
+body .warroom-whatsapp .chat-input-area textarea {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  display: flex !important;
+}

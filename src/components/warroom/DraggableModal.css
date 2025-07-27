@@ -1,0 +1,123 @@
+/**
+ * DraggableModal Styles
+ * Created: 2025-07-19
+ */
+
+.draggable-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.draggable-modal {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  max-width: 1200px;
+  max-height: 700px;
+  background: #1F242A;
+  border-radius: 16px;
+  border: 2px solid rgba(0, 92, 235, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.4s ease-out;
+  transition: box-shadow 0.3s ease;
+  z-index: 2001;
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.draggable-modal.dragging {
+  box-shadow: 0 25px 70px rgba(0, 92, 235, 0.3);
+}
+
+.draggable-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: rgba(0, 92, 235, 0.1);
+  border-bottom: 1px solid rgba(0, 92, 235, 0.2);
+  cursor: move;
+  user-select: none;
+}
+
+.draggable-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.close-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
+  transform: scale(1.1);
+}
+
+.draggable-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .draggable-modal {
+    width: 95%;
+    height: 90%;
+    max-width: none;
+  }
+  
+  .draggable-header {
+    padding: 15px;
+  }
+  
+  .draggable-header h3 {
+    font-size: 18px;
+  }
+}

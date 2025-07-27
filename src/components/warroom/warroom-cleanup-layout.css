@@ -1,0 +1,75 @@
+/* Limpeza final do layout - remover elementos desnecessários */
+
+/* Remover qualquer painel lateral direito */
+.warroom-whatsapp .active-agents-panel,
+.warroom-whatsapp .coordinator-panel,
+.warroom-whatsapp .coordinator-panel-simple,
+.warroom-whatsapp .right-panel,
+.warroom-whatsapp .side-panel {
+  display: none !important;
+}
+
+/* Garantir que o chat-content ocupe todo espaço */
+.warroom-whatsapp .chat-content {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Remover margens e paddings desnecessários */
+.warroom-whatsapp .chat-content-wrapper {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Network map com posição melhorada */
+.warroom-whatsapp .agent-network-map {
+  position: fixed !important;
+  bottom: 100px !important;
+  right: 20px !important;
+  max-width: 300px !important;
+  max-height: 300px !important;
+  z-index: 100 !important;
+  background: rgba(22, 27, 34, 0.95) !important;
+  border: 2px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Garantir que mensagens ocupem espaço adequado */
+.warroom-whatsapp .messages-container {
+  margin-right: 0 !important;
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+
+/* Ajustar botões de controle */
+.warroom-whatsapp .window-controls {
+  background: rgba(22, 27, 34, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Garantir estrutura limpa */
+.warroom-whatsapp > * {
+  max-width: 100% !important;
+}
+
+/* Remover qualquer espaço vazio à direita */
+.warroom-whatsapp::after {
+  display: none !important;
+}
+
+/* Mobile - esconder network map */
+@media (max-width: 768px) {
+  .warroom-whatsapp .agent-network-map {
+    display: none !important;
+  }
+  
+  .warroom-whatsapp .messages-container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}

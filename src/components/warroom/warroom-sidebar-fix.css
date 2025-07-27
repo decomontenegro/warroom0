@@ -1,0 +1,207 @@
+/* Fix para sidebar/painel de especialistas sobrepondo mensagens */
+
+/* ==================== CORRIGIR SIDEBAR DE ESPECIALISTAS ==================== */
+
+/* Sidebar deve ficar atrás das mensagens */
+.sidebar,
+.chat-list,
+.specialists-panel {
+  position: relative !important;
+  z-index: 1 !important; /* Baixo z-index */
+}
+
+/* Container de mensagens deve ter largura correta */
+.chat-area {
+  margin-left: 320px !important; /* Compensar largura da sidebar */
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Messages container com z-index adequado */
+.messages-container {
+  position: relative !important;
+  z-index: 20 !important;
+  background: #0D1117 !important; /* Fundo sólido */
+  min-height: 100vh !important;
+  padding-right: 20px !important;
+}
+
+/* Cada mensagem individual */
+.messages-container .message {
+  position: relative !important;
+  z-index: 25 !important;
+  background: rgba(13, 17, 23, 0.95) !important;
+  margin-bottom: 8px !important;
+}
+
+/* Message bubble sempre visível */
+.message .message-bubble {
+  position: relative !important;
+  z-index: 30 !important;
+  background: rgba(30, 40, 55, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ==================== LAYOUT CORRETO ==================== */
+
+/* Wrapper principal */
+.warroom-whatsapp {
+  display: flex !important;
+  position: relative !important;
+}
+
+/* Sidebar fixa à esquerda */
+.sidebar {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 320px !important;
+  height: 100vh !important;
+  background: #161B22 !important;
+  border-right: 2px solid rgba(255, 255, 255, 0.1) !important;
+  overflow-y: auto !important;
+  z-index: 5 !important; /* Abaixo das mensagens */
+}
+
+/* Chat area ajustada */
+.chat-area {
+  flex: 1 !important;
+  margin-left: 320px !important; /* Espaço para sidebar */
+  min-height: 100vh !important;
+  background: #0D1117 !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Content wrapper */
+.chat-content-wrapper {
+  width: 100% !important;
+  position: relative !important;
+  z-index: 15 !important;
+}
+
+/* ==================== PAINÉIS FLUTUANTES AJUSTADOS ==================== */
+
+/* Active agents panel */
+.active-agents-panel {
+  position: fixed !important;
+  right: 0 !important;
+  top: 80px !important;
+  width: 300px !important;
+  z-index: 2 !important; /* Muito baixo */
+  background: rgba(22, 27, 34, 0.95) !important;
+  border-left: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Coordinator panel */
+.coordinator-panel,
+.coordinator-panel-simple {
+  position: fixed !important;
+  right: 20px !important;
+  top: 80px !important;
+  z-index: 3 !important; /* Baixo */
+  max-width: 350px !important;
+  background: rgba(22, 27, 34, 0.98) !important;
+  border: 2px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ==================== GARANTIR VISIBILIDADE DAS MENSAGENS ==================== */
+
+/* Mensagens dos agentes */
+.message.message-agent {
+  position: relative !important;
+  z-index: 35 !important;
+  padding-left: 20px !important;
+  margin-right: 20px !important;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.02), transparent) !important;
+}
+
+/* Badge do agente */
+.message-agent-info .agent-name {
+  position: relative !important;
+  z-index: 40 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 12px !important;
+  border-radius: 16px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ==================== OVERFLOW E SCROLL ==================== */
+
+/* Prevenir overflow horizontal */
+.warroom-whatsapp {
+  overflow-x: hidden !important;
+}
+
+.chat-area {
+  overflow-x: hidden !important;
+}
+
+.messages-container {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  max-width: 100% !important;
+}
+
+/* ==================== MOBILE RESPONSIVO ==================== */
+
+@media (max-width: 768px) {
+  /* Esconder sidebar em mobile */
+  .sidebar {
+    transform: translateX(-100%) !important;
+  }
+  
+  /* Chat area ocupa toda largura */
+  .chat-area {
+    margin-left: 0 !important;
+  }
+  
+  /* Esconder painéis laterais */
+  .active-agents-panel,
+  .coordinator-panel {
+    display: none !important;
+  }
+}
+
+/* ==================== FIX ESPECÍFICO PARA ESPECIALISTAS ==================== */
+
+/* Lista de especialistas na sidebar */
+.chat-list-item,
+.specialist-item {
+  position: relative !important;
+  z-index: 1 !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  padding: 12px 16px !important;
+}
+
+.chat-list-item:hover,
+.specialist-item:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  z-index: 2 !important;
+}
+
+/* ==================== DEBUG VISUAL ==================== */
+/* Debug removido */
+
+/* ==================== FORÇAR CORREÇÃO ==================== */
+
+/* Garantir que mensagens fiquem acima de tudo */
+.warroom-whatsapp .messages-container .message {
+  position: relative !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
+  user-select: text !important;
+}
+
+/* Sidebar sempre atrás */
+.warroom-whatsapp .sidebar {
+  z-index: 1 !important;
+}

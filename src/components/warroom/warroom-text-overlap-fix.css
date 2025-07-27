@@ -1,0 +1,219 @@
+/* WarRoom Text Overlap Fix - v1.0 */
+/* Corrige problemas de z-index e sobreposição de texto */
+
+/* ==================== SISTEMA DE Z-INDEX ORGANIZADO ==================== */
+/* 
+ * Camadas de Z-Index:
+ * 0-99: Conteúdo base
+ * 100-199: Elementos interativos (botões, links)
+ * 200-299: Sidebars e painéis laterais
+ * 300-399: Headers e footers fixos
+ * 400-499: Área de input (MAIS IMPORTANTE)
+ * 500-599: Dropdowns e tooltips
+ * 600-699: Painéis flutuantes (coordinator, network)
+ * 1000+: Modais e overlays
+ */
+
+/* ==================== CORREÇÃO CRÍTICA: ÁREA DE INPUT ==================== */
+.chat-input-area,
+.message-input-container,
+.input-area {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 450 !important; /* Acima de todos os painéis */
+  background: #161B22 !important;
+  border-top: 2px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 16px !important;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Garantir que o campo de input seja visível */
+.message-input,
+.chat-input-area textarea,
+.chat-input-area input,
+textarea[placeholder*="Digite"],
+input[placeholder*="Digite"] {
+  position: relative !important;
+  z-index: 451 !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  color: #FFFFFF !important;
+  min-height: 48px !important;
+  width: 100% !important;
+  max-width: calc(100% - 120px) !important; /* Espaço para botão enviar */
+}
+
+/* ==================== ÁREA DE MENSAGENS COM PADDING ==================== */
+.chat-messages,
+.messages-container,
+.chat-content-wrapper {
+  padding-bottom: 120px !important; /* Espaço para input fixo */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* ==================== COORDINATOR PANEL AJUSTADO ==================== */
+.coordinator-panel,
+.coordinator-panel-simple {
+  z-index: 300 !important; /* Abaixo do input */
+  top: 80px !important; /* Abaixo do header */
+  right: 20px !important;
+  max-height: calc(100vh - 250px) !important; /* Não cobrir input */
+}
+
+/* ==================== AGENT NETWORK MAP AJUSTADO ==================== */
+.agent-network-map,
+.network-visualization {
+  z-index: 250 !important; /* Abaixo do input */
+  bottom: 140px !important; /* Acima do input */
+  right: 20px !important;
+  max-height: 300px !important;
+}
+
+/* ==================== ACTIVE AGENTS PANEL AJUSTADO ==================== */
+.active-agents-panel {
+  z-index: 200 !important; /* Abaixo do input */
+  right: 0 !important;
+  top: 80px !important;
+  bottom: 140px !important; /* Não cobrir input */
+  overflow-y: auto !important;
+}
+
+/* ==================== SIDEBAR AJUSTADA ==================== */
+.sidebar {
+  z-index: 150 !important;
+  overflow-y: auto !important; /* Permitir scroll */
+  overflow-x: hidden !important;
+}
+
+/* ==================== HEADER FIXO ==================== */
+.chat-header,
+.warroom-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 350 !important;
+  background: #161B22 !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ==================== BOTÃO ENVIAR SEMPRE VISÍVEL ==================== */
+.send-button,
+button[type="submit"] {
+  position: relative !important;
+  z-index: 452 !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  background: #2196F3 !important;
+  border: none !important;
+  color: white !important;
+}
+
+/* ==================== REMOVER OVERFLOW HIDDEN DESNECESSÁRIO ==================== */
+.warroom-whatsapp {
+  overflow: visible !important;
+}
+
+.chat-container {
+  overflow: visible !important;
+}
+
+/* ==================== GARANTIR VISIBILIDADE DO TEXTO ==================== */
+.message,
+.chat-message {
+  position: relative !important;
+  z-index: 10 !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  margin-bottom: 8px !important;
+  padding: 12px !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+/* ==================== LANGUAGE SELECTOR AJUSTADO ==================== */
+.language-selector {
+  z-index: 500 !important; /* Acima do input quando aberto */
+  position: absolute !important; /* Não usar fixed */
+}
+
+/* ==================== ORCHESTRATION VIEW AJUSTADA ==================== */
+.orchestration-view {
+  z-index: 250 !important; /* Abaixo do input */
+  bottom: 140px !important; /* Acima da área de input */
+}
+
+/* ==================== TOOLTIPS E DROPDOWNS ==================== */
+.tooltip,
+.dropdown-menu {
+  z-index: 550 !important; /* Acima do input mas abaixo de modais */
+}
+
+/* ==================== MODAIS E OVERLAYS ==================== */
+.modal,
+.overlay,
+.color-legend-modal {
+  z-index: 1000 !important; /* Máximo z-index */
+}
+
+/* ==================== FIX PARA MOBILE ==================== */
+@media (max-width: 768px) {
+  .chat-input-area,
+  .message-input-container {
+    padding: 12px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+  
+  .message-input,
+  .chat-input-area textarea {
+    max-width: calc(100% - 60px) !important;
+    font-size: 16px !important; /* Previne zoom no iOS */
+  }
+  
+  .coordinator-panel,
+  .agent-network-map,
+  .active-agents-panel {
+    display: none !important; /* Ocultar em mobile */
+  }
+  
+  .chat-messages {
+    padding-bottom: 100px !important;
+  }
+}
+
+/* ==================== DEBUG MODE (remover em produção) ==================== */
+/* Uncomment para visualizar z-index de elementos */
+/*
+*[style*="z-index"] {
+  position: relative;
+}
+
+*[style*="z-index"]::after {
+  content: "z: " attr(style);
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  pointer-events: none;
+}
+*/
+
+/* ==================== FORÇA APLICAÇÃO DAS CORREÇÕES ==================== */
+.warroom-whatsapp * {
+  /* Reset de z-index para elementos não especificados */
+  z-index: auto !important;
+}
+
+/* Elementos que DEVEM ter z-index específico */
+.warroom-whatsapp .chat-input-area,
+.warroom-whatsapp .message-input,
+.warroom-whatsapp .send-button {
+  z-index: 450 !important;
+}

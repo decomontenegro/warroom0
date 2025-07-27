@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+        }
+        #log {
+            background: #111;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #0f0;
+            margin: 20px 0;
+        }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #0a0;
+        }
+        input {
+            background: #111;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px;
+            width: 400px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Direct Test</h1>
+    
+    <div>
+        <button onclick="connect()">Connect</button>
+        <button onclick="disconnect()">Disconnect</button>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+    
+    <div id="log"></div>
+    
+    <div>
+        <input type="text" id="message" placeholder="Type message..." value='{"type":"ping"}'>
+        <button onclick="sendMessage()">Send Raw</button>
+        <button onclick="sendUltraThink()">Send UltraThink Test</button>
+    </div>
+    
+    <script>
+        let ws = null;
+        const log = document.getElementById('log');
+        
+        function addLog(message, type = 'info') {
+            const time = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#f00' : type === 'success' ? '#0f0' : '#ff0';
+            log.innerHTML += `<div style="color: ${color}">[${time}] ${message}</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        function connect() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                addLog('Already connected!', 'error');
+                return;
+            }
+            
+            addLog('Connecting to ws://localhost:3005/warroom-ws...');
+            
+            ws = new WebSocket('ws://localhost:3005/warroom-ws');
+            
+            ws.onopen = () => {
+                addLog('✅ WebSocket Connected!', 'success');
+                addLog('Ready state: ' + ws.readyState);
+            };
+            
+            ws.onmessage = (event) => {
+                addLog('📥 Received: ' + event.data, 'success');
+                try {
+                    const data = JSON.parse(event.data);
+                    addLog('   Type: ' + data.type);
+                } catch (e) {
+                    // Not JSON
+                }
+            };
+            
+            ws.onerror = (error) => {
+                addLog('❌ Error: ' + error, 'error');
+            };
+            
+            ws.onclose = (event) => {
+                addLog(`🔌 Disconnected! Code: ${event.code}, Reason: ${event.reason}`, 'error');
+            };
+        }
+        
+        function disconnect() {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+        }
+        
+        function sendMessage() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                addLog('Not connected!', 'error');
+                return;
+            }
+            
+            const message = document.getElementById('message').value;
+            addLog('📤 Sending: ' + message);
+            ws.send(message);
+        }
+        
+        function sendUltraThink() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                addLog('Not connected!', 'error');
+                return;
+            }
+            
+            const testMessage = {
+                type: 'ultrathink-workflow',
+                workflow: {
+                    id: 'test-' + Date.now(),
+                    task: 'Como criar um sistema de autenticação seguro?',
+                    language: 'pt-BR',
+                    config: {
+                        maxAgents: 10,
+                        timeout: 30000
+                    }
+                }
+            };
+            
+            const json = JSON.stringify(testMessage);
+            addLog('📤 Sending UltraThink test: ' + json);
+            ws.send(json);
+        }
+        
+        function clearLog() {
+            log.innerHTML = '';
+        }
+        
+        // Auto connect
+        setTimeout(connect, 500);
+    </script>
+</body>
+</html>

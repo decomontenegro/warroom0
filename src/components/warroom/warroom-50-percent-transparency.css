@@ -1,0 +1,32 @@
+/* Transparência de 50% conforme solicitado */
+
+/* Override para garantir 50% de transparência na área principal */
+.warroom-whatsapp .chat-area {
+  background: rgba(13, 17, 23, 0.5) !important; /* Exatamente 50% */
+}
+
+.warroom-whatsapp .chat-content-wrapper {
+  background: transparent !important;
+}
+
+.warroom-whatsapp .messages-container {
+  background: rgba(13, 17, 23, 0.5) !important; /* Exatamente 50% */
+}
+
+/* Header e input area também com 50% */
+.warroom-whatsapp .chat-header {
+  background: rgba(22, 27, 34, 0.5) !important;
+}
+
+.warroom-whatsapp .chat-input-area {
+  background: rgba(22, 27, 34, 0.5) !important;
+}
+
+/* Garantir que o blur effect funcione bem com 50% de transparência */
+.warroom-whatsapp .chat-area,
+.warroom-whatsapp .messages-container,
+.warroom-whatsapp .chat-header,
+.warroom-whatsapp .chat-input-area {
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+}

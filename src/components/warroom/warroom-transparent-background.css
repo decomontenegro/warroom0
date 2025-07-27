@@ -1,0 +1,105 @@
+/* Fundo transparente para área de chat - 50% transparência */
+
+/* Chat area com fundo semi-transparente */
+.warroom-whatsapp .chat-area {
+  background: rgba(13, 17, 23, 0.5) !important; /* #0D1117 com 50% transparência */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* Messages container com transparência */
+.warroom-whatsapp .messages-container {
+  background: rgba(13, 17, 23, 0.3) !important; /* Mais transparente ainda */
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* Chat content wrapper transparente */
+.warroom-whatsapp .chat-content-wrapper {
+  background: transparent !important;
+}
+
+/* Header do chat com transparência */
+.warroom-whatsapp .chat-header {
+  background: rgba(22, 27, 34, 0.5) !important; /* #161B22 com 50% transparência */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Input area com transparência */
+.warroom-whatsapp .chat-input-area {
+  background: rgba(22, 27, 34, 0.5) !important; /* #161B22 com 50% transparência */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-top: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Mensagens com fundo semi-transparente para legibilidade */
+.warroom-whatsapp .message-bubble {
+  background: rgba(30, 40, 55, 0.7) !important; /* Fundo das mensagens com 70% opacidade */
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Mensagens de agentes com transparência */
+.warroom-whatsapp .message.message-agent {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0%, transparent 50%) !important;
+}
+
+/* Badge do agente com transparência */
+.warroom-whatsapp .agent-name {
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Window controls com transparência */
+.warroom-whatsapp .window-controls {
+  background: rgba(22, 27, 34, 0.5) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+}
+
+/* Network map com transparência */
+.warroom-whatsapp .agent-network-map {
+  background: rgba(22, 27, 34, 0.5) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+}
+
+/* Sidebar mantém opacidade para contraste */
+.warroom-whatsapp .sidebar {
+  background: rgba(22, 27, 34, 0.95) !important; /* Menos transparente para manter contraste */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* Input field com leve transparência */
+.warroom-whatsapp .chat-input {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+}
+
+.warroom-whatsapp .chat-input:focus {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Adicionar um fundo geral para o app com gradiente */
+#root {
+  background: linear-gradient(135deg, #0D1117 0%, #1C2128 50%, #0D1117 100%) !important;
+  min-height: 100vh !important;
+}
+
+/* Efeito de vidro fosco em elementos flutuantes */
+.floating-element,
+.modal,
+.dropdown {
+  background: rgba(22, 27, 34, 0.5) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}

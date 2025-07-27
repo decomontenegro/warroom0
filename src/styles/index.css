@@ -16,19 +16,33 @@
 }
 
 :root {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #1a1a1a;
-  --bg-tertiary: #2a2a2a;
-  --border-color: #333;
-  --text-primary: #e0e0e0;
-  --text-secondary: #999;
-  --text-tertiary: #666;
-  --accent-blue: #2563eb;
-  --accent-green: #10b981;
-  --accent-orange: #f59e0b;
-  --accent-red: #ef4444;
-  --accent-purple: #8b5cf6;
-  --accent-cyan: #06b6d4;
+  /* Cores Base Liqi */
+  --bg-primary: #0D1117;        /* Azul-marinho profundo (fundo principal) */
+  --bg-secondary: #1F242A;      /* Azul-acinzentado escuro (painéis) */
+  --bg-tertiary: #1E2235;       /* Azul arroxeado escuro (cabeçalhos) */
+  --bg-header: #01010A;         /* Azul muito escuro (barra superior) */
+  
+  /* Cores Principais */
+  --accent-purple: #9C27B0;     /* Roxo vibrante */
+  --accent-blue: #005CEB;       /* Azul ciano (cor marca) */
+  
+  /* Cores de Destaque */
+  --accent-orange: #FF9800;     /* Laranja intenso (ações) */
+  --accent-yellow: #FDD835;     /* Amarelo vibrante (status/ícones) */
+  
+  /* Cores de Texto */
+  --text-primary: #FFFFFF;      /* Texto principal */
+  --text-secondary: #B8BFC6;    /* Texto secundário */
+  --text-tertiary: #7A8188;     /* Texto terciário */
+  
+  /* Bordas e divisores */
+  --border-color: rgba(0, 92, 235, 0.2);
+  
+  /* Outras cores úteis */
+  --accent-green: #50FA7B;      /* Verde sucesso */
+  --accent-red: #FF5555;        /* Vermelho erro */
+  --accent-cyan: #8BE9FD;       /* Ciano info */
+  
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

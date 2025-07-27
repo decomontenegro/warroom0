@@ -41,7 +41,7 @@ const TEMPLATES = [
   }
 ]
 
-function PromptBuilder({ onBuildComplete, allAgents }) {
+function PromptBuilder({ onBuildComplete, onSubmit, allAgents }) {
   const [selectedTopics, setSelectedTopics] = useState([])
   const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [customPrompt, setCustomPrompt] = useState('')
@@ -116,11 +116,17 @@ function PromptBuilder({ onBuildComplete, allAgents }) {
       ? allAgents.filter(a => selectedAgents.includes(a.id))
       : suggestedAgents
     
-    onBuildComplete({
-      prompt: customPrompt,
-      topics: selectedTopics,
-      agents: finalAgents
-    })
+    // Usar onSubmit se onBuildComplete não estiver disponível
+    if (onBuildComplete) {
+      onBuildComplete({
+        prompt: customPrompt,
+        topics: selectedTopics,
+        agents: finalAgents
+      })
+    } else if (onSubmit) {
+      // Simplificar para onSubmit se for o caso
+      onSubmit(customPrompt)
+    }
   }
   
   return (

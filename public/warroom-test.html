@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarRoom Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0D1117;
+            color: white;
+            padding: 20px;
+        }
+        .status {
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .success {
+            background: rgba(80, 250, 123, 0.2);
+            color: #50FA7B;
+        }
+        .error {
+            background: rgba(255, 85, 85, 0.2);
+            color: #FF5555;
+        }
+        .btn {
+            background: #FF9800;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #FF6F00;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste do WarRoom (Via Localhost)</h1>
+    
+    <div id="status" class="status">Verificando...</div>
+    
+    <div style="margin: 20px 0;">
+        <button class="btn" onclick="window.location.href='/warroom'">Ir para WarRoom</button>
+        <button class="btn" onclick="window.open('/warroom', '_blank')">Abrir em Nova Aba</button>
+    </div>
+    
+    <script>
+        // Este arquivo está sendo servido pelo Vite, então não teremos problemas de CORS
+        const statusDiv = document.getElementById('status');
+        
+        // Verificar se conseguimos acessar o WarRoom
+        fetch('/warroom')
+            .then(response => {
+                if (response.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '✅ WarRoom está acessível! Status: ' + response.status;
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = '❌ Erro ao acessar WarRoom. Status: ' + response.status;
+                }
+            })
+            .catch(error => {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '❌ Erro: ' + error.message;
+            });
+    </script>
+</body>
+</html>

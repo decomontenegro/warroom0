@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abrir WarRoom 3.0</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0D1117;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #9C27B0 0%, #005CEB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .link {
+            display: inline-block;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #FF9800 0%, #FF6F00 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 152, 0, 0.3);
+        }
+        .link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 152, 0, 0.5);
+        }
+        .secondary {
+            background: #1F242A;
+            border: 2px solid rgba(0, 92, 235, 0.3);
+            box-shadow: none;
+        }
+        .secondary:hover {
+            background: rgba(0, 92, 235, 0.1);
+            border-color: #005CEB;
+            box-shadow: 0 4px 20px rgba(0, 92, 235, 0.3);
+        }
+        .info {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1F242A;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 92, 235, 0.2);
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 WarRoom 3.0</h1>
+        <p style="font-size: 20px; color: #8B92A6;">Interface WhatsApp com 100+ Especialistas</p>
+        
+        <div class="links">
+            <a href="http://localhost:5173/warroom3" class="link">
+                💬 Abrir WarRoom 3.0
+            </a>
+            
+            <a href="http://localhost:5173/" class="link secondary">
+                🏠 Página Inicial
+            </a>
+            
+            <a href="http://localhost:5173/warroom" class="link secondary">
+                🎯 WarRoom Classic
+            </a>
+        </div>
+        
+        <div class="info">
+            <h3>Status do Servidor</h3>
+            <div id="status" class="status">Verificando...</div>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-redirecionar após verificar
+        function checkAndRedirect() {
+            fetch('http://localhost:5173/')
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('status').className = 'status success';
+                        document.getElementById('status').innerHTML = '✅ Servidor online! Redirecionando...';
+                        setTimeout(() => {
+                            window.location.href = 'http://localhost:5173/warroom3';
+                        }, 2000);
+                    } else {
+                        throw new Error('Server not responding');
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('status').className = 'status error';
+                    document.getElementById('status').innerHTML = '❌ Servidor offline. Por favor, execute: npm run dev';
+                });
+        }
+        
+        // Verificar ao carregar
+        checkAndRedirect();
+        
+        // Verificar a cada 3 segundos
+        setInterval(checkAndRedirect, 3000);
+    </script>
+</body>
+</html>

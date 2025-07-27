@@ -1,0 +1,172 @@
+/* Fix para remover fundos brancos e corrigir campo de input escondido */
+
+/* Remove qualquer fundo branco no body e elementos principais */
+body, 
+html,
+#root,
+.app,
+.App,
+.layout,
+.main-content {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Garante que o WarRoom tenha o fundo correto */
+.warroom-whatsapp,
+.warroom-container,
+.warroom-wrapper {
+  background: #0D1117 !important;
+  background-color: #0D1117 !important;
+}
+
+/* Fix para área de input */
+.chat-input-area,
+.input-area,
+.chat-input-wrapper,
+.message-input-container {
+  position: relative !important;
+  z-index: 1000 !important;
+  background: rgba(31, 36, 42, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-top: 1px solid rgba(0, 92, 235, 0.3) !important;
+  padding: 20px !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+}
+
+/* Input field específico */
+.chat-input,
+.message-input,
+input[type="text"],
+textarea {
+  position: relative !important;
+  z-index: 1001 !important;
+  background: rgba(30, 40, 55, 0.9) !important;
+  border: 1px solid rgba(0, 92, 235, 0.3) !important;
+  color: #FFFFFF !important;
+  padding: 12px 20px !important;
+  border-radius: 25px !important;
+  width: 100% !important;
+  font-size: 16px !important;
+  outline: none !important;
+}
+
+.chat-input:focus,
+.message-input:focus,
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #005CEB !important;
+  box-shadow: 0 0 15px rgba(0, 92, 235, 0.4) !important;
+  background: rgba(30, 40, 55, 1) !important;
+}
+
+/* Botão de enviar */
+.send-button,
+.chat-send-button,
+button[type="submit"] {
+  position: relative !important;
+  z-index: 1002 !important;
+  background: #FF9800 !important;
+  color: white !important;
+  border: none !important;
+  padding: 12px 30px !important;
+  border-radius: 25px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  margin-left: 10px !important;
+}
+
+.send-button:hover,
+.chat-send-button:hover,
+button[type="submit"]:hover {
+  background: #FF6F00 !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 20px rgba(255, 152, 0, 0.4) !important;
+}
+
+/* Área de mensagens */
+.messages-container,
+.chat-messages,
+.messages-area {
+  background: transparent !important;
+  padding-bottom: 100px !important; /* Espaço para o input */
+  overflow-y: auto !important;
+  height: calc(100% - 140px) !important; /* Ajusta altura considerando header e input */
+}
+
+/* Remove qualquer overlay branco */
+.overlay,
+.modal-overlay,
+.backdrop {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Fix para componentes que possam ter fundo branco */
+.card,
+.panel,
+.dialog,
+.modal {
+  background: var(--liqi-bg-secondary) !important;
+  color: var(--liqi-text-primary) !important;
+}
+
+/* Remove fundos brancos de elementos genéricos */
+div[style*="background: white"],
+div[style*="background-color: white"],
+div[style*="background:#fff"],
+div[style*="background-color:#fff"],
+div[style*="background: #fff"],
+div[style*="background-color: #fff"],
+div[style*="background: rgb(255, 255, 255)"],
+div[style*="background-color: rgb(255, 255, 255)"] {
+  background: var(--liqi-bg-secondary) !important;
+}
+
+/* Fix para chat area */
+.chat-area {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  background: #0D1117 !important;
+}
+
+/* Garante que o header fique no topo */
+.chat-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  background: #01010A !important;
+}
+
+/* Container principal do chat */
+.chat-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+}
+
+/* Mensagens ocupam o espaço disponível */
+.messages-wrapper {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding-bottom: 20px !important;
+}
+
+/* Input fica fixo no fundo */
+.input-wrapper {
+  position: sticky !important;
+  bottom: 0 !important;
+  background: rgba(31, 36, 42, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  padding: 15px 20px !important;
+  border-top: 1px solid rgba(0, 92, 235, 0.3) !important;
+  z-index: 1000 !important;
+}
+
+/* IMPORTANTE: Este CSS deve ser carregado por último */

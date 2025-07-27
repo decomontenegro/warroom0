@@ -6,11 +6,14 @@ import { dirname, join } from 'path';
 import aiService from '../services/ai.js';
 import UltrathinkWorkflow from '../../src/services/ultrathink-workflow.js';
 import IntelligentOrchestrator from '../../src/services/intelligent-orchestrator.js';
+import MetaAgent from '../services/consensus/MetaAgent.js';
+import WarRoomHandlers from '../services/warroom-handlers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const router = express.Router();
+const handlers = new WarRoomHandlers();
 
 // Language instruction helper
 function getLanguageInstruction(language) {
@@ -89,6 +92,14 @@ export function createWarRoomWebSocket(server) {
 
 function handleWebSocketMessage(ws, data) {
   switch (data.type) {
+    case 'ultrathink_query':
+      handlers.handleUltraThinkQuery(ws, data);
+      break;
+      
+    case 'explore_detail':
+      handlers.handleExploreDetail(ws, data);
+      break;
+      
     case 'register':
       if (data.sessionId) {
         if (!wsClients.has(data.sessionId)) {

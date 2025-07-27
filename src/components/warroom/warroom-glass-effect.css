@@ -1,0 +1,164 @@
+/* Efeito de vidro fosco sofisticado com animações */
+
+/* Background animado com gradiente */
+@keyframes backgroundShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Root com gradiente animado */
+#root {
+  background: linear-gradient(-45deg, #0D1117, #1C2128, #161B22, #0D1117) !important;
+  background-size: 400% 400% !important;
+  animation: backgroundShift 20s ease infinite !important;
+}
+
+/* Wrapper principal com efeito de vidro */
+.warroom-whatsapp {
+  background: rgba(13, 17, 23, 0.2) !important;
+  backdrop-filter: blur(30px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(150%) !important;
+  box-shadow: inset 0 0 100px rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Chat area com efeito de profundidade */
+.warroom-whatsapp .chat-area {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 17, 23, 0.6) 0%,
+    rgba(13, 17, 23, 0.4) 50%,
+    rgba(13, 17, 23, 0.5) 100%
+  ) !important;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Messages container com gradiente sutil */
+.warroom-whatsapp .messages-container {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(13, 17, 23, 0.2) 0%,
+    rgba(13, 17, 23, 0.4) 100%
+  ) !important;
+}
+
+/* Mensagens com efeito hover suave */
+.warroom-whatsapp .message-bubble {
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.warroom-whatsapp .message-bubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.warroom-whatsapp .message-bubble:hover::before {
+  left: 100%;
+}
+
+.warroom-whatsapp .message-bubble:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(255, 255, 255, 0.05) !important;
+  background: rgba(30, 40, 55, 0.8) !important;
+}
+
+/* Chat header com reflexo */
+.warroom-whatsapp .chat-header {
+  position: relative !important;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 27, 34, 0.7) 0%,
+    rgba(22, 27, 34, 0.5) 100%
+  ) !important;
+  box-shadow: 
+    0 2px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Input area com borda luminosa */
+.warroom-whatsapp .chat-input-area {
+  background: linear-gradient(
+    180deg,
+    rgba(22, 27, 34, 0.5) 0%,
+    rgba(22, 27, 34, 0.7) 100%
+  ) !important;
+  box-shadow: 
+    0 -2px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Input com glow ao focar */
+.warroom-whatsapp .chat-input {
+  transition: all 0.3s ease !important;
+}
+
+.warroom-whatsapp .chat-input:focus {
+  box-shadow: 
+    0 0 20px rgba(33, 150, 243, 0.3),
+    inset 0 0 20px rgba(33, 150, 243, 0.1) !important;
+}
+
+/* Sidebar com gradiente vertical */
+.warroom-whatsapp .sidebar {
+  background: linear-gradient(
+    180deg,
+    rgba(22, 27, 34, 0.98) 0%,
+    rgba(22, 27, 34, 0.95) 50%,
+    rgba(22, 27, 34, 0.98) 100%
+  ) !important;
+  box-shadow: 
+    2px 0 20px rgba(0, 0, 0, 0.5),
+    inset -1px 0 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Efeito de partículas flutuantes */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.warroom-whatsapp::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(33, 150, 243, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Botões com efeito de vidro */
+.warroom-whatsapp button {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.warroom-whatsapp button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-1px) !important;
+}

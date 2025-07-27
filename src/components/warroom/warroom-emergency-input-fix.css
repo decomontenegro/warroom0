@@ -1,0 +1,179 @@
+/* EMERGENCY FIX - Input sempre visível no WarRoom v1 */
+
+/* ==================== RESET TOTAL DE Z-INDEX ==================== */
+/* Primeiro, reduzir z-index de TODOS os elementos */
+.warroom-whatsapp * {
+  z-index: 1 !important;
+}
+
+/* ==================== ÁREA DE INPUT NO TOPO ABSOLUTO ==================== */
+.warroom-whatsapp .chat-input-area {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 320px !important; /* Compensar sidebar */
+  right: 0 !important;
+  z-index: 999999 !important; /* Máximo possível */
+  
+  /* Fundo sólido para garantir visibilidade */
+  background: #0D1117 !important;
+  background-image: none !important;
+  
+  /* Borda bem visível */
+  border-top: 4px solid #2196F3 !important;
+  
+  /* Sombra forte */
+  box-shadow: 
+    0 -8px 32px rgba(0, 0, 0, 0.9),
+    0 -4px 16px rgba(33, 150, 243, 0.3) !important;
+  
+  /* Padding generoso */
+  padding: 24px !important;
+  
+  /* Garantir que seja um container flex */
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+  
+  /* Altura mínima */
+  min-height: 100px !important;
+  
+  /* Garantir visibilidade */
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* ==================== CAMPO DE INPUT SUPER VISÍVEL ==================== */
+.warroom-whatsapp .chat-input {
+  /* Reset total */
+  all: revert !important;
+  
+  /* Configurações forçadas */
+  flex: 1 !important;
+  background: #FFFFFF !important; /* Fundo branco para máximo contraste */
+  color: #000000 !important; /* Texto preto */
+  border: 3px solid #2196F3 !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  padding: 16px 20px !important;
+  min-height: 56px !important;
+  border-radius: 8px !important;
+  
+  /* Garantir que não seja transparente */
+  opacity: 1 !important;
+  
+  /* Z-index ainda maior */
+  position: relative !important;
+  z-index: 999999 !important;
+  
+  /* Sombra interna */
+  box-shadow: 
+    0 0 0 2px rgba(33, 150, 243, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.1) inset !important;
+}
+
+/* Focus ainda mais destacado */
+.warroom-whatsapp .chat-input:focus {
+  outline: 4px solid #FFC107 !important; /* Outline amarelo para chamar atenção */
+  outline-offset: 2px !important;
+  border-color: #1976D2 !important;
+  box-shadow: 
+    0 0 0 6px rgba(33, 150, 243, 0.3),
+    0 0 20px rgba(33, 150, 243, 0.4) !important;
+}
+
+/* Placeholder com alto contraste */
+.warroom-whatsapp .chat-input::placeholder {
+  color: #666666 !important;
+  font-weight: 400 !important;
+  opacity: 1 !important;
+}
+
+/* ==================== BOTÃO ENVIAR ==================== */
+.warroom-whatsapp .send-button {
+  position: relative !important;
+  z-index: 999999 !important;
+  background: #2196F3 !important;
+  color: white !important;
+  border: none !important;
+  min-width: 56px !important;
+  min-height: 56px !important;
+  padding: 16px 24px !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4) !important;
+  
+  /* Garantir visibilidade */
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ==================== AJUSTAR OUTROS ELEMENTOS ==================== */
+/* Coordinator Panel - reduzir z-index e ajustar posição */
+.warroom-whatsapp .coordinator-panel {
+  z-index: 100 !important; /* Muito menor */
+  top: 80px !important;
+  bottom: 140px !important; /* Não cobrir input */
+  max-height: calc(100vh - 240px) !important;
+  overflow-y: auto !important;
+}
+
+/* Network Map - mover para cima */
+.warroom-whatsapp .agent-network-map {
+  z-index: 50 !important;
+  bottom: 160px !important; /* Bem acima do input */
+}
+
+/* Active Agents - ajustar */
+.warroom-whatsapp .active-agents-panel {
+  z-index: 80 !important;
+  bottom: 140px !important;
+}
+
+/* Mensagens - adicionar padding bottom */
+.warroom-whatsapp .chat-messages {
+  padding-bottom: 160px !important; /* Muito espaço para o input */
+}
+
+/* ==================== MOBILE FIX ==================== */
+@media (max-width: 768px) {
+  .warroom-whatsapp .chat-input-area {
+    left: 0 !important; /* Sem sidebar em mobile */
+    padding: 16px !important;
+    min-height: 80px !important;
+  }
+  
+  .warroom-whatsapp .chat-input {
+    font-size: 16px !important; /* Previne zoom no iOS */
+    min-height: 48px !important;
+  }
+}
+
+/* ==================== DEBUG VISUAL ==================== */
+/* Adiciona uma borda vermelha tracejada para debug */
+.warroom-whatsapp .chat-input-area::before {
+  content: "ÁREA DE INPUT";
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  background: #FF0000;
+  color: white;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 999999;
+}
+
+/* ==================== FORÇAR VISIBILIDADE ABSOLUTA ==================== */
+html body .warroom-whatsapp .chat-input-area,
+html body .warroom-whatsapp .chat-input,
+html body .warroom-whatsapp .send-button {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+}

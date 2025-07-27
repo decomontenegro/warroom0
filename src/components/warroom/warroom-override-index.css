@@ -1,0 +1,99 @@
+/* Override específico do index.css e variáveis CSS */
+
+/* Remove as variáveis de cor de fundo */
+:root {
+  --bg-primary: transparent !important;
+  --bg-secondary: transparent !important;
+  --bg-tertiary: transparent !important;
+  --background: transparent !important;
+  --card: transparent !important;
+  --popover: transparent !important;
+  --sidebar: transparent !important;
+}
+
+/* Override do body do index.css */
+body {
+  background: transparent !important;
+  background-color: transparent !important;
+  /* Remove a cor de fundo definida pela variável */
+  background: var(--bg-primary) !important;
+  --bg-primary: transparent !important;
+}
+
+/* Override do #root do index.css */
+#root {
+  background: transparent !important;
+  background-color: transparent !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+/* Remove fundos do tema dark */
+.dark {
+  --background: transparent !important;
+  --card: transparent !important;
+  --popover: transparent !important;
+  --sidebar: transparent !important;
+}
+
+/* Garante que o estilo inline seja sobrescrito */
+body[style],
+#root[style],
+div[style] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Remove fundos de qualquer elemento com classes de background */
+[class*="bg-"],
+[class*="background"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Específico para o WarRoom manter 50% de transparência */
+.warroom-whatsapp {
+  /* Fundo escuro com 50% de transparência */
+  background: rgba(13, 17, 23, 0.5) !important;
+  background-color: rgba(13, 17, 23, 0.5) !important;
+  /* Efeito de vidro */
+  backdrop-filter: blur(15px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+}
+
+/* Override do App.css */
+.app {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Layout component */
+.layout,
+[class*="layout"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Header do layout */
+.header {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Main content */
+.main-content {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Nav links */
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.nav-link.active {
+  background: rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Importante: Este arquivo deve ser carregado APÓS o index.css */

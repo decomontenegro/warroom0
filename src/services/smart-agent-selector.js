@@ -248,12 +248,14 @@ export class SmartAgentSelector {
       }
     }
 
-    // Match com elementos específicos
-    if (analysis.keyElements.formulas.length > 0 && roleLower.includes('scientist')) {
-      score += 0.2;
-    }
-    if (analysis.keyElements.codeSnippets.length > 0 && roleLower.includes('developer')) {
-      score += 0.2;
+    // Match com elementos específicos (com verificação de segurança)
+    if (analysis.keyElements) {
+      if (analysis.keyElements.formulas && analysis.keyElements.formulas.length > 0 && roleLower.includes('scientist')) {
+        score += 0.2;
+      }
+      if (analysis.keyElements.codeSnippets && analysis.keyElements.codeSnippets.length > 0 && roleLower.includes('developer')) {
+        score += 0.2;
+      }
     }
 
     return Math.min(score, 1.0);

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug WarRoom3</title>
+    <style>
+        body {
+            margin: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Debug WarRoom3</h1>
+        
+        <div id="status" class="status">Pronto para testar...</div>
+        
+        <h2>Testes Rápidos:</h2>
+        
+        <button onclick="checkServer()">1. Verificar Servidor</button>
+        <button onclick="checkCSS()">2. Verificar CSS</button>
+        <button onclick="checkReact()">3. Verificar React</button>
+        <button onclick="openWarRoom3()">4. Abrir WarRoom3 em Nova Aba</button>
+        <button onclick="checkConsole()">5. Ver Erros do Console</button>
+        
+        <h2>Resultado:</h2>
+        <pre id="result">Clique em um dos botões acima para testar...</pre>
+        
+        <h2>Console:</h2>
+        <pre id="console"></pre>
+    </div>
+    
+    <script>
+        const status = document.getElementById('status');
+        const result = document.getElementById('result');
+        const consoleDiv = document.getElementById('console');
+        
+        // Capturar erros
+        window.addEventListener('error', (e) => {
+            consoleDiv.innerHTML += `ERROR: ${e.message}\n`;
+        });
+        
+        async function checkServer() {
+            status.className = 'status';
+            status.textContent = 'Verificando servidor...';
+            
+            try {
+                const response = await fetch('http://localhost:5173/');
+                if (response.ok) {
+                    status.className = 'status success';
+                    status.textContent = '✅ Servidor rodando!';
+                    result.textContent = 'Servidor está respondendo normalmente.';
+                } else {
+                    throw new Error(`Status: ${response.status}`);
+                }
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = '❌ Erro no servidor';
+                result.textContent = `Erro: ${error.message}`;
+            }
+        }
+        
+        async function checkCSS() {
+            status.className = 'status';
+            status.textContent = 'Verificando CSS...';
+            
+            try {
+                // Criar iframe para testar
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '400px';
+                iframe.style.border = '1px solid #ccc';
+                iframe.src = 'http://localhost:5173/warroom3';
+                
+                result.innerHTML = '';
+                result.appendChild(iframe);
+                
+                iframe.onload = () => {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        const styles = iframeDoc.querySelectorAll('link[rel="stylesheet"], style');
+                        
+                        status.className = 'status success';
+                        status.textContent = `✅ ${styles.length} folhas de estilo carregadas`;
+                        
+                        // Verificar se há conteúdo visível
+                        const container = iframeDoc.querySelector('.warroom3-container');
+                        if (container) {
+                            const computed = iframe.contentWindow.getComputedStyle(container);
+                            consoleDiv.innerHTML = `
+Container encontrado!
+Background: ${computed.backgroundColor}
+Display: ${computed.display}
+Width: ${computed.width}
+Height: ${computed.height}
+                            `;
+                        } else {
+                            consoleDiv.innerHTML = 'Container .warroom3-container não encontrado!';
+                        }
+                    } catch (e) {
+                        consoleDiv.innerHTML = `Erro ao acessar iframe: ${e.message}`;
+                    }
+                };
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = '❌ Erro ao verificar CSS';
+                result.textContent = `Erro: ${error.message}`;
+            }
+        }
+        
+        async function checkReact() {
+            status.className = 'status';
+            status.textContent = 'Verificando React...';
+            
+            const testWindow = window.open('http://localhost:5173/warroom3', '_blank');
+            
+            setTimeout(() => {
+                try {
+                    if (testWindow && testWindow.React) {
+                        status.className = 'status success';
+                        status.textContent = '✅ React carregado!';
+                        result.textContent = `React version: ${testWindow.React.version}`;
+                    } else {
+                        status.className = 'status error';
+                        status.textContent = '❌ React não encontrado';
+                        result.textContent = 'React não está carregado na página.';
+                    }
+                } catch (e) {
+                    result.textContent = `Erro: ${e.message}`;
+                }
+            }, 2000);
+        }
+        
+        function openWarRoom3() {
+            window.open('http://localhost:5173/warroom3', '_blank');
+            status.className = 'status success';
+            status.textContent = '✅ WarRoom3 aberto em nova aba';
+            result.textContent = 'Verifique a nova aba e abra o DevTools (F12) para ver erros.';
+        }
+        
+        function checkConsole() {
+            // Executar teste inline
+            const script = document.createElement('script');
+            script.src = 'http://localhost:5173/src/main.jsx';
+            script.onerror = () => {
+                consoleDiv.innerHTML += 'Erro ao carregar main.jsx\n';
+            };
+            document.body.appendChild(script);
+        }
+        
+        // Auto-check ao carregar
+        checkServer();
+    </script>
+</body>
+</html>
