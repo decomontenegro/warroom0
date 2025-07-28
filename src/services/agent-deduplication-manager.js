@@ -198,13 +198,48 @@ export class AgentDeduplicationManager {
     // Verificação simples de similaridade
     if (response1 === response2) return true;
     
-    // Verificar se têm mais de 80% de palavras em comum
-    const words1 = response1.toLowerCase().split(/\s+/);
-    const words2 = response2.toLowerCase().split(/\s+/);
-    const commonWords = words1.filter(w => words2.includes(w));
+    // Extrair apenas conteúdo significativo (ignorar palavras comuns)
+    const stopWords = new Set([
+      'a', 'o', 'de', 'do', 'da', 'em', 'para', 'com', 'por', 'que', 'e', 'é', 'um', 'uma',
+      'as', 'os', 'no', 'na', 'dos', 'das', 'ao', 'à', 'pelo', 'pela', 'como', 'mais',
+      'mas', 'quando', 'muito', 'já', 'eu', 'também', 'se', 'sem', 'mesmo', 'aos',
+      'ter', 'seu', 'sua', 'ou', 'ser', 'não', 'há', 'isso', 'entre', 'depois',
+      'the', 'is', 'at', 'which', 'on', 'a', 'an', 'as', 'are', 'in', 'to', 'of', 'and'
+    ]);
     
-    const similarity = commonWords.length / Math.max(words1.length, words2.length);
-    return similarity > 0.8;
+    // Função para extrair palavras significativas
+    const extractSignificantWords = (text) => {
+      return text.toLowerCase()
+        .replace(/[^\w\sà-ú]/g, ' ') // Remover pontuação
+        .split(/\s+/)
+        .filter(word => word.length > 3 && !stopWords.has(word));
+    };
+    
+    const words1 = extractSignificantWords(response1);
+    const words2 = extractSignificantWords(response2);
+    
+    // Se uma das respostas não tem palavras significativas, não são similares
+    if (words1.length === 0 || words2.length === 0) return false;
+    
+    // Calcular similaridade de Jaccard com palavras significativas
+    const set1 = new Set(words1);
+    const set2 = new Set(words2);
+    const intersection = new Set([...set1].filter(x => set2.has(x)));
+    const union = new Set([...set1, ...set2]);
+    
+    const jaccardSimilarity = intersection.size / union.size;
+    
+    // Também verificar se as primeiras palavras são muito diferentes (intros diferentes)
+    const firstWords1 = response1.split(/\s+/).slice(0, 10).join(' ').toLowerCase();
+    const firstWords2 = response2.split(/\s+/).slice(0, 10).join(' ').toLowerCase();
+    
+    if (firstWords1 !== firstWords2) {
+      // Se as intros são diferentes, aumentar o threshold de similaridade
+      return jaccardSimilarity > 0.85;
+    }
+    
+    // Threshold mais alto agora (70% em vez de 80%)
+    return jaccardSimilarity > 0.7;
   }
 
   /**

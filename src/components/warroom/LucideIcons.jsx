@@ -45,7 +45,10 @@ import {
   Award,
   Layout,
   Server,
-  Package
+  Package,
+  Bot,
+  Paperclip,
+  MoreVertical
 } from 'lucide-react'
 
 // Mapeamento de nomes para componentes Lucide
@@ -94,7 +97,11 @@ export const lucideIcons = {
   Award,
   Layout,
   Server,
-  Package
+  Package,
+  Bot,
+  Paperclip,
+  MoreVertical,
+  BarChart3 // Alias para compatibilidade
 }
 
 // Componente wrapper para usar Lucide icons

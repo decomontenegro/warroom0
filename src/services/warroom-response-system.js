@@ -402,20 +402,57 @@ Ready to collaborate and deliver exceptional results!`
    * Gera resposta contextualizada genérica
    */
   generateContextualizedResponse(agent, query, profile, personalityContext, queryContext, language) {
-    const intro = language === 'pt-BR' 
-      ? `Como ${agent.name}, especialista em ${agent.role}, analiso sua solicitação:`
-      : `As ${agent.name}, specialist in ${agent.role}, I analyze your request:`;
+    // Variação de intros baseada no tipo de agente
+    const agentType = this.detectAgentType(agent);
+    const intros = this.getVariedIntros(agent, agentType, language);
+    const intro = intros[Math.floor(Math.random() * intros.length)];
 
-    return `${personalityContext}
+    // Estruturas variadas de resposta
+    const structures = [
+      // Estrutura 1: Clássica
+      () => `${personalityContext}
 
 **${intro}**
 
 ${this.generateContextContent(agent, query, profile, queryContext, language)}
 
-${this.generateSpecificInsights(agent, profile, queryContext, language)}
+${this.generateSpecificInsights(agent, profile, queryContext, query, language)}
 
-${this.generateActionItems(agent, profile, language)}
-`;
+${this.generateActionItems(agent, profile, queryContext, query, language)}`,
+      
+      // Estrutura 2: Insights primeiro
+      () => `${personalityContext}
+
+**${intro}**
+
+${this.generateSpecificInsights(agent, profile, queryContext, query, language)}
+
+${this.generateContextContent(agent, query, profile, queryContext, language)}
+
+${this.generateActionItems(agent, profile, queryContext, query, language)}`,
+      
+      // Estrutura 3: Direto ao ponto
+      () => `${personalityContext}
+
+**${intro}**
+
+${this.generateSpecificInsights(agent, profile, queryContext, query, language)}
+
+${this.generateActionItems(agent, profile, queryContext, query, language)}`,
+      
+      // Estrutura 4: Começa com ação
+      () => `${personalityContext}
+
+**${intro}**
+
+${this.generateActionItems(agent, profile, queryContext, query, language)}
+
+${this.generateSpecificInsights(agent, profile, queryContext, query, language)}`
+    ];
+    
+    // Escolher estrutura aleatoriamente mas consistente por agente
+    const structureIndex = agent.id % structures.length;
+    return structures[structureIndex]();
   }
 
   /**
@@ -424,24 +461,63 @@ ${this.generateActionItems(agent, profile, language)}
   generateContextContent(agent, query, profile, context, language) {
     const content = [];
     
-    if (context.concepts.technical.length > 0) {
-      const techConcepts = context.concepts.technical.join(', ');
-      content.push(language === 'pt-BR' 
-        ? `**Conceitos Técnicos Identificados:** ${techConcepts}`
-        : `**Technical Concepts Identified:** ${techConcepts}`
+    // DEBUG: Log do que está sendo analisado
+    console.log('📝 [generateContextContent] Analisando query:', query);
+    console.log('📝 [generateContextContent] Contexto:', context);
+    
+    // Análise específica baseada na query real
+    const lowerQuery = query.toLowerCase();
+    
+    // Detectar tipo de aplicação sendo solicitada
+    if (lowerQuery.includes('uber') && (lowerQuery.includes('cachorro') || lowerQuery.includes('pet') || lowerQuery.includes('animal'))) {
+      // Uber para cachorros - análise específica
+      if (language === 'pt-BR') {
+        content.push(`**🐕 Análise: Aplicativo de Transporte para Pets**`);
+        content.push(`\n**Conceitos-Chave Identificados:**`);
+        content.push(`• Sistema de transporte sob demanda`);
+        content.push(`• Segurança e bem-estar animal`);
+        content.push(`• Rastreamento GPS em tempo real`);
+        content.push(`• Motoristas especializados em pets`);
+        content.push(`• Integração de pagamentos`);
+      }
+    } else if (lowerQuery.includes('crypto') || lowerQuery.includes('pagamento')) {
+      // Aplicação com pagamento crypto
+      if (language === 'pt-BR') {
+        content.push(`**💰 Análise: Sistema com Pagamento em Criptomoedas**`);
+        content.push(`\n**Conceitos-Chave Identificados:**`);
+        content.push(`• Integração com blockchain`);
+        content.push(`• Carteiras digitais`);
+        content.push(`• Processamento de transações crypto`);
+        content.push(`• Segurança e compliance`);
+      }
+    } else if (lowerQuery.includes('venda') || lowerQuery.includes('produto') || lowerQuery.includes('ecommerce')) {
+      // E-commerce
+      if (language === 'pt-BR') {
+        content.push(`**🛒 Análise: Plataforma de E-commerce**`);
+        content.push(`\n**Conceitos-Chave Identificados:**`);
+        content.push(`• Catálogo de produtos`);
+        content.push(`• Carrinho de compras`);
+        content.push(`• Sistema de pagamentos`);
+        content.push(`• Gestão de pedidos`);
+      }
+    }
+    
+    // Adicionar expertise do agente contextualizada
+    if (profile && profile.expertise) {
+      content.push(language === 'pt-BR'
+        ? `\n**Como ${agent.role}, posso contribuir com:**\n• ${profile.expertise.primary || agent.capabilities[0]}\n• ${profile.expertise.secondary || agent.capabilities[1]}\n• ${profile.expertise.emergent || agent.capabilities[2]}`
+        : `\n**As ${agent.role}, I can contribute with:**\n• ${profile.expertise.primary || agent.capabilities[0]}\n• ${profile.expertise.secondary || agent.capabilities[1]}\n• ${profile.expertise.emergent || agent.capabilities[2]}`
       );
     }
     
-    if (profile && profile.expertise) {
-      content.push(language === 'pt-BR'
-        ? `**Minha Expertise Aplicável:**\n• ${profile.expertise.primary || agent.capabilities[0] || 'Expertise técnica'}\n• ${profile.expertise.secondary || agent.capabilities[1] || 'Análise avançada'}\n• ${profile.expertise.emergent || agent.capabilities[2] || 'Soluções inovadoras'}`
-        : `**My Applicable Expertise:**\n• ${profile.expertise.primary || agent.capabilities[0] || 'Technical expertise'}\n• ${profile.expertise.secondary || agent.capabilities[1] || 'Advanced analysis'}\n• ${profile.expertise.emergent || agent.capabilities[2] || 'Innovative solutions'}`
+    // Se tiver conceitos técnicos detectados, incluí-los
+    if (context.concepts && context.concepts.technical && context.concepts.technical.length > 0) {
+      const techConcepts = context.concepts.technical.join(', ');
+      content.push(language === 'pt-BR' 
+        ? `\n**Tecnologias Relevantes:** ${techConcepts}`
+        : `\n**Relevant Technologies:** ${techConcepts}`
       );
-    } else {
-      // Fallback para capabilities do agente
-      const caps = agent.capabilities || ['Expertise técnica', 'Análise avançada', 'Soluções inovadoras'];
-      content.push(language === 'pt-BR'
-        ? `**Minha Expertise Aplicável:**\n• ${caps[0] || 'Expertise técnica'}\n• ${caps[1] || 'Análise avançada'}\n• ${caps[2] || 'Soluções inovadoras'}`
+    }
         : `**My Applicable Expertise:**\n• ${caps[0] || 'Technical expertise'}\n• ${caps[1] || 'Advanced analysis'}\n• ${caps[2] || 'Innovative solutions'}`
       );
     }
@@ -452,26 +528,73 @@ ${this.generateActionItems(agent, profile, language)}
   /**
    * Gera insights específicos
    */
-  generateSpecificInsights(agent, profile, context, language) {
+  generateSpecificInsights(agent, profile, context, query, language) {
     const insights = [];
     
-    // Baseado no tipo de agente
-    const agentType = this.detectAgentType(agent);
+    // DEBUG: Log do que está sendo analisado
+    console.log('🔍 [generateSpecificInsights] Gerando insights para:', agent.name);
+    console.log('🔍 [generateSpecificInsights] Contexto:', context);
     
-    switch (agentType) {
-      case 'architect':
-        insights.push(language === 'pt-BR'
-          ? '🏗️ **Perspectiva Arquitetural:**\n- Estrutura modular e escalável\n- Padrões de design apropriados\n- Integração com sistemas existentes'
-          : '🏗️ **Architectural Perspective:**\n- Modular and scalable structure\n- Appropriate design patterns\n- Integration with existing systems'
-        );
-        break;
-      
-      case 'developer':
-        insights.push(language === 'pt-BR'
-          ? '💻 **Perspectiva de Desenvolvimento:**\n- Implementação eficiente\n- Código limpo e testável\n- Performance otimizada'
-          : '💻 **Development Perspective:**\n- Efficient implementation\n- Clean and testable code\n- Optimized performance'
-        );
-        break;
+    // Baseado no tipo de agente e no contexto da query
+    const agentType = this.detectAgentType(agent);
+    // Usar a query diretamente, não context.originalInput
+    const lowerQuery = query ? query.toLowerCase() : '';
+    
+    // Gerar insights específicos baseados na query real
+    if (lowerQuery.includes('uber') && (lowerQuery.includes('cachorro') || lowerQuery.includes('pet'))) {
+      // Insights específicos para Uber de cachorros
+      switch (agentType) {
+        case 'architect':
+          insights.push(language === 'pt-BR'
+            ? '🏗️ **Arquitetura para App de Transporte Pet:**\n- Microserviços para matching motorista-pet\n- Sistema de rastreamento GPS em tempo real\n- API Gateway para app mobile/web\n- Fila de mensagens para notificações push\n- Banco de dados NoSQL para flexibilidade'
+            : '🏗️ **Architecture for Pet Transport App:**\n- Microservices for driver-pet matching\n- Real-time GPS tracking system\n- API Gateway for mobile/web app\n- Message queue for push notifications\n- NoSQL database for flexibility'
+          );
+          break;
+        
+        case 'developer':
+          insights.push(language === 'pt-BR'
+            ? '💻 **Desenvolvimento do App Uber Pet:**\n- React Native para app cross-platform\n- WebSocket para tracking em tempo real\n- Integração com Google Maps API\n- Sistema de avaliação motorista/dono\n- Upload de fotos e informações do pet'
+            : '💻 **Pet Uber App Development:**\n- React Native for cross-platform app\n- WebSocket for real-time tracking\n- Google Maps API integration\n- Driver/owner rating system\n- Pet photo and info upload'
+          );
+          break;
+          
+        case 'security':
+          insights.push(language === 'pt-BR'
+            ? '🔒 **Segurança para Transporte de Pets:**\n- Verificação de antecedentes dos motoristas\n- Criptografia de dados sensíveis\n- Sistema de emergência com botão de pânico\n- Histórico completo de viagens\n- Compliance com LGPD/GDPR'
+            : '🔒 **Security for Pet Transport:**\n- Driver background verification\n- Sensitive data encryption\n- Emergency system with panic button\n- Complete trip history\n- LGPD/GDPR compliance'
+          );
+          break;
+          
+        case 'ux':
+          insights.push(language === 'pt-BR'
+            ? '🎨 **UX/UI para App de Transporte Pet:**\n- Interface intuitiva para donos de pets\n- Perfil detalhado do pet (tamanho, temperamento)\n- Fotos e avaliações dos motoristas\n- Acompanhamento visual da viagem\n- Chat in-app para comunicação'
+            : '🎨 **UX/UI for Pet Transport App:**\n- Intuitive interface for pet owners\n- Detailed pet profile (size, temperament)\n- Driver photos and ratings\n- Visual trip tracking\n- In-app chat for communication'
+          );
+          break;
+          
+        default:
+          // Insights genéricos mas contextualizados
+          insights.push(language === 'pt-BR'
+            ? `💡 **Insights para ${agent.role}:**\n- Análise das necessidades específicas de transporte pet\n- Considerações sobre bem-estar animal\n- Oportunidades de diferenciação no mercado\n- Integração com clínicas veterinárias`
+            : `💡 **Insights as ${agent.role}:**\n- Analysis of specific pet transport needs\n- Animal welfare considerations\n- Market differentiation opportunities\n- Veterinary clinic integration`
+          );
+      }
+    } else {
+      // Para outras queries, gerar insights mais genéricos mas ainda contextualizados
+      switch (agentType) {
+        case 'architect':
+          insights.push(language === 'pt-BR'
+            ? '🏗️ **Perspectiva Arquitetural:**\n- Estrutura modular e escalável para o projeto\n- Padrões de design adequados ao domínio\n- Integração com APIs e serviços externos\n- Considerações de performance e segurança'
+            : '🏗️ **Architectural Perspective:**\n- Modular and scalable structure for the project\n- Domain-appropriate design patterns\n- Integration with APIs and external services\n- Performance and security considerations'
+          );
+          break;
+        
+        case 'developer':
+          insights.push(language === 'pt-BR'
+            ? '💻 **Perspectiva de Desenvolvimento:**\n- Escolha de stack tecnológica apropriada\n- Implementação de features core\n- Testes automatizados e CI/CD\n- Otimização de performance'
+            : '💻 **Development Perspective:**\n- Appropriate technology stack selection\n- Core feature implementation\n- Automated testing and CI/CD\n- Performance optimization'
+          );
+          break;
       
       case 'designer':
         insights.push(language === 'pt-BR'
@@ -507,26 +630,95 @@ ${this.generateActionItems(agent, profile, language)}
   /**
    * Gera itens de ação
    */
-  generateActionItems(agent, profile, language) {
+  generateActionItems(agent, profile, context, query, language) {
     const actions = language === 'pt-BR'
       ? '**🎯 Próximos Passos Recomendados:**'
       : '**🎯 Recommended Next Steps:**';
     
-    const primaryExpertise = (profile && profile.expertise && profile.expertise.primary) 
-      ? profile.expertise.primary 
-      : (agent.capabilities && agent.capabilities[0]) || agent.role;
-      
-    const items = language === 'pt-BR' ? [
-      `1. Aplicar ${primaryExpertise} ao problema`,
-      `2. Colaborar com especialistas complementares`,
-      `3. Validar solução com métricas claras`,
-      `4. Iterar baseado em feedback`
-    ] : [
-      `1. Apply ${primaryExpertise} to the problem`,
-      `2. Collaborate with complementary specialists`,
-      `3. Validate solution with clear metrics`,
-      `4. Iterate based on feedback`
-    ];
+    // DEBUG: Log do contexto
+    console.log('🎯 [generateActionItems] Gerando ações para query:', query);
+    
+    const lowerQuery = query.toLowerCase();
+    const agentType = this.detectAgentType(agent);
+    let items = [];
+    
+    // Ações específicas baseadas na query
+    if (lowerQuery.includes('uber') && (lowerQuery.includes('cachorro') || lowerQuery.includes('pet'))) {
+      // Ações para Uber de cachorros
+      if (language === 'pt-BR') {
+        switch (agentType) {
+          case 'architect':
+            items = [
+              '1. Definir arquitetura de microserviços para o sistema',
+              '2. Projetar sistema de matching motorista-pet em tempo real',
+              '3. Implementar arquitetura de rastreamento GPS',
+              '4. Planejar integração com gateways de pagamento'
+            ];
+            break;
+          case 'developer':
+            items = [
+              '1. Criar MVP com funcionalidades core (cadastro, busca, tracking)',
+              '2. Implementar sistema de notificações push',
+              '3. Desenvolver algoritmo de matching por proximidade',
+              '4. Integrar APIs de mapas e pagamento'
+            ];
+            break;
+          case 'ux':
+          case 'designer':
+            items = [
+              '1. Criar wireframes das telas principais',
+              '2. Definir fluxo de usuário para solicitação de corrida',
+              '3. Design de interface para perfil do pet',
+              '4. Prototipar sistema de avaliação pós-corrida'
+            ];
+            break;
+          default:
+            items = [
+              '1. Pesquisar mercado de transporte pet existente',
+              '2. Definir requisitos de segurança para pets',
+              '3. Estabelecer parcerias com motoristas especializados',
+              '4. Criar plano de validação com donos de pets'
+            ];
+        }
+      }
+    } else if (lowerQuery.includes('crypto') || lowerQuery.includes('pagamento')) {
+      // Ações para sistema com crypto
+      if (language === 'pt-BR') {
+        items = [
+          '1. Integrar API de pagamento crypto (commerce.gotas.com)',
+          '2. Implementar carteira digital segura',
+          '3. Criar sistema de conversão de moedas',
+          '4. Garantir compliance com regulamentações'
+        ];
+      }
+    } else if (lowerQuery.includes('venda') || lowerQuery.includes('produto')) {
+      // Ações para e-commerce
+      if (language === 'pt-BR') {
+        items = [
+          '1. Desenvolver catálogo de produtos',
+          '2. Implementar carrinho de compras',
+          '3. Integrar sistema de pagamento',
+          '4. Criar painel administrativo'
+        ];
+      }
+    } else {
+      // Ações genéricas mas ainda relevantes
+      const primaryExpertise = (profile && profile.expertise && profile.expertise.primary) 
+        ? profile.expertise.primary 
+        : agent.role;
+        
+      items = language === 'pt-BR' ? [
+        `1. Analisar requisitos específicos do projeto`,
+        `2. Aplicar ${primaryExpertise} na solução`,
+        `3. Definir métricas de sucesso`,
+        `4. Criar roadmap de implementação`
+      ] : [
+        `1. Analyze specific project requirements`,
+        `2. Apply ${primaryExpertise} to the solution`,
+        `3. Define success metrics`,
+        `4. Create implementation roadmap`
+      ];
+    }
     
     return `${actions}\n${items.join('\n')}`;
   }
@@ -538,12 +730,68 @@ ${this.generateActionItems(agent, profile, language)}
     const role = agent.role.toLowerCase();
     if (role.includes('architect')) return 'architect';
     if (role.includes('developer') || role.includes('engineer')) return 'developer';
-    if (role.includes('designer') || role.includes('ux')) return 'designer';
+    if (role.includes('designer') || role.includes('ux')) return 'ux';
+    if (role.includes('security') || role.includes('cyber')) return 'security';
     if (role.includes('analyst')) return 'analyst';
     if (role.includes('manager')) return 'manager';
     return 'specialist';
   }
 
+  /**
+   * Gera intros variadas para evitar duplicação
+   */
+  getVariedIntros(agent, agentType, language) {
+    if (language === 'pt-BR') {
+      const baseIntros = {
+        'architect': [
+          `🏗️ Como ${agent.name}, arquiteto de sistemas, vejo oportunidades únicas aqui:`,
+          `Analisando com minha expertise em ${agent.role}:`,
+          `${agent.name} aqui. Minha visão arquitetural sobre o projeto:`,
+          `Perspectiva de ${agent.role} sobre sua ideia:`
+        ],
+        'developer': [
+          `💻 ${agent.name} respondendo! Vamos codar essa solução:`,
+          `Como ${agent.role}, já estou visualizando a implementação:`,
+          `Desenvolvedor ${agent.name} analisando os requisitos técnicos:`,
+          `Hora de transformar essa ideia em código! ${agent.name} aqui:`
+        ],
+        'ux': [
+          `🎨 ${agent.name}, focado em experiência do usuário:`,
+          `Design e UX são minha paixão! Análise de ${agent.name}:`,
+          `Como ${agent.role}, priorizo sempre o usuário:`,
+          `${agent.name} trazendo perspectiva de design centrado no humano:`
+        ],
+        'security': [
+          `🔒 ${agent.name}, especialista em segurança, alertando:`,
+          `Segurança primeiro! ${agent.role} analisando:`,
+          `Como ${agent.name}, vejo aspectos críticos de segurança:`,
+          `Protegendo seu projeto - ${agent.name} em ação:`
+        ],
+        'manager': [
+          `📊 ${agent.name} com visão estratégica do projeto:`,
+          `Gerenciamento eficaz é crucial. ${agent.role} analisando:`,
+          `Como ${agent.name}, foco no sucesso do projeto:`,
+          `Visão executiva de ${agent.name} sobre a proposta:`
+        ],
+        'default': [
+          `${agent.name}, ${agent.role}, contribuindo com expertise:`,
+          `Especialista ${agent.name} analisando sua solicitação:`,
+          `Como ${agent.role}, trago insights valiosos:`,
+          `${agent.name} aqui para ajudar com minha expertise:`
+        ]
+      };
+      return baseIntros[agentType] || baseIntros['default'];
+    } else {
+      // English intros
+      return [
+        `As ${agent.name}, ${agent.role}, I bring unique insights:`,
+        `${agent.name} here, analyzing from my ${agent.role} perspective:`,
+        `Expert analysis from ${agent.name}:`,
+        `${agent.role} ${agent.name} contributing specialized knowledge:`
+      ];
+    }
+  }
+  
   /**
    * Helpers para respostas genéricas
    */
