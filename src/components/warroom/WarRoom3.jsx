@@ -199,6 +199,10 @@ function WarRoom3() {
   const [showRealTimeFeedback, setShowRealTimeFeedback] = useState(true)
   const [showCodeGraph, setShowCodeGraph] = useState(false)
   
+  // Estados para rastrear especialistas usados
+  const [usedSpecialists, setUsedSpecialists] = useState([]) // Array de IDs na ordem de uso
+  const [specialistContributions, setSpecialistContributions] = useState({}) // Mapa de ID -> contribuição
+  
   // Refs
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
@@ -233,6 +237,8 @@ function WarRoom3() {
     setLastAgentResponses([])
     setOriginalUserPrompt('')
     setCurrentRefinedPrompt('')
+    setUsedSpecialists([])
+    setSpecialistContributions({})
   }
 
   // Salvar mensagem na conversa atual
@@ -446,13 +452,27 @@ function WarRoom3() {
                   })
                 }
                 setMessages(prev => [...prev, aiMessage])
-            saveMessageToConversation(aiMessage)
+                saveMessageToConversation(aiMessage)
                 
                 // Coletar resposta para Enhanced Prompt
                 collectedResponses.push({
                   agent: agent,
                   content: message
                 })
+                
+                // Atualizar lista de especialistas usados
+                const agentId = agent.id || agent.name
+                setUsedSpecialists(prev => {
+                  // Remover o agente se já existir e adicionar no início
+                  const filtered = prev.filter(id => id !== agentId)
+                  return [agentId, ...filtered]
+                })
+                
+                // Salvar contribuição do especialista
+                setSpecialistContributions(prev => ({
+                  ...prev,
+                  [agentId]: message
+                }))
               } else if (phase === 'synthesis' && message) {
                 // Síntese final está sendo processada
                 setCurrentPhase('Sintetizando respostas...')
@@ -534,6 +554,24 @@ function WarRoom3() {
     if (specialistId !== 'all') {
       const agent = allAgents.find(a => a.id === specialistId)
       setCurrentAgent(agent)
+      
+      // Se o especialista tem uma contribuição, mostrar no chat
+      const agentIdKey = agent?.id || agent?.name
+      if (specialistContributions[agentIdKey]) {
+        // Adicionar mensagem mostrando a contribuição do especialista
+        const contributionMessage = {
+          id: Date.now() + Math.random(),
+          text: `📌 **Contribuição de ${agent.name} para a análise:**\n\n${specialistContributions[agentIdKey]}`,
+          sender: 'ai',
+          specialist: agent,
+          isContribution: true,
+          timestamp: new Date().toLocaleTimeString('pt-BR', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+          })
+        }
+        setMessages(prev => [...prev, contributionMessage])
+      }
     } else {
       setCurrentAgent(null)
     }
@@ -589,32 +627,77 @@ function WarRoom3() {
           </div>
 
           {/* Lista de especialistas individuais */}
-          {filteredAgents.map(agent => {
-            const category = getAgentCategory(agent.name)
-            const badge = getAgentBadge(agent.name)
-            const color = getAgentColor(agent.name)
-            const icon = getAgentIcon(agent.role)
-            
-            return (
-              <div 
-                key={agent.id}
-                className={`wr3-specialist-item ${selectedSpecialist === agent.id ? 'active' : ''}`}
-                onClick={() => handleSelectSpecialist(agent.id)}
-              >
-                <div 
-                  className="wr3-specialist-avatar"
-                  style={{ background: `linear-gradient(135deg, ${color} 0%, ${hexToRgba(color, 0.7)} 100%)` }}
-                >
-                  {getAgentIcon(agent.role, 24)}
-                </div>
-                <div className="wr3-specialist-info">
-                  <h4>{agent.name}</h4>
-                  <p>{agent.role}</p>
-                  {badge && <span className="wr3-specialist-badge">{badge.icon} {badge.categoryName}</span>}
-                </div>
+          {/* Primeiro mostrar especialistas usados */}
+          {usedSpecialists.length > 0 && (
+            <>
+              <div className="wr3-specialists-section-title">
+                <span>📌 Especialistas Ativos</span>
               </div>
-            )
-          })}
+              {usedSpecialists.map(agentId => {
+                const agent = allAgents.find(a => a.id === agentId || a.name === agentId)
+                if (!agent || !agent.name.toLowerCase().includes(searchTerm.toLowerCase())) return null
+                
+                const category = getAgentCategory(agent.name)
+                const badge = getAgentBadge(agent.name)
+                const color = getAgentColor(agent.name)
+                const icon = getAgentIcon(agent.role)
+                
+                return (
+                  <div 
+                    key={agent.id}
+                    className={`wr3-specialist-item used ${selectedSpecialist === agent.id ? 'active' : ''}`}
+                    onClick={() => handleSelectSpecialist(agent.id)}
+                    title="Clique para ver a contribuição deste especialista"
+                  >
+                    <div 
+                      className="wr3-specialist-avatar"
+                      style={{ background: `linear-gradient(135deg, ${color} 0%, ${hexToRgba(color, 0.7)} 100%)` }}
+                    >
+                      {getAgentIcon(agent.role, 24)}
+                    </div>
+                    <div className="wr3-specialist-info">
+                      <h4>{agent.name} ✓</h4>
+                      <p>{agent.role}</p>
+                      {badge && <span className="wr3-specialist-badge">{badge.icon} {badge.categoryName}</span>}
+                    </div>
+                  </div>
+                )
+              })}
+              <div className="wr3-specialists-section-title">
+                <span>👥 Todos os Especialistas</span>
+              </div>
+            </>
+          )}
+          
+          {/* Depois mostrar especialistas não usados */}
+          {filteredAgents
+            .filter(agent => !usedSpecialists.includes(agent.id) && !usedSpecialists.includes(agent.name))
+            .map(agent => {
+              const category = getAgentCategory(agent.name)
+              const badge = getAgentBadge(agent.name)
+              const color = getAgentColor(agent.name)
+              const icon = getAgentIcon(agent.role)
+              
+              return (
+                <div 
+                  key={agent.id}
+                  className={`wr3-specialist-item ${selectedSpecialist === agent.id ? 'active' : ''}`}
+                  onClick={() => handleSelectSpecialist(agent.id)}
+                >
+                  <div 
+                    className="wr3-specialist-avatar"
+                    style={{ background: `linear-gradient(135deg, ${color} 0%, ${hexToRgba(color, 0.7)} 100%)` }}
+                  >
+                    {getAgentIcon(agent.role, 24)}
+                  </div>
+                  <div className="wr3-specialist-info">
+                    <h4>{agent.name}</h4>
+                    <p>{agent.role}</p>
+                    {badge && <span className="wr3-specialist-badge">{badge.icon} {badge.categoryName}</span>}
+                  </div>
+                </div>
+              )
+            })}
         </div>
       </div>
 

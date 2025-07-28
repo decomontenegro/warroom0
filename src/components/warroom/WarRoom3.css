@@ -188,6 +188,43 @@ body {
   border-left-color: #9C27B0;
 }
 
+.wr3-specialist-item.used {
+  background: rgba(88, 255, 144, 0.08);
+  border: 1px solid rgba(88, 255, 144, 0.2);
+  animation: highlightUsed 0.5s ease-out;
+}
+
+.wr3-specialist-item.used:hover {
+  background: rgba(88, 255, 144, 0.12);
+  border-color: rgba(88, 255, 144, 0.3);
+}
+
+@keyframes highlightUsed {
+  0% {
+    background: rgba(88, 255, 144, 0.2);
+    transform: translateX(5px);
+  }
+  100% {
+    background: rgba(88, 255, 144, 0.08);
+    transform: translateX(0);
+  }
+}
+
+.wr3-specialists-section-title {
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .wr3-specialist-avatar {
   width: 50px;
   height: 50px;
