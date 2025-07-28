@@ -12,6 +12,9 @@ import AnalysisMetrics from './AnalysisMetrics'
 import LanguageSelector from './LanguageSelector'
 import DraggableModal from './DraggableModal'
 import EnhancedPromptDialog from './EnhancedPromptDialog'
+import ConversationHistory from './ConversationHistory'
+import RealTimeFeedback from './RealTimeFeedback'
+import CodeGraphIntegration from './CodeGraphIntegration'
 import UltrathinkWorkflowEnhanced from '../../services/ultrathink-workflow-enhanced.js'
 import { i18n } from '../../services/i18n-config'
 import { Icon, getAgentIcon } from './LucideIcons'
@@ -188,9 +191,13 @@ function WarRoom3() {
   })
   
   // Estados de chat
-  const [conversations, setConversations] = useState({})
+  const [conversations, setConversations] = useState([])
+  const [currentConversationId, setCurrentConversationId] = useState(null)
   const [currentAgent, setCurrentAgent] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
+  const [showHistory, setShowHistory] = useState(false)
+  const [showRealTimeFeedback, setShowRealTimeFeedback] = useState(true)
+  const [showCodeGraph, setShowCodeGraph] = useState(false)
   
   // Refs
   const messagesEndRef = useRef(null)
@@ -208,6 +215,70 @@ function WarRoom3() {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  // Criar nova conversa
+  const createNewConversation = () => {
+    const newConversation = {
+      id: Date.now().toString(),
+      title: 'Nova Conversa',
+      timestamp: new Date().toISOString(),
+      messages: [],
+      hasRefinement: false
+    }
+    
+    setConversations(prev => [newConversation, ...prev])
+    setCurrentConversationId(newConversation.id)
+    setMessages([])
+    setLastUserPrompt('')
+    setLastAgentResponses([])
+    setOriginalUserPrompt('')
+    setCurrentRefinedPrompt('')
+  }
+
+  // Salvar mensagem na conversa atual
+  const saveMessageToConversation = (message) => {
+    if (!currentConversationId) {
+      createNewConversation()
+    }
+    
+    setConversations(prev => prev.map(conv => {
+      if (conv.id === currentConversationId) {
+        const updatedConv = {
+          ...conv,
+          messages: [...conv.messages, message]
+        }
+        
+        // Atualizar título baseado na primeira mensagem do usuário
+        if (message.sender === 'user' && conv.messages.length === 0) {
+          updatedConv.title = message.text.substring(0, 50) + (message.text.length > 50 ? '...' : '')
+        }
+        
+        // Marcar se teve refinamento
+        if (message.isRefined) {
+          updatedConv.hasRefinement = true
+        }
+        
+        return updatedConv
+      }
+      return conv
+    }))
+  }
+
+  // Selecionar conversa do histórico
+  const selectConversation = (conversation) => {
+    setCurrentConversationId(conversation.id)
+    setMessages(conversation.messages)
+    setShowHistory(false)
+  }
+
+  // Deletar conversa
+  const deleteConversation = (conversationId) => {
+    setConversations(prev => prev.filter(conv => conv.id !== conversationId))
+    if (currentConversationId === conversationId) {
+      setCurrentConversationId(null)
+      setMessages([])
+    }
+  }
 
   // Inicializar WebSocket
   useEffect(() => {
@@ -311,6 +382,7 @@ function WarRoom3() {
     }
 
     setMessages(prev => [...prev, userMessage])
+    saveMessageToConversation(userMessage)
     setInputValue('')
     setIsLoading(true)
     setIsTyping(true)
@@ -342,6 +414,7 @@ function WarRoom3() {
               })
             }
             setMessages(prev => [...prev, aiMessage])
+            saveMessageToConversation(aiMessage)
           } else if (update.type === 'metrics_update') {
             setAnalysisMetrics(update.metrics)
           }
@@ -373,6 +446,7 @@ function WarRoom3() {
                   })
                 }
                 setMessages(prev => [...prev, aiMessage])
+            saveMessageToConversation(aiMessage)
                 
                 // Coletar resposta para Enhanced Prompt
                 collectedResponses.push({
@@ -579,6 +653,13 @@ function WarRoom3() {
           
           <div className="wr3-header-actions">
             <button 
+              className={`wr3-action-btn ${showHistory ? 'active' : ''}`}
+              onClick={() => setShowHistory(!showHistory)}
+              title={t('conversationHistory', 'Histórico de Conversas')}
+            >
+              <Icon name="History" size={20} />
+            </button>
+            <button 
               className={`wr3-action-btn ${showGraph ? 'active' : ''}`}
               onClick={() => setShowGraph(!showGraph)}
               title={t('viewSpecialistsGraph', 'Ver Graph de Especialistas')}
@@ -599,6 +680,13 @@ function WarRoom3() {
             >
               <Icon name="BarChart3" size={20} />
             </button>
+            <button 
+              className={`wr3-action-btn ${showCodeGraph ? 'active' : ''}`}
+              onClick={() => setShowCodeGraph(!showCodeGraph)}
+              title={t('codeAnalysis', 'Análise de Código')}
+            >
+              <Icon name="Code" size={20} />
+            </button>
             <button className="wr3-action-btn" title={t('search', 'Buscar')}>
               <Icon name="Search" size={20} />
             </button>
@@ -607,6 +695,22 @@ function WarRoom3() {
             </button>
           </div>
         </div>
+
+        {/* Histórico de Conversas */}
+        {showHistory && (
+          <DraggableModal 
+            onClose={() => setShowHistory(false)}
+            title="📚 Histórico de Conversas"
+          >
+            <ConversationHistory
+              conversations={conversations}
+              currentConversationId={currentConversationId}
+              onSelectConversation={selectConversation}
+              onNewConversation={createNewConversation}
+              onDeleteConversation={deleteConversation}
+            />
+          </DraggableModal>
+        )}
 
         {/* Componentes auxiliares */}
         {showGraph && (
@@ -795,6 +899,34 @@ function WarRoom3() {
         }}
         agentResponses={lastAgentResponses}
       />
+
+      {/* Real Time Feedback */}
+      <RealTimeFeedback
+        isActive={isLoading}
+        currentPhase={currentPhase}
+        activeAgents={activeAgents}
+        progress={agentProgress}
+        metrics={analysisMetrics}
+        messages={messages}
+      />
+
+      {/* Code Graph Integration */}
+      {showCodeGraph && (
+        <CodeGraphIntegration
+          isOpen={showCodeGraph}
+          onClose={() => setShowCodeGraph(false)}
+          onAnalysisComplete={(result) => {
+            if (result.prompt) {
+              setInputValue(result.prompt)
+              setShowCodeGraph(false)
+            }
+          }}
+          currentContext={{
+            conversation: currentConversationId,
+            messages: messages.slice(-5) // Últimas 5 mensagens para contexto
+          }}
+        />
+      )}
 
     </div>
   )

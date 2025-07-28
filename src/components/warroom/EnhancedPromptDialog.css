@@ -530,3 +530,61 @@
 .epd-refined-prompt::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 92, 235, 0.5);
 }
+
+/* Mode Selector */
+.epd-mode-selector {
+  display: flex;
+  gap: 12px;
+  padding: 16px 32px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(0, 92, 235, 0.2);
+  justify-content: center;
+}
+
+.epd-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 2px solid rgba(0, 92, 235, 0.3);
+  border-radius: 12px;
+  color: #aaaaaa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95em;
+  font-weight: 500;
+}
+
+.epd-mode-btn:hover {
+  background: rgba(0, 92, 235, 0.1);
+  border-color: rgba(0, 92, 235, 0.5);
+  color: #ffffff;
+}
+
+.epd-mode-btn.active {
+  background: rgba(0, 92, 235, 0.2);
+  border-color: #005CEB;
+  color: #4faeff;
+}
+
+.epd-mode-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.epd-mode-btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* Mobile responsiveness for mode selector */
+@media (max-width: 600px) {
+  .epd-mode-selector {
+    padding: 12px 16px;
+    flex-direction: column;
+  }
+  
+  .epd-mode-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

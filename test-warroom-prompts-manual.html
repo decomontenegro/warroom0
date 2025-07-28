@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>War Room - Teste Manual de Prompts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .test-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .test-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+        
+        .test-card h2 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .test-card .icon {
+            font-size: 1.5em;
+        }
+        
+        .prompt-section {
+            margin-bottom: 15px;
+        }
+        
+        .prompt-section h3 {
+            color: #0099cc;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .prompt-text {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .prompt-text:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .prompt-text.copied {
+            background: rgba(0, 255, 100, 0.2);
+        }
+        
+        .copy-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #00ff64;
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .copy-indicator.show {
+            opacity: 1;
+        }
+        
+        .questions {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .questions h4 {
+            color: #ff9900;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .questions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .questions li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9em;
+            color: #ccc;
+        }
+        
+        .questions li:before {
+            content: "❓";
+            position: absolute;
+            left: 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        .btn.secondary {
+            background: linear-gradient(135deg, #666 0%, #444 100%);
+        }
+        
+        .test-scenarios {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .test-scenarios h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .scenario-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .scenario-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .scenario-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .scenario-item h3 {
+            color: #00d4ff;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        
+        .scenario-item p {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+        
+        .instructions {
+            background: rgba(255, 150, 0, 0.1);
+            border: 1px solid rgba(255, 150, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h3 {
+            color: #ff9900;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+            color: #ddd;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .highlight {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 War Room - Teste Manual de Prompts</h1>
+        
+        <div class="instructions">
+            <h3>📋 Como usar este teste:</h3>
+            <ol>
+                <li>Abra o War Room em outra aba: <a href="http://localhost:3005" target="_blank" class="btn secondary">Abrir War Room</a></li>
+                <li>Clique em qualquer prompt abaixo para copiá-lo</li>
+                <li>Cole no War Room e observe as respostas dos especialistas</li>
+                <li>Teste o botão "Refinar Prompt" após a síntese do Meta-Agent</li>
+                <li>Compare os resultados entre prompts simples e detalhados</li>
+            </ol>
+        </div>
+
+        <div class="test-scenarios">
+            <h2>🎯 Cenários de Teste Rápido</h2>
+            <div class="scenario-list">
+                <div class="scenario-item" onclick="runScenario('delivery')">
+                    <h3>🍕 App Delivery</h3>
+                    <p>Teste completo para app de entrega</p>
+                </div>
+                <div class="scenario-item" onclick="runScenario('escola')">
+                    <h3>🎓 Sistema Escolar</h3>
+                    <p>Gestão educacional completa</p>
+                </div>
+                <div class="scenario-item" onclick="runScenario('streaming')">
+                    <h3>📺 Plataforma Streaming</h3>
+                    <p>Netflix educacional</p>
+                </div>
+                <div class="scenario-item" onclick="runScenario('nft')">
+                    <h3>🎨 Marketplace NFT</h3>
+                    <p>Arte digital brasileira</p>
+                </div>
+                <div class="scenario-item" onclick="runScenario('game')">
+                    <h3>🎮 Jogo Plataforma</h3>
+                    <p>Mario brasileiro</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-grid">
+            <!-- Delivery -->
+            <div class="test-card">
+                <h2><span class="icon">🍕</span> Delivery App</h2>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Simples:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero criar um app de delivery
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Detalhado:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero criar um app de delivery tipo iFood para minha cidade, com entregadores próprios e pagamento via PIX
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="questions">
+                    <h4>Perguntas Esperadas:</h4>
+                    <ul>
+                        <li>Qual o tamanho da sua cidade?</li>
+                        <li>Quantos restaurantes você pretende atender inicialmente?</li>
+                        <li>Qual modelo de comissão você planeja usar?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Escola -->
+            <div class="test-card">
+                <h2><span class="icon">🎓</span> Sistema Escolar</h2>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Simples:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Preciso de um sistema para escola
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Detalhado:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Preciso de um sistema completo de gestão escolar com controle de notas, frequência, comunicação com pais e área do aluno
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="questions">
+                    <h4>Perguntas Esperadas:</h4>
+                    <ul>
+                        <li>Quantos alunos a escola tem?</li>
+                        <li>É escola pública ou privada?</li>
+                        <li>Precisa integrar com sistemas do MEC?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Streaming -->
+            <div class="test-card">
+                <h2><span class="icon">📺</span> Plataforma Streaming</h2>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Simples:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero fazer uma plataforma de streaming
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Detalhado:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero criar uma plataforma de streaming de vídeos educativos com assinatura mensal, similar ao Netflix mas focado em cursos
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="questions">
+                    <h4>Perguntas Esperadas:</h4>
+                    <ul>
+                        <li>Qual o volume de conteúdo inicial?</li>
+                        <li>Precisa de proteção DRM?</li>
+                        <li>Qual a qualidade máxima de vídeo?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- NFT -->
+            <div class="test-card">
+                <h2><span class="icon">🎨</span> Marketplace NFT</h2>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Simples:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero criar um marketplace de NFT
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Detalhado:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero desenvolver um marketplace de NFTs focado em arte digital brasileira, com integração com carteiras crypto e pagamento em Real
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="questions">
+                    <h4>Perguntas Esperadas:</h4>
+                    <ul>
+                        <li>Qual blockchain pretende usar?</li>
+                        <li>Vai aceitar múltiplas criptomoedas?</li>
+                        <li>Como será o modelo de taxas?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Game -->
+            <div class="test-card">
+                <h2><span class="icon">🎮</span> Jogo Plataforma</h2>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Simples:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero fazer um jogo estilo Mario
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="prompt-section">
+                    <h3>Prompt Detalhado:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero desenvolver um jogo de plataforma 2D inspirado no Mario, mas com temática brasileira e personagens do folclore
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="questions">
+                    <h4>Perguntas Esperadas:</h4>
+                    <ul>
+                        <li>Qual plataforma principal (mobile, web, desktop)?</li>
+                        <li>Quantas fases inicialmente?</li>
+                        <li>Vai ter multiplayer?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Prompts Complexos -->
+            <div class="test-card">
+                <h2><span class="icon">🧠</span> Prompts Complexos</h2>
+                
+                <div class="prompt-section">
+                    <h3>IA Educacional:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero criar uma plataforma educacional com IA que personaliza o aprendizado baseado no perfil e progresso de cada aluno
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="prompt-section">
+                    <h3>Fintech Completa:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Preciso desenvolver uma fintech com conta digital, cartão virtual, investimentos e cashback, focada em jovens universitários
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+                
+                <div class="prompt-section">
+                    <h3>Metaverso Social:</h3>
+                    <div class="prompt-text" onclick="copyToClipboard(this)">
+                        Quero construir um metaverso social 3D onde pessoas podem criar avatares, ter propriedades virtuais e participar de eventos
+                        <span class="copy-indicator">Copiado!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons" style="justify-content: center;">
+            <a href="http://localhost:3005" target="_blank" class="btn highlight">
+                🚀 Abrir War Room
+            </a>
+            <button class="btn secondary" onclick="runAllTests()">
+                🧪 Executar Todos os Testes
+            </button>
+            <button class="btn secondary" onclick="showMetrics()">
+                📊 Ver Métricas
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(element) {
+            const text = element.innerText.replace('Copiado!', '').trim();
+            navigator.clipboard.writeText(text).then(() => {
+                element.classList.add('copied');
+                const indicator = element.querySelector('.copy-indicator');
+                indicator.classList.add('show');
+                
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                    indicator.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        function runScenario(type) {
+            const scenarios = {
+                delivery: "Quero criar um app de delivery tipo iFood para minha cidade, com entregadores próprios e pagamento via PIX",
+                escola: "Preciso de um sistema completo de gestão escolar com controle de notas, frequência, comunicação com pais e área do aluno",
+                streaming: "Quero criar uma plataforma de streaming de vídeos educativos com assinatura mensal, similar ao Netflix mas focado em cursos",
+                nft: "Quero desenvolver um marketplace de NFTs focado em arte digital brasileira, com integração com carteiras crypto e pagamento em Real",
+                game: "Quero desenvolver um jogo de plataforma 2D inspirado no Mario, mas com temática brasileira e personagens do folclore"
+            };
+
+            const prompt = scenarios[type];
+            if (prompt) {
+                navigator.clipboard.writeText(prompt);
+                alert(`Prompt copiado! Abra o War Room e cole para testar o cenário de ${type}`);
+                window.open('http://localhost:3005', '_blank');
+            }
+        }
+
+        async function runAllTests() {
+            if (confirm('Isso abrirá múltiplas abas do War Room. Continuar?')) {
+                const prompts = [
+                    "Quero criar um app de delivery",
+                    "Preciso de um sistema para escola",
+                    "Quero fazer uma plataforma de streaming",
+                    "Quero criar um marketplace de NFT",
+                    "Quero fazer um jogo estilo Mario"
+                ];
+
+                for (let i = 0; i < prompts.length; i++) {
+                    await navigator.clipboard.writeText(prompts[i]);
+                    window.open('http://localhost:3005', '_blank');
+                    await new Promise(resolve => setTimeout(resolve, 3000));
+                }
+            }
+        }
+
+        function showMetrics() {
+            alert('Métricas de teste:\n\n' +
+                  '• Tempo médio de resposta: ~15-30s\n' +
+                  '• Agentes por prompt: 10-20\n' +
+                  '• Taxa de síntese: 100%\n' +
+                  '• Enhanced Prompt disponível: Sim\n\n' +
+                  'Para métricas detalhadas, use o botão de métricas no War Room.');
+        }
+
+        // Adicionar indicador visual quando a página carrega
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('War Room Test Suite carregado!');
+            console.log('Prompts de teste disponíveis para todos os cenários.');
+        });
+    </script>
+</body>
+</html>

@@ -4,6 +4,7 @@ import { Icon } from './LucideIcons'
 import dynamicQuestionGenerator from '../../services/dynamic-question-generator.js'
 import agentInsightsAnalyzer from '../../services/agent-insights-analyzer.js'
 import enhancedPromptConsolidator from '../../services/enhanced-prompt-consolidator.js'
+import PromptRefinementSpecialists from './PromptRefinementSpecialists'
 
 /**
  * Enhanced Prompt Dialog
@@ -23,6 +24,8 @@ function EnhancedPromptDialog({
   const [isProcessing, setIsProcessing] = useState(false)
   const [refinedPrompt, setRefinedPrompt] = useState('')
   const [showFinalPrompt, setShowFinalPrompt] = useState(false)
+  const [showSpecialists, setShowSpecialists] = useState(false)
+  const [refinementMode, setRefinementMode] = useState('questions') // 'questions' ou 'specialists'
 
   // Gerar perguntas baseadas nas respostas dos agentes
   useEffect(() => {
@@ -272,7 +275,37 @@ ${extractRequirements(allAnswers, questions)}
           </button>
         </div>
 
-        {!showFinalPrompt ? (
+        {/* Seletor de Modo de Refinamento */}
+        {!showFinalPrompt && !showSpecialists && (
+          <div className="epd-mode-selector">
+            <button 
+              className={`epd-mode-btn ${refinementMode === 'questions' ? 'active' : ''}`}
+              onClick={() => setRefinementMode('questions')}
+            >
+              <Icon name="MessageCircle" size={20} />
+              Perguntas Dinâmicas
+            </button>
+            <button 
+              className={`epd-mode-btn ${refinementMode === 'specialists' ? 'active' : ''}`}
+              onClick={() => setRefinementMode('specialists')}
+            >
+              <Icon name="Users" size={20} />
+              Especialistas de Refinamento
+            </button>
+          </div>
+        )}
+
+        {!showFinalPrompt && refinementMode === 'specialists' ? (
+          <PromptRefinementSpecialists
+            originalPrompt={originalPrompt}
+            currentContext={context}
+            agentResponses={agentResponses}
+            onRefinementComplete={(refined, specialist) => {
+              setRefinedPrompt(refined)
+              setShowFinalPrompt(true)
+            }}
+          />
+        ) : !showFinalPrompt ? (
           <>
             <div className="epd-progress">
               <div className="epd-progress-bar">
@@ -444,7 +477,9 @@ ${extractRequirements(allAnswers, questions)}
               </div>
             )}
           </>
-        ) : (
+        ) : null}
+        
+        {showFinalPrompt && (
           <div className="epd-refined-prompt">
             <h3>✨ Prompt Refinado</h3>
             <div className="epd-prompt-comparison">
