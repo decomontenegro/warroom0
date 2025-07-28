@@ -274,6 +274,64 @@ export class UltrathinkWorkflowEnhanced {
       agentProfileManager.resetUsedAgents();
     }
     
+    // Verificar se estamos no cliente e temos muitos agentes
+    const isClient = typeof window !== 'undefined';
+    const shouldUseBatchProcessing = isClient && agents.length > 5;
+    
+    if (shouldUseBatchProcessing) {
+      console.log(`🚀 [UltraThink] Processamento em lote para ${agents.length} agentes`);
+      
+      try {
+        // Importar cliente API
+        const { default: warRoomAPIClient } = await import('./warroom-api-client.js');
+        await warRoomAPIClient.connect();
+        
+        // Preparar agentes para requisição em lote
+        const agentsData = agents.map(a => ({
+          id: a.id,
+          name: a.name,
+          role: a.role,
+          capabilities: a.capabilities || []
+        }));
+        
+        // Fazer requisição multi-agente
+        const responses = await warRoomAPIClient.requestMultiAgentResponses(
+          agentsData,
+          input,
+          {
+            language: this.language,
+            requestId: `phase-${phase}-${Date.now()}`,
+            chatId: phase
+          }
+        );
+        
+        // Processar respostas recebidas
+        for (const response of responses) {
+          const agent = agents.find(a => a.name === response.agent.name) || response.agent;
+          
+          if (progressCallback && response.content) {
+            const formattedResponse = `**${agent.name} (${agent.role})**\n\n${response.content}`;
+            progressCallback(phase, agent, formattedResponse);
+          }
+          
+          phaseResponses.push({
+            agent,
+            phase,
+            content: response.content,
+            error: response.error,
+            timestamp: new Date().toISOString()
+          });
+        }
+        
+        return phaseResponses;
+        
+      } catch (error) {
+        console.warn('⚠️ [UltraThink] Erro no processamento em lote, voltando para processamento individual:', error);
+        // Continuar com processamento individual em caso de erro
+      }
+    }
+    
+    // Processamento individual (fallback ou quando poucos agentes)
     for (let i = 0; i < agents.length; i++) {
       // Garantir que pegamos um agente único
       const agent = agentProfileManager.getUniqueAgent(agents[i].id);
@@ -374,9 +432,40 @@ export class UltrathinkWorkflowEnhanced {
         return this.generateEnhancedSimulation(agent, prompt);
       }
     } else {
-      // Client-side enhanced simulation
-      await this.simulateProcessing(400); // Simular tempo de processamento mais rápido
-      return this.generateEnhancedSimulation(agent, prompt);
+      // Client-side - usar WarRoom API Client
+      try {
+        console.log('🌐 [UltraThink] Usando WarRoom API Client para:', agent.name);
+        
+        // Importar cliente API dinamicamente
+        const { default: warRoomAPIClient } = await import('./warroom-api-client.js');
+        
+        // Garantir conexão
+        await warRoomAPIClient.connect();
+        
+        // Extrair task do prompt
+        const userMessage = prompt.messages.find(m => m.role === 'user');
+        const task = userMessage ? userMessage.content : '';
+        
+        // Fazer requisição real via WebSocket
+        const response = await warRoomAPIClient.requestAgentResponse(
+          agent,
+          task,
+          {
+            language: this.language,
+            phase: prompt.phase || 'analysis',
+            context: []
+          }
+        );
+        
+        console.log('✅ [UltraThink] Resposta real recebida de:', agent.name);
+        return response.content;
+        
+      } catch (error) {
+        console.warn('⚠️ [UltraThink] Erro na API, usando simulação:', error);
+        // Fallback para simulação se API falhar
+        await this.simulateProcessing(400);
+        return this.generateEnhancedSimulation(agent, prompt);
+      }
     }
   }
 
