@@ -48,6 +48,8 @@ export const translations = {
   'pt-BR': {
     // WarRoom3 translations
     warroom: {
+      conversationHistory: 'Histórico de Conversas',
+      codeAnalysis: 'Análise de Código',
       chats: 'Chats',
       specialists: 'Especialistas',
       searchSpecialists: 'Buscar especialistas...',

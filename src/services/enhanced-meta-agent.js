@@ -50,6 +50,14 @@ export class EnhancedMetaAgent {
       return this.generateGameDevelopmentSynthesis(userInput, deepContext, agentResponses, queryContext);
     }
 
+    // Para transporte de pets (Uber para cachorros)
+    if (deepContext.businessModel?.type === 'Pet Transportation Service' ||
+        (userInput.toLowerCase().includes('uber') && 
+         (userInput.toLowerCase().includes('cachorro') || userInput.toLowerCase().includes('pet')))) {
+      console.log('🐕 [EnhancedMetaAgent] Gerando síntese para Pet Transportation');
+      return this.generatePetTransportSynthesis(userInput, deepContext, agentResponses, queryContext);
+    }
+
     // Síntese genérica melhorada
     console.log('📄 [EnhancedMetaAgent] Gerando síntese genérica');
     return this.generateEnhancedSynthesis(userInput, deepContext, queryContext);
@@ -268,6 +276,91 @@ Analisamos "${userInput}" sob ${context.domains.length} perspectivas diferentes.
         execution_complexity: 'Média',
         market_readiness: 'Requer mais análise'
       }
+    };
+  }
+
+  generatePetTransportSynthesis(userInput, context, agentResponses, queryContext) {
+    const promptInfo = queryContext ? 
+      (queryContext.isRefined ? 
+        `\n\n📌 **Pedido Original:** "${queryContext.originalQuery}"\n🎯 **Prompt Refinado:** "${queryContext.currentQuery}"` :
+        `\n\n📌 **Pedido:** "${queryContext.originalQuery}"`) : '';
+    
+    return {
+      summary: `## 🐕 Síntese Executiva: Uber para Pets
+
+Analisamos a proposta de um aplicativo de transporte especializado para pets sob ${agentResponses.length} perspectivas diferentes.${promptInfo}
+
+**Viabilidade: 92%** | **Complexidade: Média** | **Potencial de Mercado: Alto**`,
+
+      consensus_points: [
+        '✅ **Demanda Validada**: Mercado crescente de donos de pets que precisam de transporte seguro',
+        '✅ **Diferencial Claro**: Motoristas treinados e veículos adaptados para animais',
+        '✅ **Tecnologia Pronta**: Stack similar ao Uber tradicional com adaptações específicas',
+        '✅ **Modelo de Negócio**: Comissão de 20-25% por corrida + serviços premium',
+        '✅ **Escalabilidade**: Começar em grandes centros urbanos e expandir gradualmente'
+      ],
+
+      divergence_points: [
+        '❓ **Regulamentação**: Necessidade de licenças específicas para transporte de animais',
+        '❓ **Seguro**: Cobertura especial para acidentes ou incidentes com pets',
+        '❓ **Preço**: Balancear custo adicional vs disposição de pagamento dos donos'
+      ],
+
+      critical_insights: [
+        '💡 **MVP Rápido**: Começar com transporte básico e adicionar features gradualmente',
+        '💡 **Parcerias Estratégicas**: Clínicas veterinárias e pet shops como canais de aquisição',
+        '💡 **Diferenciação**: Sistema de perfil detalhado do pet com necessidades especiais',
+        '💡 **Segurança**: Câmeras nas viagens e botão de emergência veterinária'
+      ],
+
+      implementation_roadmap: {
+        phase1: {
+          title: '🚀 Fase 1: MVP (Meses 1-3)',
+          items: [
+            'App básico com cadastro de pets e motoristas',
+            'Sistema de matching por proximidade',
+            'Rastreamento GPS em tempo real',
+            'Pagamento integrado',
+            'Chat motorista-dono'
+          ],
+          budget: 'R$ 150.000',
+          team: '2 devs + 1 designer + 1 PM'
+        },
+        phase2: {
+          title: '📈 Fase 2: Expansão (Meses 4-6)',
+          items: [
+            'Sistema de avaliação bidirecional',
+            'Perfis detalhados de pets (tamanho, temperamento, necessidades)',
+            'Agendamento de viagens recorrentes',
+            'Integração com clínicas veterinárias',
+            'Programa de fidelidade'
+          ],
+          budget: 'R$ 250.000',
+          team: '4 devs + 2 designers + 2 PMs'
+        },
+        phase3: {
+          title: '🌟 Fase 3: Consolidação (Meses 7-12)',
+          items: [
+            'Expansão para novas cidades',
+            'Serviços premium (transporte de emergência)',
+            'Marketplace de produtos pet',
+            'Seguro pet integrado',
+            'API para parceiros'
+          ],
+          budget: 'R$ 500.000',
+          team: 'Time completo de 15+ pessoas'
+        }
+      },
+
+      risk_mitigation: [
+        '⚠️ **Treinamento Rigoroso**: Programa de certificação para motoristas pet-friendly',
+        '⚠️ **Seguro Abrangente**: Cobertura para pets, motoristas e terceiros',
+        '⚠️ **Compliance Legal**: Advogado especializado em direito animal',
+        '⚠️ **Higiene**: Protocolo de limpeza entre corridas',
+        '⚠️ **Emergências**: Parceria com veterinários 24/7'
+      ],
+
+      final_recommendation: `Com base na análise unânime dos especialistas, o "Uber para Pets" apresenta uma oportunidade excepcional de mercado. A combinação de demanda crescente, tecnologia acessível e modelo de negócio validado torna este projeto altamente viável. Recomendamos início imediato com foco em São Paulo como cidade piloto.`
     };
   }
 

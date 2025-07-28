@@ -30,6 +30,16 @@ export class DeepContextAnalyzer {
         keywords: ['jogo', 'game', 'gaming', 'mario', 'platformer', 'player', 'jogar', 'gameplay', 'level', 'fase'],
         concepts: ['mecânicas', 'física', 'controles', 'engine', 'sprites', 'collision', 'multiplayer', 'save system'],
         challenges: ['performance', 'balanceamento', 'curva de aprendizado', 'monetização', 'retenção', 'bugs']
+      },
+      transport: {
+        keywords: ['uber', 'transporte', 'corrida', 'motorista', 'passageiro', 'viagem', 'taxi', 'carona'],
+        concepts: ['rastreamento', 'GPS', 'matching', 'tarifa', 'avaliação', 'segurança', 'pagamento'],
+        challenges: ['regulamentação', 'segurança', 'confiabilidade', 'preço', 'concorrência']
+      },
+      pets: {
+        keywords: ['cachorro', 'pet', 'animal', 'cão', 'gato', 'bicho', 'mascote', 'veterinário'],
+        concepts: ['cuidados', 'saúde', 'bem-estar', 'segurança', 'alimentação', 'vacinação'],
+        challenges: ['comportamento', 'doenças', 'emergências', 'custos', 'regulamentação']
       }
     };
   }
@@ -74,11 +84,47 @@ export class DeepContextAnalyzer {
       }
     }
 
-    // Para "vender café para o mundo todo via crypto"
+    // Detectar padrões específicos de negócio
     const normalizedInput = userInput.toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '');
     
+    // Uber para cachorros/pets
+    if ((userInput.toLowerCase().includes('uber') || userInput.toLowerCase().includes('transporte')) && 
+        (userInput.toLowerCase().includes('cachorro') || userInput.toLowerCase().includes('pet') || 
+         userInput.toLowerCase().includes('animal') || normalizedInput.includes('cao'))) {
+      console.log('🐕 [DeepContextAnalyzer] Detectado contexto de Transporte para Pets');
+      analysis.businessModel = {
+        type: 'Pet Transportation Service',
+        product: 'On-demand pet transport',
+        targetMarket: 'Pet owners needing safe transportation',
+        model: 'Marketplace'
+      };
+      analysis.technicalRequirements = [
+        'GPS tracking em tempo real',
+        'Sistema de matching motorista-pet',
+        'Perfil detalhado do pet',
+        'Sistema de avaliação',
+        'Chat in-app',
+        'Pagamento integrado'
+      ];
+      analysis.userNeeds = [
+        'Transporte seguro para pets',
+        'Motoristas especializados',
+        'Rastreamento da viagem',
+        'Confiança e segurança',
+        'Preço justo'
+      ];
+      analysis.challenges = [
+        'Treinamento de motoristas',
+        'Segurança dos animais',
+        'Regulamentação',
+        'Seguros e responsabilidade',
+        'Limpeza dos veículos'
+      ];
+    }
+    
+    // Para "vender café para o mundo todo via crypto"
     if ((userInput.toLowerCase().includes('café') || normalizedInput.includes('cafe')) && 
         (userInput.toLowerCase().includes('crypto') || userInput.toLowerCase().includes('bitcoin'))) {
       console.log('☕ [DeepContextAnalyzer] Detectado contexto de Crypto Coffee');

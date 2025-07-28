@@ -48,7 +48,9 @@ import {
   Package,
   Bot,
   Paperclip,
-  MoreVertical
+  MoreVertical,
+  History,
+  MessageCircle
 } from 'lucide-react'
 
 // Mapeamento de nomes para componentes Lucide
@@ -101,7 +103,9 @@ export const lucideIcons = {
   Bot,
   Paperclip,
   MoreVertical,
-  BarChart3 // Alias para compatibilidade
+  BarChart3, // Alias para compatibilidade
+  History,
+  MessageCircle
 }
 
 // Componente wrapper para usar Lucide icons
